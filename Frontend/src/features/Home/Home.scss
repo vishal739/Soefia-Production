@@ -1,0 +1,104 @@
+.teacher-home {
+  font-family: Arial, sans-serif;
+  color: #333;
+  width: 100vw;
+  .main {
+    position: relative;
+    top: 3rem;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    .cards {
+      position: relative;
+      left: 30%;
+      width: 50%;
+      display: flex;
+      justify-content: space-evenly;
+      margin: 2rem 0;
+
+      .card {
+        width: 100px;
+        height: 130px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 1.2rem;
+      }
+    }
+
+    .bottom-section {
+      width: 80%;
+      margin: 0; 
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: relative;
+      top: -20px;
+      .settings {
+        display: flex;
+        justify-content: space-around;
+        margin: 2rem 0;
+        width: 100%;
+
+        .card {
+          width: 100px;
+          height: 130px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          font-size: 1.2rem;
+        }
+      }
+
+      .launch {
+        text-align: center;
+        width: 100%;
+        // margin-top: 2rem;
+
+        h2 {
+          margin-bottom: 1rem;
+        }
+
+        table {
+          width: 100%; /* Table takes full width of its container */
+          max-width: 800px; /* Limiting max width for better readability */
+          margin: 0 auto;
+          border-collapse: collapse;
+          margin-bottom: 1rem; /* Add space below the table */
+
+          th,
+          td {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            text-align: left;
+          }
+
+          th {
+            background-color: #3b5998;
+            color: #fff;
+          }
+
+          td {
+            background-color: #f2f2f2;
+          }
+
+          button {
+            padding: 0.5rem 1rem;
+            border: none;
+            background-color: #3b5998;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

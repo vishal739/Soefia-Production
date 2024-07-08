@@ -1,0 +1,193 @@
+.container {
+  padding: 20px;
+  width: 90vw;
+  margin: 0 auto;
+  color: #333;
+  position: relative;
+  top: 3rem;
+  height: 90%;
+}
+input {
+  background-color: white;
+  width: 70%;
+}
+
+h2,
+h5 {
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+
+.section {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+  height: 40%;
+}
+
+.left-pane,
+.right-pane,
+.center-pane {
+  width: 30%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  // box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.left-pane,
+.right-pane {
+  width: 30%;
+}
+
+.center-pane {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+textarea {
+  color: #333;
+  background-color: white;
+  width: 100% !important;
+  height: 150px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+.card {
+  width: 100px;
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.2rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons button {
+  flex: 1;
+  margin: 3px 5px;
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttons button:hover {
+  background-color: #0056b3;
+}
+
+.create-lesson {
+  width: 100%;
+  padding: 20px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.create-lesson:hover {
+  background-color: #0056b3;
+}
+
+.mic-icon {
+  width: 10rem;
+  height: 10rem;
+  background: url("mic-icon.png") no-repeat center center;
+  background-size: contain;
+}
+
+.right-pane{
+  position: relative;
+  top: 4rem;
+}
+
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 70%;
+}
+
+
+
+.radio-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.radio-buttons label {
+  margin: 0 10px;
+}
+
+
+.section-2{
+    position: relative;
+    left: 4%;
+    width: 50%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    .search-box{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .search-container input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+    .radio-buttons{
+        // border: 2px solid red;
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        text-align: left !important;
+        input{
+            width: 2rem !important;
+        }
+        label{
+            width: 7rem;
+        }
+    }
+}
+
+@media screen and (max-width: 1040px){
+    .section,.section-2{
+        flex-wrap: wrap;
+    }
+    .section-2{
+      width: 80%;
+    }
+    .right-pane{
+      top: 20px;
+    }
+    .mic-icon{
+      width: 7rem;
+      height: 7rem;
+    }
+    .buttons{
+      flex-direction: column;
+      width: 100%;
+    }
+}
