@@ -14,6 +14,7 @@ import {
 
 import Classes from './features/classes/Classes'
 import NoteBook from './features/notebook/NoteBook'
+import Student from './features/student/Student'
 function App() {
   const router = createBrowserRouter([
     {
@@ -30,10 +31,10 @@ function App() {
       path: "/notebook",
       element:( <NoteBook/>),
     },
-    // {
-    //   path: "/logout",
-    //   element:( <Logout />),
-    // },
+    {
+      path: "/students",
+      element:( <Student/>),
+    },
     // {
     //   path: "/signup",
     //   element:( <SignupPage />),

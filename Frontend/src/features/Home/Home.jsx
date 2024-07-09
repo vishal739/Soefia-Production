@@ -9,8 +9,8 @@ const Home = () => {
       <div className="main">
         <div className="cards">
           <div className="card"><Link to="/class">Classes</Link></div>
-          <div className="card">Students</div>
-          <div className="card">Notebooks</div>
+          <div className="card"><Link to="/students">Students</Link></div>
+          <div className="card"><Link to= "/notebook">Notebook</Link></div>
         </div>
         <div className="bottom-section">
           <div className="settings">
