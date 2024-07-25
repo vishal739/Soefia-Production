@@ -44,7 +44,7 @@ const NoteBook = () => {
                     <div className="summary-box">
                         <div className="summary">
                             <h2>Summary</h2>
-                            <textarea>[Deitas summary of what happened in the class]</textarea>
+                            <textarea  className='notebook-text'>[Deitas summary of what happened in the class]</textarea>
                         </div>
                         <div className="mic-section">
                             <img className="mic-icon" src={mic} alt="mic" />
@@ -67,7 +67,7 @@ const NoteBook = () => {
                     <div className="summary-box">
                         <div className="summary">
                             <h2>From My Perspective</h2>
-                            <textarea>[Deita’s synthesis and suggestions, based on what happened in the class]</textarea>
+                            <textarea className='notebook-text'>[Deita’s synthesis and suggestions, based on what happened in the class]</textarea>
                         </div>
                         <div className="mic-section">
                             <img className="mic-icon" src={mic} alt="mic" />
