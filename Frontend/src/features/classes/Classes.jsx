@@ -28,7 +28,7 @@ const Classes = () => {
                         </div>
                     </div>
                     <div className="center-pane">
-                        <Link to="/lesson"><button className="card">Create Lesson</button></Link>
+                        <button className="card"><Link to="/lesson">Create Lesson</Link></button>
                     </div>
                     <div className="right-pane">
                         <div >

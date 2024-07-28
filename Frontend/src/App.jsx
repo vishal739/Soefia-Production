@@ -16,14 +16,30 @@ import Classes from './features/classes/Classes'
 import NoteBook from './features/notebook/NoteBook'
 import Student from './features/student/Student'
 import Lesson from './features/lesson/Lesson'
+import Group from './features/groups/Group'
+import Hero from './pages/Hero/Hero'
+import Login from './features/auth/components/login/Login'
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
+        <Hero/>
+      ),
+    },
+    {
+      path: "/teacher/:id",
+      element: (
         <Home/>
       ),
     },
+    {
+      path: "/teacher",
+      element: (
+        <Login/>
+      ),
+    },
+    
     {
       path: "/class",
       element:(<Classes/>),
@@ -40,10 +56,10 @@ function App() {
       path: "/lesson",
       element:( <Lesson/>),
     },
-    // {
-    //   path: "/cart",
-    //   element: (<Protected><CartPage /></Protected>),
-    // },
+    {
+      path: "/groups",
+      element: (<Group/>),
+    },
     // {
     //   path: "/checkout",
     //   element: (<Protected><Checkout /></Protected>),

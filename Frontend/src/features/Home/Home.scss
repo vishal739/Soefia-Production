@@ -9,30 +9,48 @@
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    .cards {
-      position: relative;
-      left: 30%;
-      width: 50%;
+    .teacher-upperSection {
       display: flex;
-      justify-content: space-evenly;
-      margin: 2rem 0;
-
-      .card {
-        width: 100px;
-        height: 130px;
+      flex-direction: row;
+      .cards {
+        position: relative;
+        // left: 30%;
+        width: 50%;
         display: flex;
+        justify-content: space-evenly;
+        margin: 2rem 0;
+        .card {
+          width: 100px;
+          height: 130px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          font-size: 1.2rem;
+        }
+      }
+      .user-details-box{
+        display: flex;
+        flex-direction: row;
+        position: absolute;
         justify-content: center;
         align-items: center;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        font-size: 1.2rem;
+        right: 5%;
+        .user-details-left{
+          // position: relative;
+          // top: 10px;
+        }
+        img{
+          width: 100px;
+          height: 100px;
+        }
       }
     }
-
     .bottom-section {
       width: 80%;
-      margin: 0; 
+      margin: 0;
       display: flex;
       flex-direction: row;
       align-items: center;

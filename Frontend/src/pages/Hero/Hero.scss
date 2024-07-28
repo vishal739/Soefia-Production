@@ -1,0 +1,45 @@
+.home-container {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; // Full viewport height
+    background-color: #f0f0f0; // Light gray background color
+  
+    .home-heading {
+      text-align: center;
+      margin-bottom: 20px;
+  
+      h1 {
+        font-size: 2.5rem; // Responsive font size
+        color: #333; // Dark gray text color
+      }
+  
+      h3 {
+        font-size: 1.5rem; // Responsive font size
+        color: #666; // Medium gray text color
+      }
+    }
+  
+    .home-btn {
+      display: flex;
+      gap: 10px; // Space between buttons
+  
+      .btn {
+        padding: 10px 20px;
+        font-size: 1rem; // Responsive font size
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff; // Bootstrap primary color
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #0056b3; // Darker shade for hover effect
+        }
+      }
+    }
+  }
+  

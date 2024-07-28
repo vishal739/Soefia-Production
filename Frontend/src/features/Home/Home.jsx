@@ -1,16 +1,32 @@
 import { Link } from "react-router-dom"
 import Navbar from "../Navbar/Navbar"
 import "./Home.scss"
-
+import userimg from "../../assets/userProfile.jpg";
 const Home = () => {
+  const currentDate = new Date().toLocaleDateString();
+  const school= "school name";
+  const user= "username";
   return (
+    
     <div className="teacher-home">
       <Navbar />
       <div className="main">
-        <div className="cards">
-          <div className="card"><Link to="/class">Classes</Link></div>
-          <div className="card"><Link to="/students">Students</Link></div>
-          <div className="card"><Link to= "/notebook">Notebook</Link></div>
+        <div className="teacher-upperSection">
+          <div className="cards">
+            <div className="card"><Link to="/class">Classes</Link></div>
+            <div className="card"><Link to="/students">Students</Link></div>
+            <div className="card"><Link to="/notebook">Notebook</Link></div>
+          </div>
+          <div className="user-details-box">
+            <div className="user-details-left">
+              <h5>Date: {currentDate}</h5>
+              <h5>School: {school}</h5>
+              <h5>User: {user}</h5>
+            </div>
+            <div className="user-details-right">
+                <img src={userimg} alt="user image"/>
+            </div>
+          </div>
         </div>
         <div className="bottom-section">
           <div className="settings">
