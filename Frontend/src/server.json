@@ -1,0 +1,59 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "email": "teacher1@edu.in",
+            "password": "teacher123"
+        },
+        {
+            "id": 2,
+            "email": "teacher2@edu.in",
+            "password": "teacher123"
+        }
+    ],
+    "teachers": [
+        {
+            "classes": {
+                "I": [
+                    {
+                        "date": "01/08/24",
+                        "Lesson Goal": "Lesson goal for standard 1"
+                    },
+                    {
+                        "date": "02/08/24",
+                        "Lesson Goal": "Lesson goal for standard 1"
+                    }
+                ],
+                "V": [
+                    {
+                        "date": "01/08/24",
+                        "Lesson Goal": "Lesson goal for standard 1"
+                    },
+                    {
+                        "date": "02/08/24",
+                        "Lesson Goal": "Lesson goal for standard 1"
+                    }
+                ]
+            }
+        }
+    ],
+    "live-lession": {
+        "group-1": {
+            "sentiment": {
+                "positive": 24,
+                "negative": 36
+            },
+            "engagement": {
+                "social": 45,
+                "academics-index": 60
+            }
+        }
+    },
+    "groups": {
+        "red-group": [
+            "vishal",
+            "nishit",
+            "shan"
+        ]
+    }
+}

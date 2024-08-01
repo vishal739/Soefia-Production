@@ -1,0 +1,59 @@
+
+.class-list-page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  
+    .class-list {
+      list-style: none;
+      padding: 0;
+  
+      .class-item {
+        margin-bottom: 10px;
+  
+        .class-button {
+          width: 100%;
+          padding: 10px;
+          background-color: #6366f1;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          text-align: left;
+          font-size: 1.1rem;
+  
+          &:hover {
+            background-color: #4f46e5;
+          }
+        }
+  
+        .class-options {
+          margin-top: 10px;
+          display: flex;
+          flex-direction: column;
+  
+          a {
+            padding: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #111827;
+            margin-bottom: 5px;
+  
+            &:hover {
+              background-color: #d1d5db;
+            }
+          }
+        }
+      }
+    }
+  }
+  

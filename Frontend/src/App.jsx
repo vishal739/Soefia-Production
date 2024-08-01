@@ -19,6 +19,7 @@ import Lesson from './features/lesson/Lesson'
 import Group from './features/groups/Group'
 import Hero from './pages/Hero/Hero'
 import Login from './features/auth/components/login/Login'
+import Classlist from './features/classList/Classlist'
 function App() {
   const router = createBrowserRouter([
     {
@@ -39,9 +40,14 @@ function App() {
         <Login/>
       ),
     },
-    
     {
       path: "/class",
+      element: (
+        <Classlist/>
+      )
+    },
+    {
+      path: "/class/:id",
       element:(<Classes/>),
     },
     {

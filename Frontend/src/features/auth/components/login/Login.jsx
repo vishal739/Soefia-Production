@@ -1,30 +1,31 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { checkUserAsync, selectError, selectCheckUser } from '../../authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkUserAsync, selectError, selectCheckUser } from '../../authSlice';
 import './login.scss'; 
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  // const dispatch = useDispatch();
-  // const isLoggedIn = useSelector(selectCheckUser);
-  // const checkError = useSelector(selectError);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectCheckUser);
+  const checkError = useSelector(selectError);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate(location.state?.from || '/');
-  //   } else if (checkError) {
-  //     alert(checkError.message);
-  //   }
-  // }, [isLoggedIn, checkError, navigate, location.state]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      const id = isLoggedIn.id; // Assuming isLoggedIn contains an id property
+      navigate(`/teacher/${id}`);
+    } else if (checkError) {
+      alert(checkError.message);
+    }
+  }, [isLoggedIn, checkError, navigate, location.state]);
 
   const onSubmit = (data) => {
-    // dispatch(
-    //   checkUserAsync({ email: data.email, password: data.password })
-    // );
+    dispatch(
+      checkUserAsync({ email: data.email, password: data.password })
+    );
     console.log(data); // Placeholder for form submission
   };
 
