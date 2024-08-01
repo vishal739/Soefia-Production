@@ -4,67 +4,53 @@ import "./Home.scss"
 import userimg from "../../assets/userProfile.jpg";
 const Home = () => {
   const currentDate = new Date().toLocaleDateString();
-  const school= "school name";
-  const user= "username";
+  const school = "school name";
+  const user = "username";
   return (
-    
+
     <div className="teacher-home">
       <Navbar />
       <div className="main">
-        <div className="teacher-upperSection">
-          <div className="cards">
-            <div className="card"><Link to="/class">Classes</Link></div>
-            <div className="card"><Link to="/students">Students</Link></div>
-            <div className="card"><Link to="/notebook">Notebook</Link></div>
-          </div>
-          <div className="user-details-box">
-            <div className="user-details-left">
-              <h5>Date: {currentDate}</h5>
-              <h5>School: {school}</h5>
-              <h5>User: {user}</h5>
-            </div>
-            <div className="user-details-right">
-                <img src={userimg} alt="user image"/>
-            </div>
-          </div>
-        </div>
-        <div className="bottom-section">
-          <div className="settings">
-            <div className="card">My Settings</div>
-          </div>
+        <div>
+          <section className="teacher-cards">
+  
+            <Link to="/class"><div className="teacher-card">Classes</div></Link>
+            <Link to="/students"><div className="teacher-card">Students</div></Link>
+            <Link to="/notebook"> <div className="teacher-card">Notebooks</div></Link>
+          </section>
+          <h3 className="teacher-lesson">Lesson confirmed and ready to launch</h3>
+          <div className="teacher-lesson-launch">
+            <section className="teacher-settings">
+            <Link to="/teacher/:id"><div className="teacher-setting-card">My Settings</div></Link>
+            </section>
 
-          <div className="launch">
-            <h2>Lesson confirmed and ready to launch</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Class</th>
-                  <th>Date</th>
-                  <th>Lesson Goal Summary</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>----</td>
-                  <td>----</td>
-                  <td>----</td>
-                  <td><button>Launch</button></td>
-                </tr>
-                <tr>
-                  <td>----</td>
-                  <td>----</td>
-                  <td>----</td>
-                  <td><button>Launch</button></td>
-                </tr>
-                <tr>
-                  <td>----</td>
-                  <td>----</td>
-                  <td>----</td>
-                  <td><button>Launch</button></td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="teacher-grid-table">
+              <div></div>
+              <div className="teacher-grid-header">Class</div>
+              <div className="teacher-grid-header">Date</div>
+              <div className="teacher-grid-header">Lesson Goal Summary</div>
+
+              <div>
+                <button className="teacher-button">Launch</button>
+              </div>
+              <div className="teacher-grid-item">Math 101</div>
+              <div className="teacher-grid-item">30/07/24</div>
+              <div className="teacher-grid-item">Introduction to algebra</div>
+
+              <div>
+                <button className="teacher-button">Launch</button>
+              </div>
+              <div className="teacher-grid-item">History 201</div>
+              <div className="teacher-grid-item">28/07/24</div>
+              <div className="teacher-grid-item">Ancient Civilization</div>
+
+              <div>
+                <button className="teacher-button">Launch</button>
+              </div>
+              <div className="teacher-grid-item">Science 301</div>
+              <div className="teacher-grid-item">29/07/24</div>
+              <div className="teacher-grid-item">Basics of chemistry</div>
+            </div>
           </div>
         </div>
       </div>

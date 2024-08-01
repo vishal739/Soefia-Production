@@ -20,6 +20,7 @@ import Group from './features/groups/Group'
 import Hero from './pages/Hero/Hero'
 import Login from './features/auth/components/login/Login'
 import Classlist from './features/classList/Classlist'
+import PageNotFound from './pages/PageNotFound'
 function App() {
   const router = createBrowserRouter([
     {
@@ -100,10 +101,10 @@ function App() {
     //     <AdminProductFormPage/>
     //   </AdminProtected>),
     // },
-    // {
-    //   path: "*",
-    //   element: (<PageNotFound />),
-    // },
+    {
+      path: "*",
+      element: (<PageNotFound/>),
+    },
   ]);
   return (
     <>

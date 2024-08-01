@@ -4,8 +4,13 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUsers, faBook } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from "react-redux";
+import { selectCheckUser } from "../auth/authSlice";
 
 const Navbar = () => {
+    const isLoggedIn = useSelector(selectCheckUser);
+    const id = isLoggedIn?.id ?? 1;
+
     const [navClick, setNavClick] = useState(true);
     const handleClick = () => { setNavClick(!navClick) }
     const handleLink = () => {
@@ -17,13 +22,13 @@ const Navbar = () => {
         <div className="navbar-container">
             <div className="header">
                 <div >
-                    <Link className="navLogo" to="/">Soefia</Link>
+                    <Link className="navLogo" to={`/teacher/${id}`}>Soefia</Link>
                 </div>
                
                     <ul className={navClick ? 'navBar' : 'navBar active'}>
                         <div className="navLeft">
                             <li>
-                                <Link to="/" onClick={handleLink}><FontAwesomeIcon icon={faHome} /></Link>
+                                <Link to={`/teacher/${id}`} onClick={handleLink}><FontAwesomeIcon icon={faHome} /></Link>
                             </li>
                             <li>
                                 <Link to="/class" onClick={handleLink}><FontAwesomeIcon icon={faUsers} /></Link>
