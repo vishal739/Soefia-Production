@@ -2,35 +2,48 @@ import Navbar from "../Navbar/Navbar"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import CurrentSummation from "./CurrentSummation";
 import "./Student.scss"
+import LiveLesson from "../livelesson/LiveLesson";
+// import LiveLesson from "../livelesson/LiveLesson";
 
 const Student = () => {
-    const data = [
-        { date: '10/4', value: 30 },
-        { date: '10/6', value: 50 },
-        { date: '10/11', value: 20 },
-        { date: '10/13', value: 40 },
-        { date: '10/18', value: 35 },
-        { date: '10/20', value: 60 },
-    ];
+    const progressData = [
+        { category: 'Academic', percentage: 48 },
+        { category: 'Social', percentage: 65 }
+      ];
+    const sentimentData = [
+        { category: 'Positive', percentage: 50 },
+        { category: 'Negative', percentage: 25 }
+      ];
     return (
         <div>
             <Navbar />
-            <div className="chart-container">
+            {/* <div className="chart-container">
                 <div className="barchart">
-                    <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
-                            <YAxis />
-                            <Tooltip />
-                            <Bar dataKey="value" fill="#8884d8" />
-                        </BarChart>
-                    </ResponsiveContainer>
+                    <div className="progress-bar">
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={progressData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="category" />
+                                <YAxis domain={[0,100]}/>
+                                <Tooltip />
+                                <Bar dataKey="percentage" fill="#8884d8" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div className="progress-bar">
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={sentimentData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="category" />
+                                <YAxis domain={[0,100]}/>
+                                <Tooltip />
+                                <Bar dataKey="percentage" fill="#8884d8" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                 </div>
-                <div className="chart2">
-                    <CurrentSummation/>
-                </div>
-            </div>
+            </div> */}
+            {/* <LiveLesson/> */}
         </div>
     )
 }

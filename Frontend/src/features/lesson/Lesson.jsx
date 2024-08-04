@@ -72,7 +72,7 @@ const Lesson = () => {
           </div>
           <div className="right-panel">
             <div className="right-upper">
-            <div className="lesson-card"><Link to="/class">Launch Lesson</Link></div>
+            <Link to="/livelesson" className="lesson-link"><div className="lesson-card">Launch Lesson</div></Link>
             </div>
             <div className="right-mid">
             <div className="lesson-card"><Link to="/class">Preview Lesson</Link></div>

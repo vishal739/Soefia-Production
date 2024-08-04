@@ -1,0 +1,33 @@
+.live-lession-container{
+    width: 100vw;
+    position: absolute;
+    top: 10%
+}
+.live-heading{
+    text-align: center;
+}
+.chart-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.chart-box{
+    position: relative;
+    top: 10%;
+    width: 45%;
+    border: 2px solid rgb(67, 142, 255);
+    margin: 5px 5px;
+}
+.barchart{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    .progress-bar{
+        width: 50%;
+        text-align: center;
+    }
+}

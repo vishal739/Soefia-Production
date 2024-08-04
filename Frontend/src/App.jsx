@@ -21,6 +21,7 @@ import Hero from './pages/Hero/Hero'
 import Login from './features/auth/components/login/Login'
 import Classlist from './features/classList/Classlist'
 import PageNotFound from './pages/PageNotFound'
+import LiveLesson from './features/livelesson/LiveLesson'
 function App() {
   const router = createBrowserRouter([
     {
@@ -67,10 +68,10 @@ function App() {
       path: "/groups",
       element: (<Group/>),
     },
-    // {
-    //   path: "/checkout",
-    //   element: (<Protected><Checkout /></Protected>),
-    // },
+    {
+      path: "/livelesson",
+      element: (<LiveLesson/>),
+    },
     // {
     //   path: "/productdetail/:id",
     //   element: (<ProductDetailPage />),
