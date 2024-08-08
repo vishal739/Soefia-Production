@@ -43,7 +43,7 @@ const Student = () => {
                     </div>
                 </div>
             </div> */}
-            {/* <LiveLesson/> */}
+            <LiveLesson/>
         </div>
     )
 }
