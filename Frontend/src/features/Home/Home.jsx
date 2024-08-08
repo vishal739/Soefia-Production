@@ -1,61 +1,97 @@
-import { Link } from "react-router-dom"
-import Navbar from "../Navbar/Navbar"
-import "./Home.scss"
+import { Link } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
+import "./Home.scss";
 import userimg from "../../assets/userProfile.jpg";
-const Home = () => {
-  const currentDate = new Date().toLocaleDateString();
-  const school = "school name";
-  const user = "username";
-  return (
 
+const lessons = [
+  {
+    id: 1,
+    status: "Ready to Launch",
+    classSection: "Algebra I, Block A",
+    date: "10/28/24",
+    topic: "Absolute value functions",
+  },
+  {
+    id: 2,
+    status: "Ready to Launch",
+    classSection: "Algebra I, Block C",
+    date: "10/28/24",
+    topic: "Recognizing relationships between information to c...",
+  },
+  {
+    id: 3,
+    status: "Draft",
+    classSection: "Geometry, Block B",
+    date: "10/26/24",
+    topic: "Rigid transformations, specifically reflections",
+  },
+  {
+    id: 4,
+    status: "Draft",
+    classSection: "Algebra I, Block C",
+    date: "10/26/24",
+    topic: "Solving one-step equations",
+  },
+  {
+    id: 5,
+    status: "Completed",
+    classSection: "Algebra I, Block D",
+    date: "10/25/24",
+    topic: "Solving one-step equations",
+  },
+];
+
+const Home = () => {
+
+  return (
     <div className="teacher-home">
       <Navbar />
       <div className="main">
-        <div>
+        <h2>My Homepage</h2>
+        <div className="part1">
+          <button>My Delta Preference</button>
           <section className="teacher-cards">
-  
-            <Link to="/class"><div className="teacher-card">Classes</div></Link>
-            <Link to="/students"><div className="teacher-card">Students</div></Link>
-            <Link to="/notebook"> <div className="teacher-card">Notebooks</div></Link>
+            <Link to="/class" className="teacher-card">
+              Classes
+            </Link>
+            <Link to="/students" className="teacher-card">
+              Students
+            </Link>
+            <Link to="/notebook" className="teacher-card">
+              Notebooks
+            </Link>
           </section>
-          <h3 className="teacher-lesson">Lesson confirmed and ready to launch</h3>
-          <div className="teacher-lesson-launch">
-            <section className="teacher-settings">
-            <Link to="/teacher/:id"><div className="teacher-setting-card">My Settings</div></Link>
-            </section>
-
-            <div className="teacher-grid-table">
-              <div></div>
-              <div className="teacher-grid-header">Class</div>
-              <div className="teacher-grid-header">Date</div>
-              <div className="teacher-grid-header">Lesson Goal Summary</div>
-
-              <div>
-                <button className="teacher-button">Launch</button>
-              </div>
-              <div className="teacher-grid-item">Math 101</div>
-              <div className="teacher-grid-item">30/07/24</div>
-              <div className="teacher-grid-item">Introduction to algebra</div>
-
-              <div>
-                <button className="teacher-button">Launch</button>
-              </div>
-              <div className="teacher-grid-item">History 201</div>
-              <div className="teacher-grid-item">28/07/24</div>
-              <div className="teacher-grid-item">Ancient Civilization</div>
-
-              <div>
-                <button className="teacher-button">Launch</button>
-              </div>
-              <div className="teacher-grid-item">Science 301</div>
-              <div className="teacher-grid-item">29/07/24</div>
-              <div className="teacher-grid-item">Basics of chemistry</div>
-            </div>
-          </div>
+        </div>
+        <div className="part2">
+          <h3 className="teacher-lesson">Lessons</h3>
+          <table className="lesson-table">
+            <thead>
+              <th>Status</th>
+              <th>Class and Sections</th>
+              <th>Date</th>
+              <th>Lesson Topic</th>
+            </thead>
+            <tbody>
+              {lessons.map((lesson) => (
+                <tr key={lesson.id}>
+                  {lesson.status == "Ready to Launch" ? (
+                    <td>
+                      <button>Ready to Launch</button>
+                    </td>
+                  ) : (
+                    <td>{lesson.status}</td>
+                  )}
+                  <td>{lesson.classSection}</td>
+                  <td>{lesson.date}</td>
+                  <td>{lesson.topic}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

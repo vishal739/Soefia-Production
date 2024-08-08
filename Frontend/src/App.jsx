@@ -42,14 +42,14 @@ function App() {
         <Login/>
       ),
     },
+    // {
+    //   path: "/class",
+    //   element: (
+    //     <Classlist/>
+    //   )
+    // },
     {
       path: "/class",
-      element: (
-        <Classlist/>
-      )
-    },
-    {
-      path: "/class/:id",
       element:(<Classes/>),
     },
     {

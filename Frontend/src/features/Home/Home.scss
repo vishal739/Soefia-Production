@@ -4,125 +4,93 @@
   width: 95vw;
   background-color: white;
   font-weight: 800;
-}
+
 .main {
   background-color: white;
-  margin: 0 1.5em;
+  margin: 5em 0.5em;
   width: 100%;
+  h2 {
+    color: black;
+  }
 }
 
-.teacher-logo {
-  font-size: 2em;
-  font-weight: bold;
-  margin: 0 2em;
-}
-
-.teacher-cards {
+.part1 {
   display: flex;
-  justify-content: end;
-  margin: 6em 0em;
+  justify-content: space-between;
+  width: 100%;
+  margin: 3em 0em;
+  button {
+    color: blue;
+    /* font-size: large; */
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid;
+    border-radius: 11px;
+    padding: 0 1rem;
+    max-height: 5em;
+    cursor: pointer;
+  }
+  .teacher-cards {
+    display: flex;
+    justify-content: space-between;
+    // width: 70%;
+    .teacher-card {
+      border: 2px solid rgba(20, 19, 19, 0.671);
+      height: 8em;
+      width: 25%;
+      border-radius: 4%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 800;
+    }
+  }
 }
 
-.teacher-card {
-  border: 2px solid rgba(20, 19, 19, 0.671);
-  width: 12em;
-  height: 12em;
-  border-radius: 4%;
+.part2{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-weight: 800;
-  margin-right: 4em;
-}
-
-.teacher-lesson {
-  color: rgba(2, 72, 129, 0.877);
-  display: flex;
-  justify-content: center;
-  font-style: italic;
-}
-
-.teacher-settings {
-  border: 2px solid rgba(20, 19, 19, 0.671);
-  width: 10em;
-  height: 10em;
-  border-radius: 4%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 800;
-  background-color: #ffffff;
-  margin: 2em;
-}
-
-.teacher-lesson-launch {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  margin-bottom: 2em;
-  padding-bottom: 3em;
-}
-
-.teacher-button {
-  padding: 0.3em 1.3em;
-  border: 1px solid rgba(20, 19, 19, 0.671);
-  border-radius: 4px;
-  cursor: pointer;
-  text-align: center;
-  margin: 5px;
-  background-color: darken(#4a90e2, 10%);
-  &:hover {
-    background-color: darken(#a0c2e8, 10%);
+  margin-top: 5rem;
+  .teacher-lesson {
+    color: rgba(2, 72, 129, 0.877);
+    font-style: italic;
+  }
+  .lesson-table{
+    color: #585656;
+    margin-top: 15px;
+    button{
+      background-color: white;
+      color: #585656;
+      border: 1px black solid;
+      border-radius: 10px;
+      padding: 2px;
+      cursor: pointer;
+    }
+    button:hover{
+      background: blue;
+      color: aliceblue;
+    }
   }
 }
 
-.teacher-grid-table {
-  display: grid;
-  grid-template-columns: auto repeat(3, 1fr); /* 3 columns with equal width */
-  margin: 1.5em 2em 0em 1em;
-}
-
-.teacher-grid-header {
-  padding: 5px;
-  font-weight: bold;
-  border: 1px solid #c7c5c5;
-  background-color: darken(#4a90e2, 10%);
-}
-
-.teacher-grid-item {
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #c7c5c5;
-}
-
-.teacher-grid-item button:hover {
-  background-color: #3b79c4;
-}
-
-@media (max-width: 768px) {
-  .teacher-logo {
-    margin: 0em 0.2em;
+@media (max-width: 600px) {
+  .part1 {
+    flex-direction: column-reverse;
+    gap: 2rem;
+    button {
+      max-width: 11em;
+      padding: 1rem 0rem;
+    }
   }
-
-  .input-container {
-    max-width: 50%;
-  }
-
-  .input-container i {
-    left: 5px;
-  }
-
-  .teacher-grid-table {
-    grid-template-columns: 1fr; /* Single column for small screens */
-  }
-
-  .teacher-grid-header,
-  .teacher-grid-item {
-    text-align: left;
+  .teacher-cards {
+    width: 100%;
   }
 }
-
-@media (min-width: 769px) {
-  .teacher-box2 p {
-    margin: 0px 7px;
+@media (min-width: 601px) {
+  .teacher-cards {
+    width: 70%;
   }
+}
 }
