@@ -1,0 +1,103 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px;
+  }
+  
+  .auth-wrapper {
+    margin: auto;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .auth-inner {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .logo {
+    margin: auto;
+    height: 40px;
+    width: auto;
+  }
+  
+  .title {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #1f2937; // Gray-900
+  }
+  
+  .form-container {
+    margin-top: 40px;
+  }
+  
+  .form-group {
+    margin-bottom: 24px;
+  }
+  
+  .form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: medium;
+    color: #1f2937; // Gray-900
+  }
+  
+  .input-group {
+    margin-top: 8px;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+    border-radius: 8px;
+    color: #1f2937; // Gray-900
+    background: #f3f4f6; // Gray-100
+    &:focus {
+      outline: none;
+      border-color: #4f46e5; // Indigo-600
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
+    }
+  }
+  
+  .error-message {
+    color: #dc2626; // Red-500
+  }
+  
+  .submit-group {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4f46e5; // Indigo-600
+    color: white;
+    font-size: 14px;
+    border-radius: 8px;
+    &:hover {
+      background-color: #4338ca; // Indigo-500
+    }
+  }
+  
+  .signin-redirect {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 14px;
+    color: #6b7280; // Gray-500
+  }
+  
+  .signin-link {
+    font-weight: bold;
+    color: #4f46e5; // Indigo-600
+    &:hover {
+      color: #4338ca; // Indigo-500
+    }
+  }
+  

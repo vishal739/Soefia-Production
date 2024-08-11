@@ -1,35 +1,49 @@
 // A mock function to mimic making an async request for data
 export function createUser(data) {
-  return new Promise(async (resolve) =>{
+  return new Promise(async (resolve,reject) =>{
     console.log("data sync: ", data )
-    const response = await fetch('http://localhost:8080/users/',{
+    const response = await fetch('http://localhost:8080/auth/signup',{
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'content-type': 'application/json' },
   })
     const result = await response.json()
-    resolve(({data}))
+    if(result.status){
+      resolve(result.user)
+    }else{
+      reject(result.message)
+    }
+    
 });
 }
 
 export function checkUser(data){
   return new Promise(async (resolve,reject) => {
     console.log("checkingdata: ",data);
-    const loginMail= data.email;
-    const loginPass= data.password;
-    const response = await fetch('http://localhost:8080/users?email='+loginMail);
+    const response = await fetch('http://localhost:8080/auth/login',{
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'content-type': 'application/json' },
+  })
     const result = await response.json()
-    console.log("response: ",result);
-
-    if(result.length!=0){
-      if(result[0].password==loginPass){
-        console.log("password matched",result[0]);
-        resolve({data: result[0]})
-      }else{
-        reject("Invalid Password");
-      }
+    console.log("login response: ", result)
+    if(result.status){
+      resolve(result.user)
     }else{
-      reject("user not found");
+      reject(result.message)
+    }
+  })
+}
+
+export function googleAuth(){
+  return new Promise(async (resolve,reject)=>{
+    const response = await fetch('http://localhost:8080/auth/google');
+    const result = response.json()
+    console.log("google", result)
+    if(result.status){
+      resolve(result.user)
+    }else{
+      reject(result.message)
     }
   })
 }

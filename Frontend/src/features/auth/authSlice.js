@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createUser, checkUser, signOut } from "./authAPI";
+import { createUser, checkUser, signOut, googleAuth } from "./authAPI";
 
 const initialState = {
   value: 0,
@@ -15,7 +15,7 @@ export const createUserAsync = createAsyncThunk(
     console.log("data async: ", data )
     const response = await createUser(data);
     // The value we return becomes the `fulfilled` action payload
-    return response.data;
+    return response;
   }
 );
 export const checkUserAsync = createAsyncThunk(
@@ -24,7 +24,19 @@ export const checkUserAsync = createAsyncThunk(
     console.log("data async: ", data )
     const response = await checkUser(data);
     // The value we return becomes the `fulfilled` action payload
-    return response.data;
+    console.log("login async: ",response);
+    return response;
+  }
+);
+
+export const googleAsync = createAsyncThunk(
+  "auth/googleAsync",
+  async () => {
+    // console.log("data async: ", data )
+    const response = await googleAuth();
+    // The value we return becomes the `fulfilled` action payload
+    console.log("google async: ",response);
+    return response;
   }
 );
 
@@ -64,6 +76,18 @@ export const authSlice = createSlice({
         // console.log(state.loggedIn);
       })
       .addCase(checkUserAsync.rejected, (state, action) => {
+        state.status = "idle";
+        state.error = action.error;
+      })
+      .addCase(googleAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(googleAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.loggedIn = action.payload;
+        // console.log(state.loggedIn);
+      })
+      .addCase(googleAsync.rejected, (state, action) => {
         state.status = "idle";
         state.error = action.error;
       })

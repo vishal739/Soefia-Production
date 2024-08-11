@@ -22,6 +22,7 @@ import Login from './features/auth/components/login/Login'
 import Classlist from './features/classList/Classlist'
 import PageNotFound from './pages/PageNotFound'
 import LiveLesson from './features/livelesson/LiveLesson'
+import Signup from './features/auth/components/signup/Signup'
 function App() {
   const router = createBrowserRouter([
     {
@@ -31,23 +32,23 @@ function App() {
       ),
     },
     {
-      path: "/teacher/:id",
+      path: "/teacher",
       element: (
         <Home/>
       ),
     },
     {
-      path: "/teacher",
+      path: "/login",
       element: (
         <Login/>
       ),
     },
-    // {
-    //   path: "/class",
-    //   element: (
-    //     <Classlist/>
-    //   )
-    // },
+    {
+      path: "/signup",
+      element: (
+        <Signup/>
+      )
+    },
     {
       path: "/class",
       element:(<Classes/>),

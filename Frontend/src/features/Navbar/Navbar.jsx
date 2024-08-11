@@ -63,7 +63,7 @@ const Navbar = () => {
           </li>
           <li>
             <div className="navUser">
-              <Link to="/teacher/1" onClick={handleLink}>
+              <Link to="/" onClick={handleLink}>
                 <FontAwesomeIcon icon={faUser} />
               </Link>
             </div>

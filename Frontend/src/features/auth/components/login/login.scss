@@ -51,6 +51,7 @@
           font-size: 0.875rem;
           color: #111827;
           box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+          background-color: white !important;
           
           &:focus {
             border-color: #6366f1;
@@ -98,11 +99,11 @@
       }
   
       .register {
-        margin-top: 2.5rem;
+        
         text-align: center;
         font-size: 0.875rem;
         color: #6b7280;
-  
+        margin-top: 2.5rem;
         .link {
           color: #6366f1;
           font-weight: 600;
@@ -112,6 +113,42 @@
           }
         }
       }
+      .login-bottom{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .google-btn {
+        width: 184px;
+        height: 42px;
+        background-color: #4285f4;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
+      }
+      
+      .google-btn .google-icon-wrapper {
+        position: absolute;
+        width: 40px;
+        height: 42px;
+        background-color: #fff;
+        border-radius: 5px 0px 0px 5px;
+      }
+      .google-btn .google-icon {
+        position: absolute;
+        margin-top: 11px;
+        margin-left: 11px;
+        width: 18px;
+        height: 18px;
+      }
+      .google-btn .btn-text {
+        float: right;
+        margin: 11px 11px 0 0;
+        color: #fff;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+      }
     }
+    
   }
   

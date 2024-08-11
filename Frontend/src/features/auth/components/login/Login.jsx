@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkUserAsync, selectError, selectCheckUser } from '../../authSlice';
-import './login.scss'; 
+import { checkUserAsync, selectError, selectCheckUser, googleAsync } from '../../authSlice';
+import './login.scss';
+import GoogleButton from 'react-google-button'
+import googleicon from '../../../../assets/google.png'
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -14,21 +16,29 @@ const Login = () => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log('isLoggedIn:', isLoggedIn);
+    console.log('checkError:', checkError);
     if (isLoggedIn) {
-      const id = isLoggedIn.id; // Assuming isLoggedIn contains an id property
-      navigate(`/teacher/${id}`);
+      console.log('Redirecting...');
+      const role = isLoggedIn.role;
+      const id = isLoggedIn.id;
+      navigate(`/${role}/${id}`);
     } else if (checkError) {
       alert(checkError.message);
     }
-  }, [isLoggedIn, checkError, navigate, location.state]);
+  }, [isLoggedIn, checkError, navigate]);
 
   const onSubmit = (data) => {
     dispatch(
       checkUserAsync({ email: data.email, password: data.password })
     );
-    console.log(data); // Placeholder for form submission
+    console.log(data);
   };
 
+  const handleGoogleAuth = () => {
+    console.log("google authentication")
+    window.open("http://localhost:8080/auth/google/","_self")
+  }
   return (
     <div className="login-container">
       <div className="login-form">
@@ -36,9 +46,9 @@ const Login = () => {
         <h2 className="title">
           Sign in to your account
         </h2>
-        <form 
+        <form
           className="space-y-6"
-          onSubmit={handleSubmit(onSubmit)} 
+          onSubmit={handleSubmit(onSubmit)}
           method="POST"
         >
           <div className="form-group">
@@ -48,7 +58,7 @@ const Login = () => {
             <input
               id="email"
               {...register("email", {
-                required: "Please enter your email", 
+                required: "Please enter your email",
                 pattern: {
                   value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
                   message: 'email not valid',
@@ -89,12 +99,23 @@ const Login = () => {
             </button>
           </div>
         </form>
-        <p className="register">
-          New User?{' '}
-          <Link to="/signup" className="link">
-            Register Now
-          </Link>
-        </p>
+        <div className="login-bottom">
+          <p className="register">
+            New User?{' '}
+            <Link to="/signup" className="link">
+              Register Now
+            </Link>
+          </p>
+          <p>or{' '}</p>
+            
+          <div className="google-btn" onClick={handleGoogleAuth}>
+            <div className="google-icon-wrapper">
+              <img alt="Google icon" className="google-icon" src={googleicon} />
+            </div>
+            <p className="btn-text"><b>Sign in with Google</b></p>
+          </div>
+
+        </div>
       </div>
     </div>
   );
