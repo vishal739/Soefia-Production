@@ -48,10 +48,11 @@ passport.use(new GoogleStrategy({
 ));
 
 passport.serializeUser(function (user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser(function (id, done) {
-  const user= User.findById(id);
+passport.deserializeUser(function (user, done) {
+  // const user= User.findById(id);
+  console.log(user);
   done(null, user);
 });

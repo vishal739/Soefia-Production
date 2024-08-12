@@ -17,7 +17,7 @@ export function createUser(data) {
 });
 }
 
-export function checkUser(data){
+export function loginVerify(data){
   return new Promise(async (resolve,reject) => {
     console.log("checkingdata: ",data);
     const response = await fetch('http://localhost:8080/auth/login',{
@@ -35,10 +35,14 @@ export function checkUser(data){
   })
 }
 
-export function googleAuth(){
+export function fetchUser(){
   return new Promise(async (resolve,reject)=>{
-    const response = await fetch('http://localhost:8080/auth/google');
-    const result = response.json()
+    const response = await fetch('http://localhost:8080/auth/login/success', {
+      method: 'GET', 
+      credentials: 'include'
+    });
+
+    const result = await response.json()
     console.log("google", result)
     if(result.status){
       resolve(result.user)

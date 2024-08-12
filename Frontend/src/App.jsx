@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -23,6 +23,8 @@ import Classlist from './features/classList/Classlist'
 import PageNotFound from './pages/PageNotFound'
 import LiveLesson from './features/livelesson/LiveLesson'
 import Signup from './features/auth/components/signup/Signup'
+import { useDispatch } from 'react-redux'
+import { fetchUserAsync } from './features/auth/authSlice'
 function App() {
   const router = createBrowserRouter([
     {
@@ -108,7 +110,13 @@ function App() {
       element: (<PageNotFound/>),
     },
   ]);
+  const dispatch= useDispatch();
+    useEffect(()=>{
+      console.log("dispatching fetch user");
+      dispatch(fetchUserAsync());
+    },[dispatch])
   return (
+    
     <>
       <RouterProvider router={router} />
       {/* <Navbar/> */}

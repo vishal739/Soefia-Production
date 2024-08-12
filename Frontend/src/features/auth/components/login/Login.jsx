@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkUserAsync, selectError, selectCheckUser, googleAsync } from '../../authSlice';
+import { fetchUserAsync, selectError, selectCheckUser, loginVerifyAsync } from '../../authSlice';
 import './login.scss';
 import GoogleButton from 'react-google-button'
 import googleicon from '../../../../assets/google.png'
@@ -30,7 +30,7 @@ const Login = () => {
 
   const onSubmit = (data) => {
     dispatch(
-      checkUserAsync({ email: data.email, password: data.password })
+      loginVerifyAsync({ email: data.email, password: data.password })
     );
     console.log(data);
   };

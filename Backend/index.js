@@ -25,14 +25,19 @@ const corsOptions = {
     }
   };
 
-  app.use(cors({ origin: '*' }));
-// app.use(cors({
-//     origin: 'http://localhost:5173/',
-//     methods: 'GET,POST,PUT,DELETE',
-//     credentials: true
-// }));
+  // app.use(cors({ origin: '*' }));
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true
+}));
 app.use(express.urlencoded({ extended: true }));
-app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
+app.use(session({
+  secret: 'secret', 
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } 
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 

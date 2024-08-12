@@ -71,15 +71,16 @@ const logout = async (req, res) => {
 }
 
 const checkUser = (req, res) => {
+    console.log(req.user);
     try {
         if (req.user) {
-            res.status(200).json({ message: "user Login", user: req.user })
+            res.status(200).json({status: true, message: "user Login", user: req.user })
         } else {
-            res.status(400).json({ message: "Not Authorized" })
+            res.status(401).json({status: false, message: "Not Authorized" })
         }
     } catch (error) {
         console.log(error)
-        res.status(409).json({ message: "Unable to checkuser" })
+        res.status(409).json({status: false, message: "Unable to checkuser" })
     }
 }
 

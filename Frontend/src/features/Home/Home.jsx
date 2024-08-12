@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import "./Home.scss";
 import userimg from "../../assets/userProfile.jpg";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserAsync, selectCheckUser } from "../auth/authSlice";
+import { useEffect } from "react";
 const lessons = [
   {
     id: 1,
@@ -42,12 +44,19 @@ const lessons = [
 ];
 
 const Home = () => {
+  const dispatch= useDispatch();
+  const isLoggedIn= useSelector(selectCheckUser);
 
+  useEffect(()=>{
+    console.log("dispatching fetch user");
+    dispatch(fetchUserAsync());
+  },[dispatch])
   return (
     <div className="teacher-home">
       <Navbar />
+      {console.log(isLoggedIn)}
       <div className="main">
-        <h2>My Homepage</h2>
+        <h2>{isLoggedIn && isLoggedIn.email}</h2>
         <div className="part1">
           <button>My Delta Preference</button>
           <section className="teacher-cards">
