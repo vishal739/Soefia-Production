@@ -22,7 +22,7 @@ const Login = () => {
       console.log('Redirecting...');
       const role = isLoggedIn.role;
       const id = isLoggedIn.id;
-      navigate(`/${role}/${id}`);
+      navigate(`/teacher`);
     } else if (checkError) {
       alert(checkError.message);
     }

@@ -8,35 +8,67 @@ import { useEffect, useState } from "react";
 
 
 const Lesson = () => {
-  const [textInput, setTextInput] = useState('')
-  const { isListening, transcript, startListening, stopListening } = useSpeechToText({ continuous: true })
 
-  const startStopListening = () => {
-    isListening ? stopVoiceInput() : startListening()
-  }
+  const [textInput1, setTextInput1] = useState('');
+  const [textInput2, setTextInput2] = useState('');
+  const [textInput3, setTextInput3] = useState('');
+  const [textInput4, setTextInput4] = useState('');
+  const [textInput5, setTextInput5] = useState('');
+  // const [textInput6, setTextInput6] = useState('');
 
-  const stopVoiceInput = () => {
-    console.log('prevVal: ', textInput)
-    console.log('transcript: ', transcript)
+  const speechToText1 = useSpeechToText({ continuous: true });
+  const speechToText2 = useSpeechToText({ continuous: true });
+  const speechToText3 = useSpeechToText({ continuous: true });
+  const speechToText4 = useSpeechToText({ continuous: true });
+  const speechToText5 = useSpeechToText({ continuous: true });
+  // const speechToText6 = useSpeechToText({ continuous: true });
+
+  // Then you can access them like this:
+  const { isListening: isListening1, transcript: transcript1, startListening: startListening1, stopListening: stopListening1 } = speechToText1;
+  const { isListening: isListening2, transcript: transcript2, startListening: startListening2, stopListening: stopListening2 } = speechToText2;
+  const { isListening: isListening3, transcript: transcript3, startListening: startListening3, stopListening: stopListening3 } = speechToText3;
+  const { isListening: isListening4, transcript: transcript4, startListening: startListening4, stopListening: stopListening4 } = speechToText4;
+  const { isListening: isListening5, transcript: transcript5, startListening: startListening5, stopListening: stopListening5 } = speechToText5;
+  // const { isListening: isListening6, transcript: transcript6, startListening: startListening6, stopListening: stopListening6 } = speechToText6;
+
+  const startStopListening = (isListening, textInput, setTextInput, transcript, startListening, stopListening) => {
+    isListening ? stopVoiceInput(textInput, setTextInput, transcript, stopListening) : startListening();
+  };
+
+  const stopVoiceInput = (textInput, setTextInput, transcript, stopListening) => {
     const newText = transcript.length ? (textInput.length ? textInput + ' ' + transcript : transcript) : textInput;
     setTextInput(newText);
-    console.log("newText: ", newText)
-    console.log('text: ', textInput)
-    stopListening()
-  }
+    stopListening();
+  };
 
-  useEffect(() => {
-    console.log('Updated textInput: ', textInput);
-  }, [isListening]);
+
+  // const startStopListening = (textInput, setTextInput, transcript) => {
+  //   isListening ? stopVoiceInput(textInput, setTextInput, transcript) : startListening()
+  // }
+
+  // const stopVoiceInput = (textInput,setTextInput, transcript) => {
+  //   console.log('prevVal: ', textInput1)
+  //   console.log('transcript: ', transcript)
+  //   const newText = transcript.length ? (textInput1.length ? textInput1 + ' ' + transcript : transcript) : textInput1;
+  //   setTextInput1(newText);
+  //   console.log("newText: ", newText)
+  //   console.log('text: ', textInput1)
+  //   stopListening()
+  // }
+  // const stopVoiceInput = (textInput, setTextInput, transcript) => {
+  //   console.log('prevVal: ', textInput)
+  //   console.log('transcript: ', transcript)
+  //   const newText = transcript.length ? (textInput.length ? textInput + ' ' + transcript : transcript) : textInput;
+  //   setTextInput(newText);
+  //   console.log("newText: ", newText)
+  //   console.log('text: ', textInput)
+  //   stopListening()
+  // }
+
   // useEffect(() => {
-  //   if (!isListening && transcript) {
-  //     setTextInput((prevVal) => prevVal + (transcript.length ? (prevVal.length ? ' ' : '') + transcript : ''));
-  //   }
-  // }, [isListening, transcript]);
+  //   // console.log('Updated textInput1: ', textInput1);
+  // }, [isListening1, isListening2]);
 
-  // const startStopListening = () => {
-  //   isListening ? stopListening() : startListening();
-  // };
 
 
 
@@ -57,16 +89,18 @@ const Lesson = () => {
               <div>
                 <textarea
                   className="lesson-text-area"
-                  disabled={isListening}
-                  value={isListening ? textInput + (transcript ? ` ${transcript}` : '') : textInput}
-                  onChange={(e) => { setTextInput(e.target.value) }}
+                  disabled={isListening1}
+                  value={isListening1 ? textInput1 + (transcript1 ? ` ${transcript1}` : '') : textInput1}
+                  onChange={(e) => {
+                    setTextInput1(e.target.value);
+                  }}
                 ></textarea>
 
                 <div className="buttons">
                   <button
-                    onClick={() => startStopListening()}
+                    onClick={() => startStopListening(isListening1, textInput1, setTextInput1, transcript1, startListening1, stopListening1)}
                   >
-                    {isListening ? 'Stop Listening' : 'Talk to Me'}
+                    {isListening1 ? 'Stop Listening' : 'Talk to Me'}
                   </button>
                   <button>Upload Files</button>
                 </div>
@@ -81,10 +115,16 @@ const Lesson = () => {
                 <div>
                   <textarea
                     className="lesson-text-area"
-                    placeholder="Enter academic goals"
+                    disabled={isListening2}
+                    value={isListening2 ? textInput2 + (transcript2 ? ` ${transcript2}` : '') : textInput2}
+                    onChange={(e) => { setTextInput2(e.target.value) }}
                   ></textarea>
                   <div className="buttons">
-                    <button>Talk to Me</button>
+                    <button
+                      onClick={() => startStopListening(isListening2, textInput2, setTextInput2, transcript2, startListening2, stopListening2)}
+                    >
+                      {isListening2 ? 'Stop Listening' : 'Talk to Me'}
+                    </button>
                     <button>Upload Files</button>
                   </div>
                 </div>
@@ -97,10 +137,16 @@ const Lesson = () => {
                 <div>
                   <textarea
                     className="lesson-text-area"
-                    placeholder="Enter goals"
+                    disabled={isListening3}
+                    value={isListening3 ? textInput3 + (transcript3 ? ` ${transcript3}` : '') : textInput3}
+                    onChange={(e) => { setTextInput3(e.target.value) }}
                   ></textarea>
                   <div className="buttons">
-                    <button>Talk to Me</button>
+                    <button
+                      onClick={() => startStopListening(isListening3, textInput3, setTextInput3, transcript3, startListening3, stopListening3)}
+                    >
+                      {isListening3 ? 'Stop Listening' : 'Talk to Me'}
+                    </button>
                     <button>Upload Files</button>
                   </div>
                 </div>
@@ -114,10 +160,16 @@ const Lesson = () => {
               <div>
                 <textarea
                   className="lesson-text-area"
-                  placeholder="Enter Learning Material Details"
+                  disabled={isListening4}
+                  value={isListening4 ? textInput4 + (transcript4 ? ` ${transcript4}` : '') : textInput4}
+                  onChange={(e) => { setTextInput4(e.target.value) }}
                 ></textarea>
                 <div className="buttons">
-                  <button>Talk to Me</button>
+                  <button
+                    onClick={() => startStopListening(isListening4, textInput4, setTextInput4, transcript4, startListening4, stopListening4)}
+                  >
+                    {isListening4 ? 'Stop Listening' : 'Talk to Me'}
+                  </button>
                   <button>Add URL</button>
                   <button>Upload Files</button>
                 </div>
@@ -131,10 +183,16 @@ const Lesson = () => {
               <div>
                 <textarea
                   className="lesson-text-area"
-                  placeholder="Enter Exercise Details"
+                  disabled={isListening5}
+                  value={isListening5 ? textInput5 + (transcript5 ? ` ${transcript5}` : '') : textInput5}
+                  onChange={(e) => { setTextInput5(e.target.value) }}
                 ></textarea>
                 <div className="buttons">
-                  <button>Talk to Me</button>
+                  <button
+                    onClick={() => startStopListening(isListening5, textInput5, setTextInput5, transcript5, startListening5, stopListening5)}
+                  >
+                    {isListening5 ? 'Stop Listening' : 'Talk to Me'}
+                  </button>
                   <button>Add URL</button>
                   <button>Upload Files</button>
                 </div>

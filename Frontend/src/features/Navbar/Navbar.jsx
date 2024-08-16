@@ -30,13 +30,13 @@ const Navbar = () => {
     // <nav className="navbar-container">
     <header className="header">
       <div className="navLogo">
-        <Link to={`/teacher/${id}`}>Soefia</Link>
+        <Link to={`/teacher`}>Soefia</Link>
       </div>
 
       <ul className={navClick ? "navBar" : "navBar active"}>
         <div className="navLeft">
           <li>
-            <Link to={`/teacher/${id}`} onClick={handleLink}>
+            <Link to={`/teacher`} onClick={handleLink}>
               <FontAwesomeIcon icon={faHome} />
             </Link>
           </li>

@@ -10,12 +10,12 @@ const useSpeechToText = (options) => {
             console.error("Web speech API is not supported");
             return;
         }
-        console.log("options: ",options)
+        // console.log("options: ",options)
         recognitionRef.current = new window.webkitSpeechRecognition();
         const recognition = recognitionRef.current;
         recognition.interimResults = options.interimResults || true;
         recognition.lang = options.lang || "en-US";
-        recognition.continuous = options.continuous || false; // Ensure continuous listening
+        recognition.continuous = options.continuous || false; 
 
         if ("webkitSpeechGrammarList" in window) {
             const grammar = "#JSGF V1.0; grammar punctuation; public <punc> = . | , | ? | ! | ; | : ;";
@@ -26,9 +26,15 @@ const useSpeechToText = (options) => {
 
         recognition.onresult = (event) => {
             let text = "";
+          
+            let key="stop AI";
             for (let i = 0; i < event.results.length; i++) {
+                // console.log("speech: ",event.results[i][0].transcript)
                 text += event.results[i][0].transcript;
+             
             }
+            
+            // console.log("speech: ",text)
             setTranscript(text);
         };
 
@@ -38,7 +44,7 @@ const useSpeechToText = (options) => {
 
         recognition.onend = () => {
             setIsListening(false);
-            setTranscript('');
+            // setTranscript('');
         };
 
         return () => {
