@@ -12,7 +12,7 @@ const authRoute= require("./routes/authRoute");
 
 const app= express();
 
-const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app/'];
+const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app'];
 
 app.use(cors({
   origin: (origin, callback) => {
