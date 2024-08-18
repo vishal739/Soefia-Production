@@ -12,25 +12,26 @@ const authRoute= require("./routes/authRoute");
 
 const app= express();
 
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000'];
-const corsOptions = {
-    origin: (origin, callback) => {
-      console.log('Origin of request ' + origin);
-      if (['http://localhost:5173'].indexOf(origin) !== -1) {
-        callback(null, true);
+const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app/'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
       } else {
-        console.log("failed")
-        callback(new Error('Not allowed by CORS'));
+          callback(new Error('Not allowed by CORS'));
       }
-    }
-  };
+  },
+  methods: 'GET,POST,PUT,DELETE',
+  credentials: true
+}));
 
   // app.use(cors({ origin: '*' }));
-app.use(cors({
-    origin: 'http://localhost:5173',
-    methods: 'GET,POST,PUT,DELETE',
-    credentials: true
-}));
+// app.use(cors({
+//     origin: 'http://localhost:5173',
+//     methods: 'GET,POST,PUT,DELETE',
+//     credentials: true
+// }));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: 'secret', 

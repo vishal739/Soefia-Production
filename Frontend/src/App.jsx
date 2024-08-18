@@ -111,10 +111,7 @@ function App() {
     },
   ]);
   const dispatch= useDispatch();
-    useEffect(()=>{
-      console.log("dispatching fetch user");
-      dispatch(fetchUserAsync());
-    },[dispatch])
+    
   return (
     
     <>

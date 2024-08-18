@@ -1,6 +1,6 @@
 import Navbar from "../Navbar/Navbar"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import CurrentSummation from "./CurrentSummation";
+
 import "./Student.scss"
 import LiveLesson from "../livelesson/LiveLesson";
 // import LiveLesson from "../livelesson/LiveLesson";

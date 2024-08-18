@@ -24,7 +24,7 @@ const Login = () => {
       const id = isLoggedIn.id;
       navigate(`/teacher`);
     } else if (checkError) {
-      alert(checkError.message);
+      // alert(checkError.message);
     }
   }, [isLoggedIn, checkError, navigate]);
 

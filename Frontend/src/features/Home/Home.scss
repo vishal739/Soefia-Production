@@ -47,20 +47,33 @@
   }
 }
 
-.part2{
+.part2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 5rem;
+
   .teacher-lesson {
     color: rgba(2, 72, 129, 0.877);
     font-style: italic;
   }
-  .lesson-table{
+
+  .lesson-table {
     color: #585656;
     margin-top: 15px;
-    button{
+    border-collapse: collapse; /* Add this to collapse borders */
+
+    th, td {
+      border: 1px solid #000; /* Ensure borders are visible */
+      padding: 8px; /* Add padding for better spacing */
+    }
+
+    th {
+      background-color: #f2f2f2; /* Optional: Different background for headers */
+    }
+
+    button {
       background-color: white;
       color: #585656;
       border: 1px black solid;
@@ -68,7 +81,8 @@
       padding: 2px;
       cursor: pointer;
     }
-    button:hover{
+
+    button:hover {
       background: blue;
       color: aliceblue;
     }
