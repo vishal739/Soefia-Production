@@ -8,6 +8,7 @@ const session = require("express-session");
 require('./auth')
 require('./db/connect')
 const authRoute = require("./routes/authRoute");
+const MemoryStore = require('memorystore')(session);
 
 const app = express();
 
