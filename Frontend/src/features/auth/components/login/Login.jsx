@@ -24,7 +24,7 @@ const Login = () => {
       const id = isLoggedIn.id;
       navigate(`/teacher`);
     } else if (checkError) {
-      // alert(checkError.message);
+      alert(checkError.message);
     }
   }, [isLoggedIn, checkError, navigate]);
 
@@ -37,7 +37,7 @@ const Login = () => {
 
   const handleGoogleAuth = () => {
     console.log("google authentication")
-    window.open("http://localhost:8080/auth/google/","_self")
+    window.open("https://soefia-production.onrender.com/auth/google/","_self")
   }
   return (
     <div className="login-container">
@@ -114,7 +114,6 @@ const Login = () => {
             </div>
             <p className="btn-text"><b>Sign in with Google</b></p>
           </div>
-
         </div>
       </div>
     </div>

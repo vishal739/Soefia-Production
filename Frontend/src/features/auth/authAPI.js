@@ -2,7 +2,7 @@
 export function createUser(data) {
   return new Promise(async (resolve,reject) =>{
     console.log("data sync: ", data )
-    const response = await fetch('http://localhost:8080/auth/signup',{
+    const response = await fetch('https://soefia-production.onrender.com/auth/signup',{
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'content-type': 'application/json' },
@@ -20,7 +20,7 @@ export function createUser(data) {
 export function loginVerify(data){
   return new Promise(async (resolve,reject) => {
     console.log("checkingdata: ",data);
-    const response = await fetch('http://localhost:8080/auth/login',{
+    const response = await fetch('https://soefia-production.onrender.com/auth/login',{
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'content-type': 'application/json' },
@@ -37,7 +37,7 @@ export function loginVerify(data){
 
 export function fetchUser(){
   return new Promise(async (resolve,reject)=>{
-    const response = await fetch('http://localhost:8080/auth/login/success', {
+    const response = await fetch('https://soefia-production.onrender.com/auth/login/success', {
       method: 'GET', 
       credentials: 'include'
     });
