@@ -11,7 +11,11 @@ const authRoute = require("./routes/authRoute");
 
 const app = express();
 
+<<<<<<< HEAD
 // const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app/'];
+=======
+const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app'];
+>>>>>>> d7a004ad938546d5fea320a7ebeb0ee12424b0eb
 
 // app.use(cors({
 //   origin: (origin, callback) => {
@@ -68,6 +72,12 @@ app.use("/auth", authRoute);
 //     await mongoose.connect(process.env.MONGODB_URL);
 //     console.log('database connected');
 // }
+<<<<<<< HEAD
 app.listen(8080, () => {
   console.log("Server started");
 })
+=======
+app.listen(8080, ()=>{
+    console.log("Server started");
+})
+>>>>>>> d7a004ad938546d5fea320a7ebeb0ee12424b0eb
