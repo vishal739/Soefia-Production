@@ -4,17 +4,15 @@ const cors = require("cors");
 require('dotenv').config();
 const mongoose = require("mongoose");
 const passport = require("passport");
-const session = require("express-session");
-require('./auth')
-require('./db/connect')
-const authRoute = require("./routes/authRoute");
-const MemoryStore = require('memorystore')(session);
-
+const session = require("./utils/sessions");
+require('./utils/auth')
+require('./db/mongoose')
+// const RedisStore = require('connect-redis').default; // Correct import
+// const { createClient } = require('redis'); 
+const authRoute = require("./routes/authRoute")
 const app = express();
 
 const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app'];
-
-
 app.use(cors({
   origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
@@ -27,30 +25,46 @@ app.use(cors({
   credentials: true
 }));
 
-// app.use(cors({ origin: '*' }));
-// app.use(cors({
-//   origin: 'https://soefia.netlify.app',
-//   methods: 'GET,POST,PUT,DELETE',
-//   credentials: true
-// }));
 app.use(express.urlencoded({ extended: true }));
 
+// app.set('trust proxy', 1);
 
-app.use(session({
-  cookie: { maxAge: 86400000 },
-  store: new MemoryStore({
-    checkPeriod: 86400000 // prune expired entries every 24h
-  }),
-  resave: false,
-  secret: 'keyboard cat'
-}))
+// // Initialize Redis client
+// const redisClient = createClient({
+//     password: 'qDHaKQ8XNoCDNSRDKeHiSNEzoN8O1jUS',
+//     socket: {
+//         host: 'redis-12907.c11.us-east-1-3.ec2.redns.redis-cloud.com',
+//         port: 12907
+//     }
+// });
+// redisClient.connect().catch(console.error);
+// redisClient.on('error', function (err) {
+//   console.log('Could not establish a connection with redis. ' + err);
+// });
+// redisClient.on('connect', function () {
+//   console.log('Connected to redis successfully');
+// });
 
-app.use(function (req, res, next) {
-  if (!req.session) {
-    return next(new Error('Oh no'))
-  }
-  next()
-});
+
+// app.use(session({
+//   store: new RedisStore({ client: redisClient }),
+//   secret: 'secret$%^134',
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     secure: false, 
+//     httpOnly: false, 
+//     maxAge: 1000 * 60 * 60 * 24 
+//   }
+// }));
+
+// app.use(function (req, res, next) {
+//   if (!req.session) {
+//     return next(new Error('Oh no'))
+//   }
+//   next()
+// });
+app.use(session);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -60,16 +74,13 @@ app.use(express.json());
 const port = process.env.PORT || 8080;
 
 app.get("/", (req, res) => {
-  res.send("Soefia Api connected Succesfully")
+    req.session.viewCount = (req.session.viewCount || 0) + 1;
+    console.log(req.user);
+    res.send(`user: ${req.user.email} | View count: ${req.session.viewCount} | Soefia API connected successfully`);
 })
 app.use("/auth", authRoute);
 
 
-// main().catch(err => console.log(err));
-// async function main() {
-//     await mongoose.connect(process.env.MONGODB_URL);
-//     console.log('database connected');
-// }
-app.listen(8080, () => {
-  console.log("Server started");
-})
+app.listen(port, () => {
+  console.log("Server started on port " + port);
+});

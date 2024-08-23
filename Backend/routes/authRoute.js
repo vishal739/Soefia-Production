@@ -13,8 +13,8 @@ router.get('/google',
     passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/google/callback',
     passport.authenticate('google', {
-        successRedirect: "https://soefia.netlify.app/teacher",
-        failureRedirect: "https://soefia.netlify.app/login"
+        successRedirect: "http://localhost:5173/teacher",
+        failureRedirect: "http://localhost:5173/login"
     }));
 router.get('/logout', logout);
 

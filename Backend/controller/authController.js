@@ -2,7 +2,7 @@ const passport = require('passport');
 const bcrypt = require("bcrypt")
 const model = require('../model/userModel');
 const User = model.User;
-require('../auth');
+require('../utils/auth');
 
 const signupUser = async (req, res) => {
     try {
@@ -66,6 +66,7 @@ const logout = async (req, res) => {
         if (err) {
             return res.status(500).json({ status: false, message: 'Logout failed' });
         }
+        req.session.destroy();
         res.status(200).json({ status: true, message: 'Logout successful' });
     });
 }
