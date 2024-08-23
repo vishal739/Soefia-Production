@@ -10,9 +10,15 @@ require('./db/mongoose')
 const authRoute = require("./routes/authRoute")
 const app = express();
 
-// const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app', ''];
+const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app'];
 app.use(cors({
-  origin: 'https://soefia-frontend.onrender.com',
+  origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+      } else {
+          callback(new Error('Not allowed by CORS'));
+      }
+  },
   methods: 'GET,POST,PUT,DELETE',
   credentials: true
 }));
