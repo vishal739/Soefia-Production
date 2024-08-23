@@ -7,8 +7,6 @@ const passport = require("passport");
 const session = require("./utils/sessions");
 require('./utils/auth')
 require('./db/mongoose')
-// const RedisStore = require('connect-redis').default; // Correct import
-// const { createClient } = require('redis'); 
 const authRoute = require("./routes/authRoute")
 const app = express();
 
@@ -26,44 +24,8 @@ app.use(cors({
 }));
 
 app.use(express.urlencoded({ extended: true }));
+app.set('trust proxy', 1);
 
-// app.set('trust proxy', 1);
-
-// // Initialize Redis client
-// const redisClient = createClient({
-//     password: 'qDHaKQ8XNoCDNSRDKeHiSNEzoN8O1jUS',
-//     socket: {
-//         host: 'redis-12907.c11.us-east-1-3.ec2.redns.redis-cloud.com',
-//         port: 12907
-//     }
-// });
-// redisClient.connect().catch(console.error);
-// redisClient.on('error', function (err) {
-//   console.log('Could not establish a connection with redis. ' + err);
-// });
-// redisClient.on('connect', function () {
-//   console.log('Connected to redis successfully');
-// });
-
-
-// app.use(session({
-//   store: new RedisStore({ client: redisClient }),
-//   secret: 'secret$%^134',
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: {
-//     secure: false, 
-//     httpOnly: false, 
-//     maxAge: 1000 * 60 * 60 * 24 
-//   }
-// }));
-
-// app.use(function (req, res, next) {
-//   if (!req.session) {
-//     return next(new Error('Oh no'))
-//   }
-//   next()
-// });
 app.use(session);
 app.use(passport.initialize());
 app.use(passport.session());
