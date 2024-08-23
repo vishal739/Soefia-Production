@@ -76,7 +76,7 @@ const port = process.env.PORT || 8080;
 app.get("/", (req, res) => {
     req.session.viewCount = (req.session.viewCount || 0) + 1;
     console.log(req.user);
-    res.send(`user: ${req.user.email} | View count: ${req.session.viewCount} | Soefia API connected successfully`);
+    res.send(`user: ${req.user? req.user.email : 'guest'} | View count: ${req.session.viewCount} | Soefia API connected successfully`);
 })
 app.use("/auth", authRoute);
 
