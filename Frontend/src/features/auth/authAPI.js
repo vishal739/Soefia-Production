@@ -41,7 +41,6 @@ export function fetchUser(){
       method: 'GET', 
       credentials: 'include'
     });
-
     const result = await response.json()
     console.log("google", result)
     if(result.status){

@@ -2,7 +2,24 @@ import Navbar from "../Navbar/Navbar";
 import "./Classes.scss";
 import mic from "../../assets/mic.png";
 import { Link } from "react-router-dom";
+import useSpeechToText from "../webSpeech/useSpeechToText";
+
 const Classes = () => {
+    const [textInput1, setTextInput1] = useState('');
+    const speechToText1 = useSpeechToText({ continuous: true });
+    const { isListening: isListening1, transcript: transcript1, startListening: startListening1, stopListening: stopListening1 } = speechToText1;
+
+
+    const startStopListening = (isListening, textInput, setTextInput, transcript, startListening, stopListening) => {
+        isListening ? stopVoiceInput(textInput, setTextInput, transcript, stopListening) : startListening();
+    };
+
+    const stopVoiceInput = (textInput, setTextInput, transcript, stopListening) => {
+        const newText = transcript.length ? (textInput.length ? textInput + ' ' + transcript : transcript) : textInput;
+        setTextInput(newText);
+        stopListening();
+    };
+
     return (
         <>
             <Navbar />
@@ -29,10 +46,19 @@ const Classes = () => {
                         <textarea
                             className="home-text"
                             placeholder="Enter Class Details"
+                            disabled={isListening1}
+                            value={isListening1 ? textInput1 + (transcript1 ? ` ${transcript1}` : '') : textInput1}
+                            onChange={(e) => {
+                                setTextInput1(e.target.value);
+                            }}
                         ></textarea>
                     </div>
                     <div className="buttons">
-                        <button>Talk to Me</button>
+                        <button
+                            onClick={() => startStopListening(isListening1, textInput1, setTextInput1, transcript1, startListening1, stopListening1)}
+                        >
+                            {isListening1 ? 'Stop Listening' : 'Talk to Me'}
+                        </button>
                         <button>Add URL</button>
                         <button>Upload Files</button>
                     </div>

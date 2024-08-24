@@ -20,8 +20,8 @@ const Login = () => {
     console.log('checkError:', checkError);
     if (isLoggedIn) {
       console.log('Redirecting...');
-      const role = isLoggedIn.role;
-      const id = isLoggedIn.id;
+      // const role = isLoggedIn.role;
+      // const id = isLoggedIn.id;
       navigate(`/teacher`);
     } else if (checkError) {
       alert(checkError.message);
