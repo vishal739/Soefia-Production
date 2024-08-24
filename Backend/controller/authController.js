@@ -76,7 +76,7 @@ const checkUser = (req, res) => {
         if (req.user) {
             res.status(200).json({status: true, message: "user Login", user: req.user })
         } else {
-            res.status(401).json({status: false, message: "Not Authorized", user: req.user})
+            res.status(401).json({status: false, message: "Not Authorized"})
         }
     } catch (error) {
         console.log(error)
