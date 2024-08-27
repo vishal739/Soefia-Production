@@ -1,0 +1,137 @@
+.group-container {
+  margin: 1.5%;
+  width: 95vw;
+  background-color: white;
+}
+.grp-main {
+  background-color: white;
+  margin: 7em 0.5em;
+  width: 100%;
+  display: flex;
+}
+.grp-left-pane{
+  width: 50%;
+  p{
+    font-size: 26px;
+    font-weight: 600;
+  }
+}
+.groups-box{
+  display: flex;
+  flex-wrap: wrap;
+}
+.circle-container {
+  display: grid;
+  grid-template-areas: 
+      "top top top"
+      "left center right"
+      "bottom bottom bottom";
+  justify-items: center;
+  align-items: center;
+  width: 50%;
+  height: 200px;
+}
+
+.name {
+  font-weight: bold;
+  color: #333;
+}
+
+.top {
+  grid-area: top;
+}
+
+.bottom {
+  grid-area: bottom;
+}
+
+.left {
+  grid-area: left;
+}
+
+.right {
+  grid-area: right;
+}
+
+.circle {
+  grid-area: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  border: 2px solid #d0d0ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.grp-buttons{
+  display: flex;
+  max-width:100% ;
+  justify-content: center;
+  border-radius: 25px;
+  border: 2px solid #1e1e61;
+  width: fit-content;
+  margin: 10%;
+}
+.btn{
+  width: 7rem;
+  border: none;
+  background-color: white;
+  color: #1e1e61;
+  padding: 10px 14px;
+  // margin: 1rem;
+}
+.btn:nth-child(2){
+  border-right: 2px solid #1e1e61;
+  border-left: 2px solid #1e1e61;
+}
+.btn:not(:nth-child(2)) {
+  border-radius: 25px;
+}
+
+.btn:hover {
+  background-color: #ccc;
+}
+
+.grp-right-pane{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  section{
+    margin: 10px 0;
+  }
+}
+.headings{
+  display: flex;
+  align-items: center;
+}
+.grp-text-area{
+  margin-left: 2.5rem;
+  width: 90%;
+  height: 150px;
+  border-radius: 10px;
+}
+
+@media screen and (max-width:900px) {
+  .groups-box{
+    flex-direction: column;
+    justify-content: center;
+  align-items: center;
+  }
+  h3{
+      font-size: 15px;
+  }
+}
+@media screen and (max-width:620px) {
+  .grp-left-pane{
+    p{
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+}
+
+

@@ -25,7 +25,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, passwor
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://soefia-production.onrender.com/auth/google/callback",
+  callbackURL: `${process.env.HOST_URL}/auth/google/callback`,
   passReqToCallback: true
 },
   async (request, accessToken, refreshToken, profile, done) => {
