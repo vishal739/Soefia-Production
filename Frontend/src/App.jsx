@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Navbar from './features/Navbar/Navbar'
-import Home from './features/Home/Home'
 import { createRoot } from "react-dom/client";
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,17 +11,30 @@ import {
   Link,
 } from "react-router-dom";
 
-import Classes from './features/classes/Classes'
-import NoteBook from './features/notebook/NoteBook'
-import Student from './features/student/Student'
-import Lesson from './features/lesson/Lesson'
-import Group from './features/groups/Group'
 import Hero from './pages/Hero/Hero'
 import Login from './features/auth/components/login/Login'
-import Classlist from './features/classList/Classlist'
-import PageNotFound from './pages/PageNotFound'
-import LiveLesson from './features/livelesson/LiveLesson'
 import Signup from './features/auth/components/signup/Signup'
+import PageNotFound from './pages/PageNotFound'
+
+// import TeacherNavbar from './features/teacher/Navbar/Navbar'
+import TeacherHome from './features/teacher/Home/Home'
+import TeacherClasses from './features/teacher/classes/Classes'
+import TeacherNoteBook from './features/teacher/notebook/NoteBook'
+import TeacherStudent from './features/teacher/student/Student'
+import TeacherLesson from './features/teacher/lesson/Lesson'
+import TeacherGroup from './features/teacher/groups/Group'
+import TeacherLiveLesson from './features/teacher/livelesson/LiveLesson'
+
+// import StudentNavbar from './features/student/Navbar/Navbar'
+import StudentHome from './features/student/Home/Home'
+import StudentLiveExercise from './features/student/Home/Home'
+import StudentNotebook from './features/student/Notebook/Notebook'
+
+// import AdminNavbar from './features/admin/Navbar/Navbar'
+import AdminHome from './features/admin/Home/Home'
+import AdminDashboard from './features/admin/Dashboard/Dashboard'
+import AdminChartViewer from './features/admin/ChartViewer/ChartViewer'
+
 import { useDispatch } from 'react-redux'
 import { fetchUserAsync } from './features/auth/authSlice'
 function App() {
@@ -31,12 +43,6 @@ function App() {
       path: "/",
       element: (
         <Hero/>
-      ),
-    },
-    {
-      path: "/teacher",
-      element: (
-        <Home/>
       ),
     },
     {
@@ -52,53 +58,59 @@ function App() {
       )
     },
     {
-      path: "/class",
-      element:(<Classes/>),
+      path: "/teacher",
+      element: (
+        <TeacherHome/>
+      ),
     },
     {
-      path: "/notebook",
-      element:( <NoteBook/>),
+      path: "/teacher/class",
+      element:(<TeacherClasses/>),
     },
     {
-      path: "/students",
-      element:( <Student/>),
+      path: "/teacher/notebook",
+      element:( <TeacherNoteBook/>),
     },
     {
-      path: "/lesson",
-      element:( <Lesson/>),
+      path: "/teacher/students",
+      element:( <TeacherStudent/>),
     },
     {
-      path: "/groups",
-      element: (<Group/>),
+      path: "/teacher/lesson",
+      element:( <TeacherLesson/>),
     },
     {
-      path: "/livelesson",
-      element: (<LiveLesson/>),
+      path: "/teacher/groups",
+      element: (<TeacherGroup/>),
     },
-    // {
-    //   path: "/productdetail/:id",
-    //   element: (<ProductDetailPage />),
-    // },
-    // {
-    //   path: "/ordersuccess/:id",
-    //   element: (<OrderSuccessPage />),
-    // },
-    // {
-    //   path: "/orders",
-    //   element: (<Protected><UserOrdersPage /></Protected>),
-    // },
-    // {
-    //   path: "/profile",
-    //   element: (<Protected><ProfilePage></ProfilePage></Protected>),
-    // },
-    // {
-    //   path: "/admin",
-    //   element: (<AdminProtected><AdminHome/></AdminProtected>),
-    // },
-    // {
-    //   path: "/admin/productdetail/:id",
-    //   element: (<AdminProtected><AdminProdDetailPage/></AdminProtected>),
-    // },
+    {
+      path: "/teacher/livelesson",
+      element: (<TeacherLiveLesson/>),
+    },
+    {
+      path: "/student",
+      element: (<StudentHome/>),
+    },
+    {
+      path: "/student/live",
+      element: (<StudentLiveExercise />),
+    },
+    {
+      path: "/student/notebook",
+      element: (<StudentNotebook/>),
+    },
+    {
+      path: "/admin",
+      element: (<AdminHome/>),
+    },
+    {
+      path: "/admin/dashboard",
+      element: (<AdminDashboard/>),
+    },
+    {
+      path: "/admin/chartviewer",
+      element: (<AdminChartViewer/>),
+    },
     // {
     //   path: "/admin/productdetail/:id",
     //   element: (<AdminProtected>
