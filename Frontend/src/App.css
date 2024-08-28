@@ -3,10 +3,12 @@
   padding: 0;
   /* text-align: center; */
   /* background-color: aliceblue; */
-  color: black;
+  color: black !important;
   box-sizing: border-box;
 }
-
+textarea{
+  color: black;
+}
 /* .logo {
   height: 6em;
   padding: 1.5em;
