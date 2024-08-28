@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import "./Home.scss";
-import userimg from "../../../assets/userProfile.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAsync, selectCheckUser } from "../../auth/authSlice";
 import { useEffect } from "react";

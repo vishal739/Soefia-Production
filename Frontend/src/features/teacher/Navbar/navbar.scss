@@ -147,6 +147,9 @@
   transition: color 0.3s ease-in-out;
 }
 
+.navLogo :hover{
+  color: #f39c12;
+}
 .navBar li a:hover {
   color: #f39c12;
 }
@@ -164,56 +167,191 @@
 }
 
 
-@media screen and (max-width: 600px) {
-  .header {
-    width: 100%;
-    border-radius: 0px;
-  }
-  .navBar {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
-    position: absolute;
-    left: -110%;
-    top: 0;
-    z-index: 3;
-    transition: 0.3s;
-  }
+// @media screen and (max-width: 600px) {
+//   .header {
+//     width: 100%;
+//     border-radius: 0px;
+//   }
+//   .navBar {
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     width: 100%;
+//     height: 100vh;
+//     background-color: rgba(0, 0, 0, 0.8);
+//     position: absolute;
+//     left: -110%;
+//     top: 0;
+//     z-index: 3;
+//     transition: 0.3s;
+//   }
 
-  .navBar.active {
-    left: 0;
-  }
+//   .navBar.active {
+//     left: 0;
+//   }
 
-  .navBar li {
-    padding: 1rem 0;
-  }
+//   .navBar li {
+//     padding: 1rem 0;
+//   }
 
-  .navBar li a {
-    font-size: 2.2rem;
-  }
+//   .navBar li a {
+//     font-size: 2.2rem;
+//   }
 
-  .hamburger {
-    position: relative;
-    right: 15%;
-    display: initial;
-    z-index: 4;
-    color: #ffffff;
-    font-size: 1.8rem;
-  }
-.navUser{
-  border: none;
-  width: auto;
-  height: auto;
-  padding-right: 68px;
-}
-  .navLeft {
-    flex-direction: column !important;
-  }
-  .navRight {
-    flex-direction: column-reverse !important;
+//   .hamburger {
+//     position: relative;
+//     right: 15%;
+//     display: initial;
+//     z-index: 4;
+//     color: #ffffff;
+//     font-size: 1.8rem;
+//   }
+// .navUser{
+//   border: none;
+//   width: auto;
+//   height: auto;
+//   padding-right: 68px;
+// }
+//   .navLeft {
+//     flex-direction: column !important;
+//   }
+//   .navRight {
+//     flex-direction: column-reverse !important;
     
+//   }
+// }
+.fa-icon {
+  font-size: 22px;
+  transition: font-size 0.3s ease; 
+}
+
+
+
+@media (max-width: 400px) {
+  .fa-icon {
+    font-size: 14px; 
+  }
+}
+@media screen and (max-width: 800px) {
+  .navLogo {
+    margin: 0 0.5rem;
+    width: max-content;
+    a {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-decoration: none;
+    }
+  }
+  .input-container {
+    width: 80%;
+    margin-left: 1rem; 
+  }
+  .search {
+    font-size: 1em; 
+    left: 10px; 
+  }
+
+  input {
+    max-width: 100%; 
+    padding: 4px 5px 4px 25px; 
+    font-size: 0.9em; 
+  }
+  .fa-icon {
+    font-size: 18px; 
+  }
+  .user-pic{
+    margin-right: 50%;
+  }
+}
+
+.user-pic{
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  // margin-left: 30px;
+}
+.sub-menu-wrap-off{
+  display: none;
+}
+.sub-menu-wrap {
+  position: absolute;
+  top: 100%;
+  right: 2%;
+  width: 280px;
+}
+
+.sub-menu {
+  background: #f8f9fa;  // Light Gray
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  h3 {
+    font-weight: 500;
+    color: #343a40;  // Dark Gray
+  }
+  img {
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  background: #ccc;
+  margin: 10px 0 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+
+.sub-menu-link {
+  color: #343a40;  // Dark Gray
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 12px 0;
+
+  p {
+    width: 100%;
+  }
+
+  img {
+    width: 40px;
+    background: #fff6f6;  // Medium Gray
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+
+  span {
+    font-size: 22px;
+    transition: transform 0.5s;
+    color: #007bff;  // Soft Blue
+  }
+}
+
+.sub-menu-link:hover {
+  span {
+    transform: translate(5px);
+  }
+  
+  p {
+    font-weight: 600;
+    color: #495057;  // Slightly Darker Gray on hover
   }
 }
