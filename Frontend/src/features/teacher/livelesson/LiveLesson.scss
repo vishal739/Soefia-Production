@@ -1,33 +1,158 @@
-.live-lession-container{
-    width: 100vw;
-    position: absolute;
-    top: 10%
-}
-.live-heading{
-    text-align: center;
-}
-.chart-container{
+.live-lession-container {
+    margin: 1.5%;
+    width: 95vw;
+    background-color: white;
+  }
+  .live-lession-main {
+    background-color: white;
+    margin: 6em 0.5em;
     width: 100%;
+  }
+  .live-lession-buttons {
     display: flex;
+    justify-content: end;
+    gap: 2.5em;
+    margin-bottom: 10px;
+    position: fixed;
+    z-index: 5;
+    width: 95%;
+    .live-less-button {
+      color: rgb(28, 26, 145);
+      background-color: white;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      height: 4em;
+      width: 8em;
+      border: 2px solid rgb(101 99 209);
+      border-radius: 10px;
+      box-shadow: 0px 5px 2px 0px #e1dcdc;
+      transition: 0.3s ease;
+    }
+  }
+  
+  .chart-container {
+    width: 100%;
+    display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-}
-.chart-box{
-    position: relative;
-    top: 10%;
+    margin-top: 5em;
+  }
+  .chart-box {
     width: 45%;
-    border: 2px solid rgb(67, 142, 255);
+    border: 2px solid rgb(53 99 169);
     margin: 5px 5px;
-}
-.barchart{
+    border-radius: 12px;
+    .group-name {
+      font-size: 2.5em;
+      font-weight: 500;
+      margin: 3px 0 5px 15px;
+    }
+    .working-name {
+      margin: 0 0 6px 27px;
+    }
+    .problem-no {
+      color: #3b5998;
+      font-size: 2.8em;
+      font-weight: 800;
+    }
+    .sentiment {
+      width: 50%;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-direction: column;
+      .senti-data {
+        display: flex;
+        width: 100%;
+      }
+      .senti-data-item {
+        width: 50%;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        span {
+          font-weight: bold;
+          color: blue;
+        }
+      }
+      .bar-container {
+        width: 50%;
+        height: 9rem;
+        display: flex;
+        flex-direction: column-reverse;
+        background-color: #f7f7f2;
+        border: 1px solid #3b5998;
+        span {
+          background-image: linear-gradient(to top, #1e51e3, white);
+        }
+      }
+    }
+    .progress {
+      width: 50%;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-direction: column;
+      .progress-data {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+      }
+      .progress-data-item {
+        width: 50%;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        span {
+          font-weight: bold;
+          color: blue;
+        }
+      }
+      .bar-container {
+        width: 50%;
+        height: 9rem;
+        display: flex;
+        flex-direction: column-reverse;
+        background-color: #f7f7f2;
+        border: 1px solid rgb(184, 182, 182);
+        border-radius: 10px;
+        span {
+          background: rgb(184, 182, 182);
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+  .barchart {
     width: 100%;
     display: flex;
     flex-direction: row;
-
-    .progress-bar{
-        width: 50%;
-        text-align: center;
+    margin: 8px 2px 18px;
+  
+    .progress-bar {
+      width: 50%;
+      text-align: center;
     }
-}
+  }
+  
+  @media screen and (max-width: 700px) {
+    .chart-container {
+      flex-direction: column;
+    }
+    .chart-box {
+      width: 85%;
+    }
+  }
+  @media (min-width: 701px) and (max-width: 780px) {
+    .chart-box {
+      .problem-no {
+        font-size: 2.2em;
+      }
+    }
+  }
+  

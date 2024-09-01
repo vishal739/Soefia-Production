@@ -14,10 +14,8 @@ const teacherSchema = new Schema({
       lessonTopic: { type: String },
       lessonDetails: { type: String },
     }],
-    school: { type: Schema.Types.ObjectId, ref: 'School' },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
-  });
+    school: { type: Schema.Types.ObjectId, ref: 'School' }
+  },{ timestamps: true });
   
   const Teacher = mongoose.model('Teacher', teacherSchema);
   

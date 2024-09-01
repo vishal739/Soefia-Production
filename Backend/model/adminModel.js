@@ -7,10 +7,8 @@ const adminSchema = new Schema({
   profileBio: { type: String },
   role: { type: String, default: 'Admin' },
   permissions: [{ type: String }],
-  school: { type: Schema.Types.ObjectId, ref: 'School' },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
+  school: { type: Schema.Types.ObjectId, ref: 'School' }
+},{ timestamps: true });
 
 const Admin = mongoose.model('Admin', adminSchema);
 module.exports = Admin;
