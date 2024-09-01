@@ -11,10 +11,8 @@ const studentSchema = new Schema({
     grade: { type: String },
     performance: { type: String },
   }],
-  school: { type: Schema.Types.ObjectId, ref: 'School' },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
+  school: { type: Schema.Types.ObjectId, ref: 'School' }
+},{ timestamps: true });
 
 const Student = mongoose.model('Student', studentSchema);
 module.exports = Student;

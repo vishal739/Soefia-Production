@@ -1,54 +1,52 @@
-export function getGroupData() {
-    const groupsData = {
-        "Group 1": {
-            students: [
-                { studentId: "Student 1", progressData: { Academic: 70, Social: 65 }, sentimentData: { Positive: 60, Negative: 40 } },
-                { studentId: "Student 2", progressData: { Academic: 80, Social: 75 }, sentimentData: { Positive: 70, Negative: 30 } },
-                { studentId: "Student 3", progressData: { Academic: 65, Social: 60 }, sentimentData: { Positive: 55, Negative: 45 } },
-                { studentId: "Student 4", progressData: { Academic: 90, Social: 85 }, sentimentData: { Positive: 80, Negative: 20 } },
-            ]
-        },
-        "Group 2": {
-            students: [
-                { studentId: "Student 1", progressData: { Academic: 70, Social: 65 }, sentimentData: { Positive: 60, Negative: 40 } },
-                { studentId: "Student 2", progressData: { Academic: 80, Social: 75 }, sentimentData: { Positive: 70, Negative: 30 } },
-                { studentId: "Student 3", progressData: { Academic: 65, Social: 60 }, sentimentData: { Positive: 55, Negative: 45 } },
-                { studentId: "Student 4", progressData: { Academic: 90, Social: 85 }, sentimentData: { Positive: 80, Negative: 20 } },
-            ]
-        },
-        "Group 3": {
-            students: [
-                { studentId: "Student 1", progressData: { Academic: 70, Social: 65 }, sentimentData: { Positive: 60, Negative: 40 } },
-                { studentId: "Student 2", progressData: { Academic: 80, Social: 75 }, sentimentData: { Positive: 70, Negative: 30 } },
-                { studentId: "Student 3", progressData: { Academic: 65, Social: 60 }, sentimentData: { Positive: 55, Negative: 45 } },
-                { studentId: "Student 4", progressData: { Academic: 90, Social: 85 }, sentimentData: { Positive: 80, Negative: 20 } },
-            ]
-        },
-        "Group 4": {
-            students: [
-                { studentId: "Student 1", progressData: { Academic: 70, Social: 65 }, sentimentData: { Positive: 60, Negative: 40 } },
-                { studentId: "Student 2", progressData: { Academic: 80, Social: 75 }, sentimentData: { Positive: 70, Negative: 30 } },
-                { studentId: "Student 3", progressData: { Academic: 65, Social: 60 }, sentimentData: { Positive: 55, Negative: 45 } },
-                { studentId: "Student 4", progressData: { Academic: 90, Social: 85 }, sentimentData: { Positive: 80, Negative: 20 } },
-            ]
-        },
-        "Group 5": {
-            students: [
-                { studentId: "Student 1", progressData: { Academic: 70, Social: 65 }, sentimentData: { Positive: 60, Negative: 40 } },
-                { studentId: "Student 2", progressData: { Academic: 80, Social: 75 }, sentimentData: { Positive: 70, Negative: 30 } },
-                { studentId: "Student 3", progressData: { Academic: 65, Social: 60 }, sentimentData: { Positive: 55, Negative: 45 } },
-                { studentId: "Student 4", progressData: { Academic: 90, Social: 85 }, sentimentData: { Positive: 80, Negative: 20 } },
-            ]
-        },
-        "Group 6": {
-            students: [
-                { studentId: "Student 1", progressData: { Academic: 70, Social: 65 }, sentimentData: { Positive: 60, Negative: 40 } },
-                { studentId: "Student 2", progressData: { Academic: 80, Social: 75 }, sentimentData: { Positive: 70, Negative: 30 } },
-                { studentId: "Student 3", progressData: { Academic: 65, Social: 60 }, sentimentData: { Positive: 55, Negative: 45 } },
-                { studentId: "Student 4", progressData: { Academic: 90, Social: 85 }, sentimentData: { Positive: 80, Negative: 20 } },
-            ]
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateRandomData() {
+    const groupsData = {};
+
+    const numberOfGroups = 6; 
+    const numberOfStudents = 4; 
+
+    for (let i = 1; i <= numberOfGroups; i++) {
+        const groupName = `Group ${i}`;
+        groupsData[groupName] = {
+            students: []
+        };
+
+        for (let j = 1; j <= numberOfStudents; j++) {
+            const studentId = `Student ${j}`;
+            
+            const academicScore = getRandomInt(50, 100);
+            const socialScore = 100 - academicScore;
+
+            const progressData = {
+                Academic: academicScore,
+                Social: socialScore
+            };
+            
+            // Generate Positive and Negative sentiment data that sum to 100
+            const positiveSentiment = getRandomInt(50, 100);
+            const negativeSentiment = 100 - positiveSentiment;
+
+            const sentimentData = {
+                Positive: positiveSentiment,
+                Negative: negativeSentiment
+            };
+
+            groupsData[groupName].students.push({
+                studentId,
+                progressData,
+                sentimentData
+            });
         }
-    };
+    }
+
+    return groupsData;
+}
+
+export function getGroupData() {
+    const groupsData = generateRandomData()
 
     // Calculating averages
     return Object.entries(groupsData).map(([groupName, groupInfo]) => {
