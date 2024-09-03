@@ -37,7 +37,7 @@ const Login = () => {
 
   const handleGoogleAuth = () => {
     console.log("google authentication")
-    window.open(`api/auth/google/`,"_self")
+    window.open(`${import.meta.env.VITE_REACT_APP_SERVER_URL}/api/auth/google/`,"_self")
   }
   return (
     <div className="login-container">
