@@ -25,7 +25,6 @@ function generateRandomData() {
                 Social: socialScore
             };
             
-            // Generate Positive and Negative sentiment data that sum to 100
             const positiveSentiment = getRandomInt(50, 100);
             const negativeSentiment = 100 - positiveSentiment;
 
@@ -48,7 +47,6 @@ function generateRandomData() {
 export function getGroupData() {
     const groupsData = generateRandomData()
 
-    // Calculating averages
     return Object.entries(groupsData).map(([groupName, groupInfo]) => {
         let academicTotal = 0, socialTotal = 0, positiveTotal = 0, negativeTotal = 0;
 

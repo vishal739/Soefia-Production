@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
     console.log(req.user);
     res.send(`user: ${req.user? req.user.email : 'guest'} | View count: ${req.session.viewCount} | Soefia API connected successfully`);
 })
-app.use("/auth", authRoute);
+app.use("/api/auth", authRoute);
 
 
 app.listen(port, () => {
