@@ -6,7 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server:{
     proxy: {
-      '/api': "https://soefia-production.onrender.com"
+      '/api': {
+        target: 'https://soefia-production.onrender.com/api',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
     },
   }
 })
