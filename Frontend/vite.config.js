@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server:{
     proxy: {
-      '/api': `${import.meta.env.VITE_REACT_APP_SERVER_URL}`
+      '/api': "https://soefia-production.onrender.com"
     },
   }
 })
