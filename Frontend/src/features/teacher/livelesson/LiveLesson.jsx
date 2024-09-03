@@ -12,18 +12,10 @@ import {
 import "./LiveLesson.scss";
 
 import { getGroupData } from "./data";
-// import LiveLesson from "../livelesson/LiveLesson";
+
 
 const LiveLesson = () => {
-  // groups={}
-  // const progressData = [
-  //     { category: 'Academic', percentage: 48 },
-  //     { category: 'Social', percentage: 65 }
-  // ];
-  // const sentimentData = [
-  //     { category: 'Positive', percentage: 50 },
-  //     { category: 'Negative', percentage: 25 }
-  // ];
+
   const groups = getGroupData();
   console.log(groups);
   return (
