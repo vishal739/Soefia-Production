@@ -21,19 +21,15 @@ import { fetchUserAsync, selectCheckUser, signOutAsync } from "../../auth/authSl
 const Navbar = () => {
   const dispatch= useDispatch()
   const navigate = useNavigate();
-  const isLoggedIn = useSelector(selectCheckUser);
-  const id = isLoggedIn?.id ?? 1;
   const [dropdown, setDropdown] = useState(false);
   const [navClick, setNavClick] = useState(true);
-  const userCheck= useSelector(selectCheckUser);
+  const isLoggedIn= useSelector(selectCheckUser);
   const handleClick = () => {
     setNavClick(!navClick);
   };
   const handleLogout = () =>{
     dispatch(signOutAsync())
-    if(!userCheck){
-      navigate('/login')
-    }
+    navigate('/login')
   }
   const handleLink = () => {
     if (!navClick) {
@@ -91,13 +87,13 @@ const Navbar = () => {
         <nav className="sub-menu">
           <div className="user-info">
             <img src={userimg} alt="" />
-            <h3>John Dey</h3>
+            <h3>{isLoggedIn? isLoggedIn.name : "Guest"}</h3>
           </div>
           <hr></hr>
           <ul>
             <li>
               <Link href="#" className="sub-menu-link">
-                <img src={profileIcon}></img>
+                <img src={isLoggedIn? isLoggedIn.image : profileIcon}></img>
                 <p>Edit Profile</p>
                 <span>{">"}</span>
               </Link>
