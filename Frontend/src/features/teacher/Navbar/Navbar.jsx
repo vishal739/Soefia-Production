@@ -41,8 +41,9 @@ const Navbar = () => {
     dispatch(fetchUserAsync());
   },[dispatch])
   return (
-    // <nav className="navbar-container">
+   
     <header className="header">
+       {console.log(isLoggedIn)}
       <div className="navLogo">
         <Link to={`/teacher`}>Soefia</Link>
       </div>
