@@ -9,10 +9,10 @@ module.exports = session({
    secret: "secret$123",
    saveUninitialized: false,
    resave: false,
-   name: "_sessionId",
+   name: "_soefiaId",
    cookie: {
       secure: isProduction, 
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 1000 * 60 * 60 * 24, 
       sameSite: isProduction ? "none" : "lax", 
    },
