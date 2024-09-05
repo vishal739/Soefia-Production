@@ -32,12 +32,11 @@ passport.use(new GoogleStrategy({
     try {
       let user = await User.findOne({ googleId: profile.id });
       if (user) return done(null, user);
-
+      console.log(profile)
       user = new User({
         googleId: profile.id,
         name: profile.displayName,
-        email: profile.emails[0].value,
-        image: profile._json.picture
+        email: profile.emails[0].value
       });
 
       await user.save();
