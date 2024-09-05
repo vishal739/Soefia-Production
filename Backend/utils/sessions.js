@@ -1,8 +1,8 @@
 const session = require("express-session");
-const RedisStore = require("connect-redis").default
+const RedisStore = require("connect-redis").default;
 const redisClient = require("../db/redis");
 
-
+const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = session({
    store: new RedisStore({ client: redisClient }),
@@ -11,9 +11,9 @@ module.exports = session({
    resave: false,
    name: "_sessionId",
    cookie: {
-      secure: false,
+      secure: isProduction, 
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24,
-      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24, 
+      sameSite: isProduction ? "none" : "lax", 
    },
 });

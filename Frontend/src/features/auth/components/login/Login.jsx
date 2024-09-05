@@ -13,7 +13,7 @@ const Login = () => {
   const isLoggedIn = useSelector(selectCheckUser);
   const checkError = useSelector(selectError);
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   useEffect(() => {
     console.log('isLoggedIn:', isLoggedIn);
@@ -24,7 +24,10 @@ const Login = () => {
       // const id = isLoggedIn.id;
       navigate(`/teacher`);
     } else if (checkError) {
-      alert(checkError.message);
+      if(!checkError.auth){
+        alert(checkError.message);
+      }
+      
     }
   }, [isLoggedIn, checkError, navigate]);
 
