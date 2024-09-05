@@ -35,8 +35,6 @@ import AdminHome from './features/admin/Home/Home'
 import AdminDashboard from './features/admin/Dashboard/Dashboard'
 import AdminChartViewer from './features/admin/ChartViewer/ChartViewer'
 
-import { useDispatch } from 'react-redux'
-import { fetchUserAsync } from './features/auth/authSlice'
 function App() {
   const router = createBrowserRouter([
     {
@@ -122,11 +120,7 @@ function App() {
       element: (<PageNotFound/>),
     },
   ]);
-  const dispatch= useDispatch();
-    useEffect(()=>{
-      console.log("dispatching fetch user");
-      dispatch(fetchUserAsync());
-    },[dispatch])
+  
   return (
     
     <>

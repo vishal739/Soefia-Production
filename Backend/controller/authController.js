@@ -66,8 +66,12 @@ const logout = async (req, res) => {
         if (err) {
             return res.status(500).json({ status: false, message: 'Logout failed' });
         }
-        req.session.destroy();
-        res.status(200).json({ status: true, message: 'Logout successful' });
+        req.session.destroy((sessionErr) => {
+            if (sessionErr) {
+                return res.status(500).json({ status: false, message: 'Session destruction failed' });
+            }
+            res.status(200).json({ status: true, message: 'Logout successful' });
+        });
     });
 }
 
@@ -75,13 +79,13 @@ const checkUser = (req, res) => {
     console.log(req.user)
     try {
         if (req.user) {
-            res.status(200).json({status: true, message: "user Login", user: req.user })
+            res.status(200).json({auth: true, status: true, message: "user Login", user: req.user })
         } else {
-            res.status(401).json({status: false, message: "Not Authorized"})
+            res.status(401).json({auth: true, status: false, message: "Not Authorized"})
         }
     } catch (error) {
         console.log(error)
-        res.status(409).json({status: false, message: "Unable to checkuser" })
+        res.status(409).json({auth: false, status: false, message: "Unable to checkuser" })
     }
 }
 

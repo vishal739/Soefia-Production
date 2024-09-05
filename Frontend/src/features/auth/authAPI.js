@@ -51,9 +51,19 @@ export function fetchUser() {
   });
 }
 
-export function signOut(userId) {
-  return new Promise(async (resolve) => {
+export function signOut() {
+  return new Promise(async (resolve,reject) => {
     // TODO: on server we will remove user session info
-    resolve({ data: 'success' });
+    const response = await fetch(`${SERVER_URL}/api/auth/logout`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const result = await response.json();
+    console.log("singout", result);
+    if (result.status) {
+      resolve(result.user);
+    } else {
+      reject(result.message);
+    }
   });
 }

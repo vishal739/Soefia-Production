@@ -1,7 +1,7 @@
 import "./navbar.scss";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import userimg from "../../../assets/userProfile.png";
 import profileIcon from "../../../assets/profile.png";
@@ -15,23 +15,35 @@ import {
   faMagnifyingGlass,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
-import { selectCheckUser } from "../../auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserAsync, selectCheckUser, signOutAsync } from "../../auth/authSlice";
 
 const Navbar = () => {
+  const dispatch= useDispatch()
+  const navigate = useNavigate();
   const isLoggedIn = useSelector(selectCheckUser);
   const id = isLoggedIn?.id ?? 1;
   const [dropdown, setDropdown] = useState(false);
   const [navClick, setNavClick] = useState(true);
+  const userCheck= useSelector(selectCheckUser);
   const handleClick = () => {
     setNavClick(!navClick);
   };
-
+  const handleLogout = () =>{
+    dispatch(signOutAsync())
+    if(!userCheck){
+      navigate('/login')
+    }
+  }
   const handleLink = () => {
     if (!navClick) {
       handleClick();
     }
   };
+  useEffect(()=>{
+    console.log("dispatching fetch user");
+    dispatch(fetchUserAsync());
+  },[dispatch])
   return (
     // <nav className="navbar-container">
     <header className="header">
@@ -109,11 +121,11 @@ const Navbar = () => {
               <hr></hr>
             </li>
             <li>
-              <Link href="#" className="sub-menu-link">
+              <div onClick={handleLogout} className="sub-menu-link">
                 <img src={logoutIcon}></img>
                 <p>Logout</p>
                 <span>{">"}</span>
-              </Link>
+              </div>
 
             </li>
           </ul>

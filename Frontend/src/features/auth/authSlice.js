@@ -42,8 +42,9 @@ export const fetchUserAsync = createAsyncThunk(
 
 export const signOutAsync = createAsyncThunk(
   "auth/signOut",
-  async(data) =>{
-    const response=signOut();
+  async() =>{
+    console.log("logout in progress: ")
+    const response= await signOut();
     return response;
   }
 )
