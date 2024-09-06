@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import "./Home.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserAsync, selectCheckUser } from "../../auth/authSlice";
+import { fetchUserAsync, selectCheckUser, selectUserStatus } from "../../auth/authSlice";
 import { useEffect } from "react";
+import Loader from "../../../pages/Loader/Loader";
+
 const lessons = [
   {
     id: 1,
@@ -43,62 +45,70 @@ const lessons = [
 ];
 
 const Home = () => {
-  const dispatch= useDispatch();
-  const isLoggedIn= useSelector(selectCheckUser);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectCheckUser);
+  const isLoading = useSelector(selectUserStatus); 
 
-  useEffect(()=>{
-    console.log("dispatching fetch user");
-    dispatch(fetchUserAsync());
-  },[dispatch])
+  useEffect(() => {
+    if (!isLoggedIn) {
+      dispatch(fetchUserAsync());
+    }
+  }, [dispatch, isLoggedIn]);
+
   return (
-    <div className="teacher-home">
-      <Navbar />
-      {console.log(isLoggedIn)}
-      <div className="main">
-        <h2>{isLoggedIn && isLoggedIn.email}</h2>
-        <div className="part1">
-          <button>My Delta Preference</button>
-          <section className="teacher-cards">
-            <Link to="/teacher/class" className="teacher-card">
-              Classes
-            </Link>
-            <Link to="/teacher/students" className="teacher-card">
-              Students
-            </Link>
-            <Link to="/teacher/notebook" className="teacher-card">
-              Notebooks
-            </Link>
-          </section>
+    <>
+        <div className="teacher-home">
+          <Navbar />
+          {console.log(isLoggedIn)}
+          <div className="main">
+            <h2>{isLoggedIn && isLoggedIn.email}</h2>
+            <div className="part1">
+              <button>My Delta Preference</button>
+              <section className="teacher-cards">
+                <Link to="/teacher/class" className="teacher-card">
+                  Classes
+                </Link>
+                <Link to="/teacher/students" className="teacher-card">
+                  Students
+                </Link>
+                <Link to="/teacher/notebook" className="teacher-card">
+                  Notebooks
+                </Link>
+              </section>
+            </div>
+            <div className="part2">
+              <h3 className="teacher-lesson">Lessons</h3>
+              <table className="lesson-table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Class and Sections</th>
+                    <th>Date</th>
+                    <th>Lesson Topic</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {lessons.map((lesson) => (
+                    <tr key={lesson.id}>
+                      {lesson.status === "Ready to Launch" ? (
+                        <td>
+                          <button>Ready to Launch</button>
+                        </td>
+                      ) : (
+                        <td>{lesson.status}</td>
+                      )}
+                      <td>{lesson.classSection}</td>
+                      <td>{lesson.date}</td>
+                      <td>{lesson.topic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div className="part2">
-          <h3 className="teacher-lesson">Lessons</h3>
-          <table className="lesson-table">
-            <thead>
-              <th>Status</th>
-              <th>Class and Sections</th>
-              <th>Date</th>
-              <th>Lesson Topic</th>
-            </thead>
-            <tbody>
-              {lessons.map((lesson) => (
-                <tr key={lesson.id}>
-                  {lesson.status == "Ready to Launch" ? (
-                    <td>
-                      <button>Ready to Launch</button>
-                    </td>
-                  ) : (
-                    <td>{lesson.status}</td>
-                  )}
-                  <td>{lesson.classSection}</td>
-                  <td>{lesson.date}</td>
-                  <td>{lesson.topic}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+      
+    </>
   );
 };
 

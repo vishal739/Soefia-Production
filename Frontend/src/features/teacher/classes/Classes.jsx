@@ -70,6 +70,9 @@ const Classes = () => {
             
           </div> */}
                     <div className="right-pane">
+                        <Link to="/teacher/groups" className="right-link"> <button className="card">
+                            Groups
+                        </button></Link>
                         <Link to="/teacher/lesson" className="right-link"> <button className="card">
                             Create Lesson
                         </button></Link>

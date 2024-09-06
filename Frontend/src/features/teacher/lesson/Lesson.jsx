@@ -201,6 +201,9 @@ const Lesson = () => {
           </div>
           <div className="right-pane">
             <button className="card">
+              <Link to="/teacher/livelesson">Live Lesson</Link>
+            </button>
+            <button className="card">
               <Link to="/teacher/lesson">Preview Lesson</Link>
             </button>
             <div className="excercise-options">
