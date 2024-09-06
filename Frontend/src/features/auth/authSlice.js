@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createUser,loginVerify, fetchUser, signOut } from "./authAPI";
 
 const initialState = {
-  value: 0,
-  status: "idle",
+  loading: false,
   loggedIn: null,
   error:null
 };
@@ -54,49 +53,49 @@ export const authSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
+    // increment: (state) => {
+    //   // state.value += 1;
+    // },
    
   },
    extraReducers: (builder) => {
     builder
       .addCase(createUserAsync.pending, (state) => {
-        state.status = "loading";
+        state.loading= true;
       })
       .addCase(createUserAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.loading= false;
         state.loggedIn = action.payload;
       })
       .addCase(loginVerifyAsync.pending, (state) => {
-        state.status = "loading";
+        state.loading= true;
       })
       .addCase(loginVerifyAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.loading= false;
         state.loggedIn = action.payload;
         // console.log(state.loggedIn);
       })
       .addCase(loginVerifyAsync.rejected, (state, action) => {
-        state.status = "idle";
+        state.loading= false;
         state.error = action.error;
       })
       .addCase(fetchUserAsync.pending, (state) => {
-        state.status = "loading";
+        state.loading= true;
       })
       .addCase(fetchUserAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.loading= false;
         state.loggedIn = action.payload;
         // console.log(state.loggedIn);
       })
       .addCase(fetchUserAsync.rejected, (state, action) => {
-        state.status = "idle";
+        state.loading= false;
         state.error = action.error;
       })
       .addCase(signOutAsync.pending, (state) => {
-        state.status = "loading";
+        state.loading= true;
       })
       .addCase(signOutAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.loading= false;
         state.loggedIn = null;
         // console.log(state.loggedIn);
       })
@@ -108,5 +107,5 @@ export const { increment } = authSlice.actions;
 
 export const selectCheckUser = (state) => state.auth.loggedIn;
 export const selectError = (state) => state.auth.error;
-
+export const selectUserStatus = (state) => state.auth.loading;
 export default authSlice.reducer;

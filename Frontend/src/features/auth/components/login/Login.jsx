@@ -23,11 +23,6 @@ const Login = () => {
       // const role = isLoggedIn.role;
       // const id = isLoggedIn.id;
       navigate(`/teacher`);
-    } else if (checkError) {
-      if(!checkError.auth){
-        alert(checkError.message);
-      }
-      
     }
   }, [isLoggedIn, checkError, navigate]);
 

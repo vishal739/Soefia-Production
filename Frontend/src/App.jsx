@@ -34,60 +34,83 @@ import StudentNotebook from './features/student/Notebook/Notebook'
 import AdminHome from './features/admin/Home/Home'
 import AdminDashboard from './features/admin/Dashboard/Dashboard'
 import AdminChartViewer from './features/admin/ChartViewer/ChartViewer'
+import Protected from './features/auth/components/protected';
+import { useDispatch } from 'react-redux';
+import { fetchUserAsync } from './features/auth/authSlice';
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <Hero/>
+        <Hero />
       ),
     },
     {
       path: "/login",
       element: (
-        <Login/>
+        <Login />
       ),
     },
     {
       path: "/signup",
       element: (
-        <Signup/>
+        <Signup />
       )
     },
     {
       path: "/teacher",
       element: (
-        <TeacherHome/>
+        <Protected>
+          <TeacherHome />
+        </Protected>
       ),
     },
     {
       path: "/teacher/class",
-      element:(<TeacherClasses/>),
+      element: (
+        <Protected>
+          <TeacherClasses />
+        </Protected>)
     },
     {
       path: "/teacher/notebook",
-      element:( <TeacherNoteBook/>),
+      element: (
+        <Protected>
+          <TeacherNoteBook />
+        </Protected>
+      ),
     },
     {
       path: "/teacher/students",
-      element:( <TeacherStudent/>),
+      element: (
+        <Protected>
+          <TeacherStudent />
+        </Protected>
+      ),
+
     },
     {
       path: "/teacher/lesson",
-      element:( <TeacherLesson/>),
+      element: (
+        <Protected>
+          <TeacherLesson />
+        </Protected>
+      ),
     },
     {
       path: "/teacher/groups",
-      element: (<TeacherGroup/>),
+      element: (
+        <Protected><TeacherGroup />
+        </Protected>),
     },
     {
       path: "/teacher/livelesson",
-      element: (<TeacherLiveLesson/>),
+      element: (<Protected><TeacherLiveLesson /></Protected>),
     },
     {
       path: "/student",
-      element: (<StudentHome/>),
+      element: (<StudentHome />),
     },
     {
       path: "/student/live",
@@ -95,19 +118,19 @@ function App() {
     },
     {
       path: "/student/notebook",
-      element: (<StudentNotebook/>),
+      element: (<StudentNotebook />),
     },
     {
       path: "/admin",
-      element: (<AdminHome/>),
+      element: (<AdminHome />),
     },
     {
       path: "/admin/dashboard",
-      element: (<AdminDashboard/>),
+      element: (<AdminDashboard />),
     },
     {
       path: "/admin/chartviewer",
-      element: (<AdminChartViewer/>),
+      element: (<AdminChartViewer />),
     },
     // {
     //   path: "/admin/productdetail/:id",
@@ -117,12 +140,17 @@ function App() {
     // },
     {
       path: "*",
-      element: (<PageNotFound/>),
+      element: (<PageNotFound />),
     },
   ]);
-  
+  const dispatch = useDispatch()
+  useEffect(() => {
+    console.log("dispatching fetch user");
+    dispatch(fetchUserAsync());
+  }, [dispatch])
+
   return (
-    
+
     <>
       <RouterProvider router={router} />
       {/* <Navbar/> */}
