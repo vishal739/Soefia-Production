@@ -1,0 +1,140 @@
+* {
+    padding: 0;
+    margin: 0;
+  }
+  .st-home {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+  }
+  .st-home-main {
+    background-color: white;
+    margin: 7em 0.5em;
+    width: 100%;
+    .first-container {
+      display: flex;
+      //   width: 98%;
+      height: 10em;
+      margin: 0 3rem;
+      justify-content: space-between;
+      .st-leftpart {
+        display: flex;
+        flex-direction: column;
+        height: 8em;
+        row-gap: 3rem;
+        button {
+          background-color: white;
+          border: 2px solid rgb(28, 26, 145);
+          border-radius: 10px;
+          color: rgb(28, 26, 145);
+          font-weight: 700;
+          font-size: 1.3rem;
+          height: 3.5em;
+          width: 7.8em;
+        }
+        .class-select {
+          display: flex;
+          flex-direction: column;
+          max-width: fit-content;
+        }
+        label {
+          font-size: 15px;
+        }
+        select {
+          background-color: white;
+          cursor: all-scroll;
+          padding: 0.5em 2em;
+          border-width: 1px solid black;
+          border-radius: 5px;
+          color: black;
+        }
+      }
+      .student-info {
+        display: grid;
+        grid-template-areas:
+          "photo details"
+          "say say";
+        width: fit-content;
+        border: 2px solid rgb(28, 26, 145);
+        border-radius: 10px;
+        padding: 1.5rem;
+        .photo {
+          grid-area: photo;
+          display: flex;
+          align-items: center;
+        }
+        .details {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          align-items: center;
+          grid-area: details;
+          padding: 3px;
+        }
+        button {
+          background-color: white;
+          color: #3b5998;
+          display: flex;
+          align-items: center;
+          border: 1px solid #3b5998;
+          border-radius: 8px;
+          padding: 4px;
+          font-size: medium;
+          width: fit-content;
+          margin-top: 10px;
+          grid-area: say;
+        }
+      }
+    }
+    .second-container {
+      margin: 4rem 3rem 0 3rem;
+      display: grid;
+      grid-template-areas:
+        "one two three four"
+        "five six six six";
+      .st-input-container {
+        justify-self: end;
+        width: fit-content;
+        grid-area: four;
+        float: right;
+        input {
+          width: 10rem;
+        }
+      }
+      .st-table {
+        width: 80%;
+        grid-area: six;
+        justify-self: end;
+        border-collapse: collapse;
+        margin-top: 20px;
+        th,
+        td {
+          padding: 10px;
+          text-align: left;
+        }
+        th {
+          border: 2px solid #999595;
+          cursor: pointer;
+        }
+        td {
+          border: 1px solid #999595;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 720px) {
+    .first-container {
+      flex-direction: column;
+      height: fit-content;
+      justify-content: center;
+      align-items: center;
+      row-gap: 3rem;
+      .st-leftpart {
+        flex-direction: row;
+        height: fit-content;
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  }
+  

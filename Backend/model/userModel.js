@@ -1,28 +1,6 @@
 const mongoose= require('mongoose');
 const { Schema }= mongoose;
 
-const ProfileSchema = new mongoose.Schema({
-    firstName: {
-      type: String,
-      trim: true,
-    },
-    lastName: {
-      type: String,
-      trim: true,
-    },
-    age: {
-      type: Number,
-      min: 0,
-    },
-    role: {
-      type: String,
-      trim: true,
-    },
-    profilePicture: {
-      type: String, 
-    },
-  });
-
 const userSchema = new Schema ({
     email: {
         type: String,
@@ -38,11 +16,7 @@ const userSchema = new Schema ({
     password: {type: String, minLength: 6},
     token: {type: String},
     googleId: { type: String },
-    name: { type: String },
-    profile: {
-        type: ProfileSchema,
-        default: {}, 
-    },
+    name: { type: String }
 })
 
 

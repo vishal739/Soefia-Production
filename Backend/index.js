@@ -8,16 +8,21 @@ const session = require("./utils/sessions");
 require('./utils/auth')
 require('./db/mongoose')
 const authRoute = require("./routes/authRoute")
+const lessonRoute = require("./routes/lessonRoute")
+const adminRoute= require("./routes/adminRoute")
+// const studentRoute= require("./routes/studentRoute")
+// const teacherRoute= require("./routes/teacherRoute")
+
 const app = express();
 
 const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app'];
 app.use(cors({
   origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-      } else {
-          callback(new Error('Not allowed by CORS'));
-      }
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
   },
   methods: 'GET,POST,PUT,DELETE',
   credentials: true
@@ -36,11 +41,13 @@ app.use(express.json());
 const port = process.env.PORT || 8080;
 
 app.get("/", (req, res) => {
-    req.session.viewCount = (req.session.viewCount || 0) + 1;
-    console.log(req.user);
-    res.send(`user: ${req.user? req.user.email : 'guest'} | View count: ${req.session.viewCount} | Soefia API connected successfully`);
+  req.session.viewCount = (req.session.viewCount || 0) + 1;
+  console.log(req.user);
+  res.send(`user: ${req.user ? req.user.email : 'guest'} | View count: ${req.session.viewCount} | Soefia API connected successfully`);
 })
 app.use("/api/auth", authRoute);
+app.use("/api/lesson",lessonRoute);
+app.use("/api/admin",adminRoute);
 
 
 app.listen(port, () => {

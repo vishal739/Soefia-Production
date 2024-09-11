@@ -70,7 +70,7 @@
   }
 }
 
-.input-container {
+.input-cont {
   position: relative;
   margin-left: 7rem;
   width: 100%;
@@ -87,7 +87,7 @@
     max-width: 185px;
     background-color: #ffffff;
     padding: 4px 5px 4px 30px; /* Padding to avoid text overlaying the icon */
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
     transition: border-color 0.3s ease;

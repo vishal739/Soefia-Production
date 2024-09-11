@@ -9,14 +9,20 @@ const GroupSchema = new Schema({
 }, { _id: false });
 
 const LessonSchema = new Schema({
-    title: String,
+    title: {type: String, required: true},
     content: String,
-    date: Date,
-    materials: [String],
+    date: {type: Date, required: true},
+    lessonMaterials: [String],
+    lessonExercise: [String],
+    type: {type: String,required: true},
     learningGoals: String,
     lessonSummary: String,
-    status: { type: String, enum: ['Draft', 'Ready to Launch', 'Completed'] },
+    LessonStructureOverview: String,
+    SocialCollaborationGoal: String,
+    status: { type: String, enum: ['Draft', 'Ready to Launch', 'Completed'], require: true },
     groups: [GroupSchema],
+    classId: { type: Schema.Types.ObjectId, ref: 'Class', require: true },
+    teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher', require: true }
 }, { timestamps: true });
 
 const Lesson = mongoose.model('Lesson', LessonSchema);
