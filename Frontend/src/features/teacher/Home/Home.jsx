@@ -63,7 +63,7 @@ const Home = () => {
           <div className="main">
             <h2>{isLoggedIn && isLoggedIn.email}</h2>
             <div className="part1">
-              <button>My Delta Preference</button>
+              <Link to="/teacher/mydeita" className="link"><button>My Delta Preference</button></Link>
               <section className="teacher-cards">
                 <Link to="/teacher/class" className="teacher-card">
                   Classes
