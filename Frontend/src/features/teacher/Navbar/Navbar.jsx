@@ -72,7 +72,7 @@ const Navbar = () => {
             {/* <div className="search">
                                     <input type="text" placeholder="Search" />
                                 </div> */}
-            <div className="input-container">
+            <div className="input-cont">
               <FontAwesomeIcon icon={faMagnifyingGlass} className="search" />
               <input type="text" placeholder="Search..."></input>
             </div>
