@@ -37,6 +37,8 @@ import AdminChartViewer from './features/admin/ChartViewer/ChartViewer'
 import Protected from './features/auth/components/protected';
 import { useDispatch } from 'react-redux';
 import { fetchUserAsync } from './features/auth/authSlice';
+import Mydeita from './features/teacher/mydeita/Mydeita';
+
 
 function App() {
   const router = createBrowserRouter([
@@ -107,6 +109,10 @@ function App() {
     {
       path: "/teacher/livelesson",
       element: (<Protected><TeacherLiveLesson /></Protected>),
+    },
+    {
+      path: "/teacher/mydeita",
+      element: (<Protected><Mydeita/></Protected>),
     },
     {
       path: "/student",
