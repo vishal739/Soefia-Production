@@ -1,127 +1,128 @@
 .signup-container {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  justify-content: center;
-  padding: 24px;
-  background-color: #f9fafb; // Light gray background
+    display: flex;
+    min-height: 100vh;
+    width: 100vw;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px;
+    background-color: #f9fafb; 
 }
 
 .auth-wrapper {
-  margin: auto;
-  width: 100%;
-  max-width: 400px;
-  background-color: #ffffff; // White background for the auth card
-  border: 2px solid #d1d5db; // Gray-300 border
-  border-radius: 12px; // Rounded corners
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
-  padding: 32px;
+    margin: auto;
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff; 
+    border: 2px solid #d1d5db; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    padding: 32px;
 }
 
 .auth-inner {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .logo {
-  margin: auto;
-  height: 40px;
-  width: auto;
-  background-color: #3b5998;
-  color: #ffffff;
+    margin: auto;
+    height: 40px;
+    width: auto;
 }
 
 .title {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: #1f2937; // Gray-900
+    margin-top: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #1f2937; 
 }
 
 .sub-title {
-  margin-top: 10px;
-  text-align: center;
-  font-weight: bold;
-  color: #1f2937; // Gray-900
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #1f2937; 
 }
 
 .form-container {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .form-group {
-  margin-bottom: 24px;
-  input {
-      border: 2px solid #d1d5db; // Gray-300 border
-      border-radius: 8px;
-      padding: 10px;
-      &:focus {
-          border-color: #4f46e5; // Indigo-600 on focus
-          outline: none;
-      }
-  }
+    margin-bottom: 24px;
+    input {
+        border: 2px solid #d1d5db; 
+        border-radius: 8px;
+        padding: 10px;
+        &:focus {
+            border-color: #4f46e5; 
+            outline: none;
+        }
+    }
 }
 
 .form-label {
-  display: block;
-  font-size: 14px;
-  font-weight: medium;
-  color: #1f2937; // Gray-900
+    display: block;
+    font-size: 14px;
+    font-weight: medium;
+    color: #1f2937; 
 }
 
 .input-group {
-  margin-top: 8px;
+    margin-top: 8px;
 }
 
 .input-field {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #d1d5db; // Gray-300
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
-  border-radius: 8px;
-  color: #1f2937; // Gray-900
-  background: #f3f4f6; // Gray-100
-  &:focus {
-      outline: none;
-      border-color: #4f46e5; // Indigo-600
-      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
-  }
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #d1d5db; 
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+    border-radius: 8px;
+    color: #1f2937; 
+    background: #f3f4f6; 
+    &:focus {
+        outline: none;
+        border-color: #4f46e5; 
+        box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
+    }
 }
 
 .error-message {
-  color: #dc2626; // Red-500
+    color: #dc2626; 
 }
 
 .submit-group {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .submit-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #4f46e5; // Indigo-600
-  color: white;
-  font-size: 14px;
-  border-radius: 8px;
-  border: none;
-  &:hover {
-      background-color: #4338ca; // Indigo-500
-  }
+    width: 100%;
+    padding: 12px;
+    background-color: #4f46e5; 
+    color: white;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    &:hover {
+        background-color: #4338ca; 
+    }
 }
 
 .signin-redirect {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 14px;
-  color: #6b7280; // Gray-500
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #6b7280; 
 }
 
 .signin-link {
-  font-weight: bold;
-  color: #4f46e5; // Indigo-600
-  &:hover {
-      color: #4338ca; // Indigo-500
-  }
+    font-weight: bold;
+    color: #4f46e5; 
+    &:hover {
+        color: #4338ca; 
+    }
 }
+
+
