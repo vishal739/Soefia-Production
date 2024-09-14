@@ -21,7 +21,7 @@ const Signup = () => {
         if (isLoggedIn) {
             navigate(`/${isLoggedIn.role}`)
         } else if (checkError) {
-            alert(checkError.message);
+            console.log("signup error")
         }
     }, [isLoggedIn, checkError]);
 
@@ -35,13 +35,14 @@ const Signup = () => {
     };
    
     return (
-        <div className="container">
+        <div className="signup-container">
             <div className="auth-wrapper">
                 <div className="auth-inner">
                     <h2 className='logo'>Soefia</h2>
                     <h2 className="title">
-                        Create your account
+                        Create your account  
                     </h2>
+                    <h5 className="sub-title">Register here before login</h5>
                     <div className="form-container">
                         <form noValidate
                             onSubmit={handleSubmit(onSubmit)}>
