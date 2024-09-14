@@ -27,7 +27,7 @@ import TeacherLiveLesson from './features/teacher/livelesson/LiveLesson'
 
 // import StudentNavbar from './features/student/Navbar/Navbar'
 import StudentHome from './features/student/Home/Home'
-import StudentLiveExercise from './features/student/Home/Home'
+import StudentLiveExercise from './features/student/LiveExercise/LiveExercise'
 import StudentNotebook from './features/student/Notebook/Notebook'
 
 // import AdminNavbar from './features/admin/Navbar/Navbar'
@@ -49,7 +49,19 @@ function App() {
       ),
     },
     {
-      path: "/login",
+      path: "/teacher/login",
+      element: (
+        <Login />
+      ),
+    },
+    {
+      path: "/student/login",
+      element: (
+        <Login />
+      ),
+    },
+    {
+      path: "/admin/login",
       element: (
         <Login />
       ),

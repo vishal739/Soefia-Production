@@ -10,9 +10,9 @@ const HomePage = () => {
         <h3>Your teaching assistance</h3>
       </div>
       <div className="home-btn">
-        <button className="btn">Admin</button>
-        <Link to="/login"><button className="btn">Teacher</button> </Link>
-        <button className="btn">Student</button>
+        <Link to="/admin/login"><button className="btn">Admin</button></Link>
+        <Link to="/teacher/login"><button className="btn">Teacher</button> </Link>
+        <Link to="/student/login"><button className="btn">Student</button></Link>
       </div>
     </div>
   );

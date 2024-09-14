@@ -7,7 +7,7 @@ const Protected = ({children}) => {
     const user= useSelector(selectCheckUser);
     
     if(!user){
-        return (<Navigate to='/login' replace={true}/>);
+        return (<Navigate to='/teacher/login' replace={true}/>);
     }
     return children;  
 }

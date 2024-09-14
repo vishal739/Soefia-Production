@@ -1,11 +1,11 @@
-const Admin= require("../model/adminModel")
+const Admin = require("../model/adminModel")
 
 // const addSchool= async (req,res)
 
-const addAdmin= async (req,res) =>{
-    try{
-        const data= req.body;
-        if(!data || !data.name || !data.email || !data.userId){
+const addAdmin = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data || !data.name || !data.email || !data.userId) {
             return res.status(400).send({
                 success: false,
                 message: 'Required fields are missing'
@@ -17,12 +17,12 @@ const addAdmin= async (req,res) =>{
             name: data.name,
             email: data.email,
             profileBio: data.profileBio || "No bio available",
-            role: 'Admin', 
+            role: 'Admin',
             permissions: data.permissions || [],
-            school: data.schoolId 
+            school: data.schoolId
         });
 
-        const adminProfile= await admin.save();
+        const adminProfile = await admin.save();
         res.status(201).send({
             success: true,
             message: 'Admin added successfully',
@@ -37,17 +37,18 @@ const addAdmin= async (req,res) =>{
         });
     }
 }
-const updateAdmin= async (req,res) =>{
-    try{
-        const data= req.body;
-        if(!data){
+
+const updateAdmin = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data) {
             return res.status(400).send({
                 success: false,
                 message: 'Required fields are missing'
             });
         }
 
-        const updateAdmin= new Admin.findOneAndUpdate({_id:id}, data, {new: true});
+        const updateAdmin = new Admin.findOneAndUpdate({ _id: id }, data, { new: true });
 
         res.status(201).send({
             success: true,
@@ -64,4 +65,29 @@ const updateAdmin= async (req,res) =>{
     }
 }
 
-module.exports= {addAdmin,updateAdmin};
+const fetchAdmin = async (req, res) => {
+    try {
+        const { id } = req.query;
+        if (!id) {
+            return res.status(404).send({
+                success: false,
+                message: 'unable to fetch Admin'
+            })
+        }
+        const admin = Admin.findOne({ _id: id });
+        return res.status(200).send({
+            success: true,
+            message: 'fetched admin successfully',
+            data: admin
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error in fetchAdmin API',
+            error
+        })
+    }
+}
+
+module.exports = { addAdmin, updateAdmin, fetchAdmin };

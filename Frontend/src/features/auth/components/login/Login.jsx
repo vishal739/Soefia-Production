@@ -13,18 +13,28 @@ const Login = () => {
   const isLoggedIn = useSelector(selectCheckUser);
   const checkError = useSelector(selectError);
   const navigate = useNavigate();
-  // const location = useLocation();
+  const location = useLocation();
+  const role = location.pathname.split('/')[1];
 
   useEffect(() => {
     console.log('isLoggedIn:', isLoggedIn);
     console.log('checkError:', checkError);
     if (isLoggedIn) {
-      console.log('Redirecting...');
+      console.log('Redirecting...', role);
       // const role = isLoggedIn.role;
       // const id = isLoggedIn.id;
-      navigate(`/teacher`);
+      if(isLoggedIn.role!=role){
+        console.log("Role not matched")
+      }
+      else if(role=="teacher"){
+        navigate(`/teacher`);
+      }else if(role=="student"){
+        navigate("/student")
+      }else{
+        navigate("/admin")
+      }
     }
-  }, [isLoggedIn, checkError, navigate]);
+  }, [isLoggedIn, checkError, navigate, role]);
 
   const onSubmit = (data) => {
     dispatch(

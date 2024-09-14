@@ -8,12 +8,14 @@
     background-color: white;
   }
   .st-home-main {
+    display: flex;
+    flex-direction: column;
     background-color: white;
     margin: 7em 0.5em;
     width: 100%;
     .first-container {
       display: flex;
-      //   width: 98%;
+        // width: 98%;
       height: 10em;
       margin: 0 3rem;
       justify-content: space-between;
@@ -50,6 +52,7 @@
         }
       }
       .student-info {
+        width: 50%;
         display: grid;
         grid-template-areas:
           "photo details"
@@ -98,6 +101,7 @@
         grid-area: four;
         float: right;
         input {
+            background-color: white !important;
           width: 10rem;
         }
       }
@@ -123,6 +127,10 @@
     }
   }
   @media screen and (max-width: 720px) {
+    .st-home-main{
+        display: flex;
+        flex-direction: column;
+    }
     .first-container {
       flex-direction: column;
       height: fit-content;

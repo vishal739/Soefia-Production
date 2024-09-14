@@ -1,17 +1,28 @@
-import React from "react";
+import {React,useEffect} from "react";
 import "./Home.scss";
 import Navbar from "../Navbar/Navbar";
 import { FaUserCircle, FaMicrophone ,FaFile } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserAsync, selectCheckUser } from "../../auth/authSlice";
 const Home = () => {
+  const isLoggedIn= useSelector(selectCheckUser);
+  const dispatch= useDispatch()
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     dispatch(fetchUserAsync());
+  //   }
+  // }, [dispatch, isLoggedIn]);
+  console.log("isLoggedIn", isLoggedIn)
   return (
     <div className="st-home">
       <Navbar />
       <div className="st-home-main">
         <div className="first-container">
           <div className="st-leftpart">
-            <button>Enter Live Lesson</button>
+            <Link to="/student/live"><button>Enter Live Lesson</button></Link>
             <section className="class-select">
               <label htmlFor="class-select">Class</label>
               <select>
@@ -33,7 +44,7 @@ const Home = () => {
                 <b>School :</b> Boston Garden
               </p>
               <p>
-                <b>Student :</b> Jaylen Brown
+                <b>Student :</b> {isLoggedIn? isLoggedIn.name : "Guest"}
               </p>
             </div>
             <button>

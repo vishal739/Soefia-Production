@@ -16,7 +16,7 @@ const Signup = () => {
     const isLoggedIn = useSelector(selectCheckUser);
     const checkError = useSelector(selectError);
     const navigate = useNavigate()
-    const location = useLocation()
+    // const location = useLocation()
     useEffect(() => {
         if (isLoggedIn) {
             navigate(`/${isLoggedIn.role}`)
@@ -26,14 +26,14 @@ const Signup = () => {
     }, [isLoggedIn, checkError]);
 
     const onSubmit = (data) => {
-        console.log("Creating account for this data: ");
-        if(data.password!=data.confirmPassword){
+        console.log("Creating account for this data: ", data.role);
+        if (data.password != data.confirmPassword) {
             return;
         }
-        dispatch(dispatch(createUserAsync({ email: data.email, password: data.password })));
-        console.log(data);
+        dispatch(dispatch(createUserAsync({ email: data.email, password: data.password, role: data.role, name: data.name })));
+        console.log("signup data: ",data);
     };
-
+   
     return (
         <div className="container">
             <div className="auth-wrapper">
@@ -45,6 +45,59 @@ const Signup = () => {
                     <div className="form-container">
                         <form noValidate
                             onSubmit={handleSubmit(onSubmit)}>
+                            <div className="form-group">
+                                <label htmlFor="role" className="form-label">
+                                    Select Role
+                                </label>
+                                <div className="input-group">
+                                    <div>
+                                        <input
+                                            type="radio"
+                                            id="student"
+                                            value="student"
+                                            {...register("role", { required: "Please select a role" })}
+                                        />
+                                        <label htmlFor="student">Student</label>
+                                    </div>
+
+                                    <div>
+                                        <input
+                                            type="radio"
+                                            id="teacher"
+                                            value="teacher"
+                                            {...register("role", { required: "Please select a role" })}
+                                        />
+                                        <label htmlFor="teacher">Teacher</label>
+                                    </div>
+
+                                    <div>
+                                        <input
+                                            type="radio"
+                                            id="admin"
+                                            value="admin"
+                                            {...register("role", { required: "Please select a role" })}
+                                        />
+                                        <label htmlFor="admin">Admin</label>
+                                    </div>
+                                    {errors.email && (<p className='error-message'>{errors.email.message}</p>)}
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="name" className="form-label">
+                                    Enter FullName
+                                </label>
+                                <div className="input-group">
+                                    <input
+                                        id="name"
+                                        {...register("name", {
+                                            required: "Please enter your name",
+                                        })}
+                                        type="name"
+                                        className="input-field"
+                                    />
+                                    {errors.name && (<p className='error-message'>{errors.name.message}</p>)}
+                                </div>
+                            </div>
                             <div className="form-group">
                                 <label htmlFor="email" className="form-label">
                                     Email address
@@ -126,8 +179,8 @@ const Signup = () => {
                         </p>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 
