@@ -51,17 +51,18 @@ const Signup = () => {
                                     Select Role
                                 </label>
                                 <div className="input-group">
-                                    <div>
+                                    <div className='radio'>
                                         <input
                                             type="radio"
                                             id="student"
                                             value="student"
                                             {...register("role", { required: "Please select a role" })}
+                                            
                                         />
                                         <label htmlFor="student">Student</label>
                                     </div>
 
-                                    <div>
+                                    <div className='radio'>
                                         <input
                                             type="radio"
                                             id="teacher"
@@ -71,7 +72,7 @@ const Signup = () => {
                                         <label htmlFor="teacher">Teacher</label>
                                     </div>
 
-                                    <div>
+                                    <div className='radio'>
                                         <input
                                             type="radio"
                                             id="admin"
