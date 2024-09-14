@@ -13,13 +13,12 @@ router.get('/google',
     passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: `${process.env.CLIENT_URL}/login` }),
+    passport.authenticate('google', { failureRedirect: `${process.env.CLIENT_URL}/signup` }),
     (req, res) => {
-        // Check the role of the authenticated user
-        const user = req.user;  // Assuming `req.user` contains the userobject with role
-        let redirectUrl = `${process.env.CLIENT_URL}/login`; // Defaultfallback
+       
+        const user = req.user;  
+        let redirectUrl = `${process.env.CLIENT_URL}/login`; 
 
-        // Dynamically set redirect based on user role
         if (user.role === 'admin') {
             redirectUrl = `${process.env.CLIENT_URL}/admin`;
         } else if (user.role === 'teacher') {
@@ -28,7 +27,6 @@ router.get('/google/callback',
             redirectUrl = `${process.env.CLIENT_URL}/student`;
         }
 
-        // Redirect user based on their role
         res.redirect(redirectUrl);
     }
 );
