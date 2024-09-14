@@ -6,7 +6,7 @@ require('../utils/auth');
 
 const signupUser = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, role,name } = req.body;
 
         if (!password) {
             return res.status(400).json({ status: false, message: 'Password is required for registration.' });
@@ -24,6 +24,8 @@ const signupUser = async (req, res) => {
         const user = new User({
             email,
             password: hashedPassword,
+            role,
+            name
         });
 
         await user.save();
@@ -31,7 +33,12 @@ const signupUser = async (req, res) => {
         const userObject = user.toObject();
         delete userObject.password;
 
-        res.status(201).json({ status: true, message: 'Signup successful', user: userObject });
+        req.login(user, (err) => {
+            if (err) {
+              return next(err); // Handle error if login fails
+            }
+            return res.status(201).json({ status: true, message: 'Signup successful', user: userObject });
+          });
     } catch (error) {
         console.log('Registration error:', error);
         res.status(500).json({ status: false, message: 'Internal server error' });

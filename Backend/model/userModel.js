@@ -14,7 +14,7 @@ const userSchema = new Schema ({
         }
     },
     password: {type: String, minLength: 6},
-    token: {type: String},
+    role: {type: String},
     googleId: { type: String },
     name: { type: String }
 })

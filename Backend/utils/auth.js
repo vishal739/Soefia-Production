@@ -30,16 +30,19 @@ passport.use(new GoogleStrategy({
 },
   async (request, accessToken, refreshToken, profile, done) => {
     try {
-      let user = await User.findOne({ googleId: profile.id });
-      if (user) return done(null, user);
-      console.log(profile)
-      user = new User({
-        googleId: profile.id,
-        name: profile.displayName,
-        email: profile.emails[0].value
-      });
-      await user.save();
-      return done(null, user);
+      let user = await User.findOne({ email: profile.emails[0].value });
+
+      if (user) {
+        if (!user.googleId) {
+          user.googleId = profile.id;
+          await user.save();
+          return done(null, user);
+        }
+
+        return done(null, user);
+      } 
+    
+      return done(null, false, { message: "Please sign up first." });
     } catch (err) {
       return done(err);
     }
@@ -51,7 +54,5 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (user, done) {
-  // const user= User.findById(id);
-  console.log(user);
   done(null, user);
 });

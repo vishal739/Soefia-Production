@@ -1,5 +1,5 @@
 import "./navbar.scss";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,15 +21,19 @@ import { fetchUserAsync, selectCheckUser, signOutAsync } from "../../auth/authSl
 const Navbar = () => {
   const dispatch= useDispatch()
   const navigate = useNavigate();
+  const location= useLocation();
   const [dropdown, setDropdown] = useState(false);
   const [navClick, setNavClick] = useState(true);
   const isLoggedIn= useSelector(selectCheckUser);
+  const role = location.pathname.split('/')[1];
+  console.log("current role: ", role)
   const handleClick = () => {
     setNavClick(!navClick);
   };
   const handleLogout = () =>{
+    
     dispatch(signOutAsync())
-    navigate('/login')
+    navigate(`/${role}/login`)
   }
   const handleLink = () => {
     if (!navClick) {

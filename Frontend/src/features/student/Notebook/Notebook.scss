@@ -215,7 +215,7 @@
 
   @media screen and (max-width: 767px) {
     .st-notebook-main {
-      flex-direction: column;
+      flex-direction: column-reverse;
       align-items: center;
       justify-content: center;
     }
