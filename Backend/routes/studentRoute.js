@@ -5,7 +5,7 @@ const { addStudent, updateStudent, fetchStudentByID,fetchStudentByClass, deleteS
 router
     .post("/",addStudent)
     .get("/:id",fetchStudentByID)
-    .get("/:id",fetchStudentByClass)
+    .get("/:class",fetchStudentByClass)
     .patch("/",updateStudent)
     .delete("/",deleteStudent);
 
