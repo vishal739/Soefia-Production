@@ -115,7 +115,7 @@ const deleteLesson = async (req, res) => {
     }
 }
 
-const fetchUpcomingLesson = async (req, res) => {
+const fetchUpcomingLessonByTeacherId = async (req, res) => {
     try {
         const { teacherId } = req.query; 
         // const {date,status,classId,lessonTopic,type,title } 
@@ -141,7 +141,7 @@ const fetchUpcomingLesson = async (req, res) => {
     }
 }
 
-const fetchCompletedLesson = async (req, res) => {
+const fetchCompletedLessonByTeacherId = async (req, res) => {
     try {
         const { teacherId } = req.query; 
         // const {date,status,classId,lessonTopic,type,title } 
@@ -154,7 +154,7 @@ const fetchCompletedLesson = async (req, res) => {
         const completedLesson= await Lesson.find({teacherId: teacherId,type: "Completed"})
         res.status(200).send({
             success: true,
-            message: 'Lesson Added Succesfully',
+            message: 'Lesson Fetched Succesfully',
             data: completedLesson,
         });
     } catch (error) {
@@ -167,6 +167,104 @@ const fetchCompletedLesson = async (req, res) => {
     }
 }
 
+const fetchCompletedLessonByClassId = async (req, res) => {
+    try {
+        const { teacherId,classId } = req.query; 
+        // const {date,status,classId,lessonTopic,type,title } 
+        if (!teacherId || classId) {
+            return res.status(404).send({
+                success: false,
+                message: 'unable to fetch Lesson'
+            })
+        }
+        const completedLesson= await Lesson.find({classId: classId, teacherId: teacherId,type: "Completed"})
+        res.status(200).send({
+            success: true,
+            message: 'Lesson Fetched Succesfully',
+            data: completedLesson,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error in fetchCompletedLesson API',
+            error
+        })
+    }
+}
+
+const updateLessonMaterials = async (req, res) => {
+    try {
+        const { lessonId, materials } = req.body; 
+        if (!lessonId || !materials) {
+            return res.status(400).send({
+                success: false,
+                message: 'Required fields are missing'
+            });
+        }
+
+        const updatedLesson = await Lesson.findByIdAndUpdate(
+            lessonId,
+            { $addToSet: { lessonMaterials: { $each: materials } } }, 
+            { new: true }
+        );
+
+        res.status(200).send({
+            success: true,
+            message: 'Materials updated successfully',
+            data: updatedLesson
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error updating materials',
+            error: error.message
+        });
+    }
+};
 
 
-module.exports = { createLesson, fetchUpcomingLesson, fetchCompletedLesson, deleteLesson,updateLesson };
+const updateLessonDetails = async (req, res) => {
+    try {
+        const { lessonId, lessonExercise, learningGoals, lessonSummary, LessonStructureOverview, SocialCollaborationGoal } = req.body;
+
+        if (!lessonId) {
+            return res.status(400).send({
+                success: false,
+                message: 'Lesson ID is required'
+            });
+        }
+
+        const updateFields = {};
+        
+        if (lessonExercise) updateFields.lessonExercise = lessonExercise;
+        if (learningGoals) updateFields.learningGoals = learningGoals;
+        if (lessonSummary) updateFields.lessonSummary = lessonSummary;
+        if (LessonStructureOverview) updateFields.LessonStructureOverview = LessonStructureOverview;
+        if (SocialCollaborationGoal) updateFields.SocialCollaborationGoal = SocialCollaborationGoal;
+
+        const updatedLesson = await Lesson.findByIdAndUpdate(
+            lessonId,
+            { $set: updateFields }, 
+            { new: true }
+        );
+
+        res.status(200).send({
+            success: true,
+            message: 'Lesson details updated successfully',
+            data: updatedLesson
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error updating lesson details',
+            error: error.message
+        });
+    }
+};
+
+
+
+module.exports = { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId,  fetchCompletedLessonByClassId ,deleteLesson,updateLesson };
