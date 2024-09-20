@@ -1,6 +1,6 @@
 const Teacher= require("../model/teacherModel")
 
-const createTeacherProfile = async (req,res) =>{
+const addTeacher = async (req,res) =>{
     try{
         const data= req.body;
         if(!data || !data.name || !data.email || !data.schoolId || !data.userId){
@@ -21,15 +21,95 @@ const createTeacherProfile = async (req,res) =>{
         const TeacherProfile= await newTeacher.save();
         res.status(201).send({
             success: true,
-            message: 'Lesson created successfully',
-            data: savedLesson
+            message: 'Teacher added successfully',
+            data: TeacherProfile
         });
     } catch (error) {
         console.error(error);
         res.status(500).send({
             success: false,
-            message: 'Error creating the lesson',
+            message: 'Error at addTeacherAPI',
             error: error.message
         });
     }
 }
+
+
+const updateTeacher = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data || !data.id) {
+            return res.status(400).send({
+                success: false,
+                message: 'Required fields are missing'
+            });
+        }
+
+        const updateTeacher = new Teacher.findOneAndUpdate({ _id: data.id }, data, { new: true });
+
+        res.status(201).send({
+            success: true,
+            message: 'Teacher added successfully',
+            data: updateTeacher
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error update Teacher',
+            error: error.message
+        });
+    }
+}
+
+const fetchTeacherById = async (req, res) => {
+    try {
+        const { id } = req.params.id;
+        if (!id) {
+            return res.status(404).send({
+                success: false,
+                message: 'Required fields are missing'
+            })
+        }
+        const teacher = Teacher.findOne({ _id: id });
+        return res.status(200).send({
+            success: true,
+            message: 'fetched teacher successfully',
+            data: teacher
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error in fetchTeacher API',
+            error
+        })
+    }
+}
+
+const deleteTeacher = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data || !data.id) {
+            return res.status(404).send({
+                success: false,
+                message: 'Required fields are missing'
+            })
+        }
+        const teacher = Teacher.findOneAndDelete({ _id: data.id });
+        return res.status(200).send({
+            success: true,
+            message: 'delete teacher successfully',
+            data: teacher
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error in deleteTeacher API',
+            error
+        })
+    }
+}
+
+module.exports = { addTeacher, updateTeacher, fetchTeacherById, deleteTeacher };

@@ -41,14 +41,14 @@ const addAdmin = async (req, res) => {
 const updateAdmin = async (req, res) => {
     try {
         const data = req.body;
-        if (!data) {
+        if (!data || !data.id) {
             return res.status(400).send({
                 success: false,
                 message: 'Required fields are missing'
             });
         }
 
-        const updateAdmin = new Admin.findOneAndUpdate({ _id: id }, data, { new: true });
+        const updateAdmin = new Admin.findOneAndUpdate({ _id: data.id }, data, { new: true });
 
         res.status(201).send({
             success: true,
@@ -65,13 +65,13 @@ const updateAdmin = async (req, res) => {
     }
 }
 
-const fetchAdmin = async (req, res) => {
+const fetchAdminById = async (req, res) => {
     try {
-        const { id } = req.query;
+        const { id } = req.params.id;
         if (!id) {
             return res.status(404).send({
                 success: false,
-                message: 'unable to fetch Admin'
+                message: 'Required fields are missing'
             })
         }
         const admin = Admin.findOne({ _id: id });
@@ -90,4 +90,29 @@ const fetchAdmin = async (req, res) => {
     }
 }
 
-module.exports = { addAdmin, updateAdmin, fetchAdmin };
+const deleteAdmin = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data || !data.id) {
+            return res.status(404).send({
+                success: false,
+                message: 'Required fields are missing'
+            })
+        }
+        const admin = Admin.findOneAndDelete({ _id: data.id });
+        return res.status(200).send({
+            success: true,
+            message: 'delete admin successfully',
+            data: admin
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error in deleteAdmin API',
+            error
+        })
+    }
+}
+
+module.exports = { addAdmin, updateAdmin, fetchAdminById, deleteAdmin };

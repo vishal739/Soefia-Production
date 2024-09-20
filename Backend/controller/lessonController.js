@@ -63,6 +63,58 @@ const createLesson = async (req, res) => {
     }
 };
 
+const updateLesson = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data) {
+            return res.status(400).send({
+                success: false,
+                message: 'Required fields are missing'
+            });
+        }
+
+        const updateLesson = new Lesson.findOneAndUpdate({ _id: id }, data, { new: true });
+
+        res.status(201).send({
+            success: true,
+            message: 'Lesson Updated successfully',
+            data: updateLesson
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error update Lesson',
+            error: error.message
+        });
+    }
+}
+
+const deleteLesson = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data || !data.id) {
+            return res.status(404).send({
+                success: false,
+                message: 'Required fields are missing'
+            })
+        }
+        const lesson = Lesson.findOneAndDelete({ _id: data.id });
+        return res.status(200).send({
+            success: true,
+            message: 'delete lesson successfully',
+            data: lesson
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error in deletelesson API',
+            error
+        })
+    }
+}
+
 const fetchUpcomingLesson = async (req, res) => {
     try {
         const { teacherId } = req.query; 
@@ -88,6 +140,7 @@ const fetchUpcomingLesson = async (req, res) => {
         })
     }
 }
+
 const fetchCompletedLesson = async (req, res) => {
     try {
         const { teacherId } = req.query; 
@@ -116,4 +169,4 @@ const fetchCompletedLesson = async (req, res) => {
 
 
 
-module.exports = { createLesson, fetchUpcomingLesson, fetchCompletedLesson };
+module.exports = { createLesson, fetchUpcomingLesson, fetchCompletedLesson, deleteLesson,updateLesson };
