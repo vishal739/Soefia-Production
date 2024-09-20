@@ -128,27 +128,27 @@ function App() {
     },
     {
       path: "/student",
-      element: (<StudentHome />),
+      element: (<Protected><StudentHome /></Protected>),
     },
     {
       path: "/student/live",
-      element: (<StudentLiveExercise />),
+      element: (<Protected><StudentLiveExercise /></Protected>),
     },
     {
       path: "/student/notebook",
-      element: (<StudentNotebook />),
+      element: (<Protected><StudentNotebook /></Protected>),
     },
     {
       path: "/admin",
-      element: (<AdminHome />),
+      element: (<Protected><AdminHome /></Protected>),
     },
     {
       path: "/admin/dashboard",
-      element: (<AdminDashboard />),
+      element: (<Protected><AdminDashboard /></Protected>),
     },
     {
       path: "/admin/chartviewer",
-      element: (<AdminChartViewer />),
+      element: (<Protected><AdminChartViewer /></Protected>),
     },
     // {
     //   path: "/admin/productdetail/:id",

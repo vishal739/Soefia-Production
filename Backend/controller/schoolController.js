@@ -16,7 +16,7 @@ const addSchool = async(req,res) =>{
         contactNumber: data.contactNumber, // Example: "555-1234"
         teachers: data.teachers || [], // Example: Array of teacher ObjectIds
         students: data.students || [], // Example: Array of student ObjectIds
-        admins: data.admins || [] // Example: Array of admin ObjectIds
+        admins: data.admins || [] // Example: Array of admins ObjectIds
     });
 
     const newSchool = school.save();
@@ -35,33 +35,81 @@ const addSchool = async(req,res) =>{
     }
 }
 
-const updateSchool= async (req,res) =>{
-    try{
-        const data= req.body;
-        if(!data){
+const updateSchool = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data || !data.id) {
             return res.status(400).send({
                 success: false,
                 message: 'Required fields are missing'
             });
         }
 
-        const updateAdmin= new Admin.findOneAndUpdate({_id:data.id}, data, {new: true});
+        const updateSchool = new School.findOneAndUpdate({ _id: data.id }, data, { new: true });
 
         res.status(201).send({
             success: true,
-            message: 'Admin added successfully',
-            data: updateAdmin
+            message: 'School added successfully',
+            data: updateSchool
         });
     } catch (error) {
         console.error(error);
         res.status(500).send({
             success: false,
-            message: 'Error update Admin',
+            message: 'Error update School',
             error: error.message
         });
     }
 }
 
-module.exports= {addAdmin};
+const fetchSchoolById = async (req, res) => {
+    try {
+        const { id } = req.params.id;
+        if (!id) {
+            return res.status(404).send({
+                success: false,
+                message: 'Required fields are missing'
+            })
+        }
+        const school = School.findOne({ _id: id });
+        return res.status(200).send({
+            success: true,
+            message: 'fetched school successfully',
+            data: school
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error in fetchSchool API',
+            error
+        })
+    }
+}
 
+const deleteSchool = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data || !data.id) {
+            return res.status(404).send({
+                success: false,
+                message: 'Required fields are missing'
+            })
+        }
+        const school = School.findOneAndDelete({ _id: data.id });
+        return res.status(200).send({
+            success: true,
+            message: 'delete school successfully',
+            data: school
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error in deleteSchool API',
+            error
+        })
+    }
+}
 
+module.exports = { addSchool, updateSchool, fetchSchoolById, deleteSchool };

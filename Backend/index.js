@@ -10,8 +10,10 @@ require('./db/mongoose')
 const authRoute = require("./routes/authRoute")
 const lessonRoute = require("./routes/lessonRoute")
 const adminRoute= require("./routes/adminRoute")
-// const studentRoute= require("./routes/studentRoute")
-// const teacherRoute= require("./routes/teacherRoute")
+const studentRoute= require("./routes/studentRoute")
+const schoolRoute= require("./routes/schoolRoute")
+const teacherRoute= require("./routes/teacherRoute")
+
 
 const app = express();
 
@@ -48,6 +50,9 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoute);
 app.use("/api/lesson",lessonRoute);
 app.use("/api/admin",adminRoute);
+app.use("/api/student",studentRoute);
+app.use("/api/teacher",teacherRoute);
+app.use("/api/school",schoolRoute);
 
 
 app.listen(port, () => {
