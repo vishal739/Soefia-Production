@@ -65,7 +65,7 @@ This document outlines the API endpoints for the following modules in your appli
 |--------|----------------------|------------------------------------------------|------------------------------------------------------|----------------------------------|
 | POST   | `/`                  | Adds a new student.                            | `userId`, `name`, `email`, `classId`, `academicFactors`, `school` | Success message, student data   |
 | GET    | `/:id`               | Fetches a student by their ID.                 | None                                                 | Student data                    |
-| GET    | `/:id/class`         | Fetches students in a specific class.          | None                                                 | Array of students               |
+| GET    | `/:class`            | Fetches students in a specific class.          | None                                                 | Array of students               |
 | PATCH  | `/`                  | Updates student details.                       | `studentId`, fields to update                        | Updated student data            |
 | DELETE | `/`                  | Deletes a student.                             | `studentId`                                          | Success or error message        |
 
