@@ -13,6 +13,7 @@ export const createUserAsync = createAsyncThunk(
   async (data) => {
     console.log("data async: ", data )
     const response = await createUser(data);
+    console.log("creating user: ", response)
     // The value we return becomes the `fulfilled` action payload
     return response;
   }

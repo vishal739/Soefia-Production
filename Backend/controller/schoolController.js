@@ -19,7 +19,7 @@ const addSchool = async(req,res) =>{
         admins: data.admins || [] // Example: Array of admins ObjectIds
     });
 
-    const newSchool = school.save();
+    const newSchool = await school.save();
     res.status(201).send({
         success: true,
         message: 'School added successfully',

@@ -16,7 +16,7 @@ const addTeacher = async (req,res) =>{
             profileBio: data.profileBio || "No bio available",
             upcomingClasses: [],
             previousClasses: [],
-            school: data.schoolId
+            schoolId: data.schoolId
         });
         const TeacherProfile= await newTeacher.save();
         res.status(201).send({
