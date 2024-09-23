@@ -8,7 +8,7 @@ const teacherSchema = new Schema({
     profileBio: { type: String },
     upcomingClasses: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }], 
     previousClasses: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }], 
-    school: { type: Schema.Types.ObjectId, ref: 'School' }
+    schoolId: { type: Schema.Types.ObjectId, ref: 'School' }
 }, { timestamps: true });
 
 const Teacher = mongoose.model('Teacher', teacherSchema);

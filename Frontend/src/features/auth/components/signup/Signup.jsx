@@ -30,7 +30,7 @@ const Signup = () => {
         if (data.password != data.confirmPassword) {
             return;
         }
-        dispatch(dispatch(createUserAsync({ email: data.email, password: data.password, role: data.role, name: data.name })));
+        dispatch(createUserAsync({ email: data.email, password: data.password, role: data.role, name: data.name }));
         console.log("signup data: ",data);
     };
    

@@ -8,12 +8,22 @@ const studentSchema = new Schema({
     profileBio: { type: String },
     classId: { type: Schema.Types.ObjectId, ref: 'Class', required: true }, 
     academicFactors: [{
-        subjectName: { type: String },
-        grade: { type: String },
-        performance: { type: String },
+        subjectName: { type: String, required: true },   
+        grade: { type: String },                         
+        performance: { type: String },                   
+        progressData: {                               
+            Academic: { type: Number, default: 0 },      
+            Social: { type: Number, default: 0 }         
+        },
+        sentimentData: {                                 
+            Positive: { type: Number, default: 0 },      
+            Negative: { type: Number, default: 0 }
+        }
     }],
     school: { type: Schema.Types.ObjectId, ref: 'School' }
 }, { timestamps: true });
+
+
 
 const Student = mongoose.model('Student', studentSchema);
 module.exports = Student;
