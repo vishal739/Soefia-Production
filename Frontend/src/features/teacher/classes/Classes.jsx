@@ -50,7 +50,7 @@ const Classes = () => {
                         <label htmlFor="class-select">Class</label>
                         <select id="class-select" onChange={handleClassChange}>
                             <option value="">Select a class</option>
-                            {userData.classes.map((className, index) => (
+                            {userData.classes &&  userData.classes.map((className, index) => (
                                 <option key={index} value={className}> {className} </option>
                             ))}
 
