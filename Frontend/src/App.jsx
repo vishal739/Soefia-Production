@@ -161,11 +161,11 @@ function App() {
       element: (<PageNotFound />),
     },
   ]);
-  const dispatch = useDispatch()
-  useEffect(() => {
-    console.log("dispatching fetch user");
-    dispatch(fetchUserAsync());
-  }, [dispatch])
+  // const dispatch = useDispatch()
+  // useEffect(() => {
+  //   console.log("dispatching fetch user");
+  //   dispatch(fetchUserAsync());
+  // }, [dispatch])
 
   return (
 

@@ -1,16 +1,19 @@
 import Navbar from "../Navbar/Navbar";
 import "./Classes.scss";
 import mic from "../../../assets/mic.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useSpeechToText from "../../webSpeech/useSpeechToText";
+import { useSelector } from "react-redux";
+import { selectCheckUser } from "../../auth/authSlice";
 const Classes = () => {
-
+    const isLoggedIn = useSelector(selectCheckUser);
     const [textInput1, setTextInput1] = useState('');
+    const [selectedClass, setSelectedClass] = useState('');
     const speechToText1 = useSpeechToText({ continuous: true });
-
+    const userData = isLoggedIn.userData;
     const { isListening: isListening1, transcript: transcript1, startListening: startListening1, stopListening: stopListening1 } = speechToText1;
-
+    const navigate= useNavigate();
 
     const startStopListening = (isListening, textInput, setTextInput, transcript, startListening, stopListening) => {
         isListening ? stopVoiceInput(textInput, setTextInput, transcript, stopListening) : startListening();
@@ -20,6 +23,19 @@ const Classes = () => {
         const newText = transcript.length ? (textInput.length ? textInput + ' ' + transcript : transcript) : textInput;
         setTextInput(newText);
         stopListening();
+    };
+
+    const handleClassChange = (event) => {
+        setSelectedClass(event.target.value);
+    };
+
+    const handleCreateLessonClick = () => {
+        // Navigate to the lesson page with the selected class as a parameter
+        if (selectedClass) {
+            navigate(`/teacher/lesson?className=${encodeURIComponent(selectedClass)}`);
+        } else {
+            alert("Please select a class before creating a lesson.");
+        }
     };
     return (
         <>
@@ -32,9 +48,12 @@ const Classes = () => {
                     </section>
                     <section className="header-sec2">
                         <label htmlFor="class-select">Class</label>
-                        <select id="class-select">
-                            <option>Algebra I, Block A</option>
-                            {/* Add more options here */}
+                        <select id="class-select" onChange={handleClassChange}>
+                            <option value="">Select a class</option>
+                            {userData.classes.map((className, index) => (
+                                <option key={index} value={className}> {className} </option>
+                            ))}
+
                         </select>
                     </section>
                 </div>
@@ -73,9 +92,11 @@ const Classes = () => {
                         <Link to="/teacher/groups" className="right-link"> <button className="card">
                             Groups
                         </button></Link>
-                        <Link to="/teacher/lesson" className="right-link"> <button className="card">
+                        {/* <Link to="/teacher/lesson" className="right-link"> */}
+                        <button className="card" onClick={handleCreateLessonClick}>
                             Create Lesson
-                        </button></Link>
+                        </button>
+                        {/* </Link> */}
                     </div>
                     {/* <div className="right-pane">
             <div>

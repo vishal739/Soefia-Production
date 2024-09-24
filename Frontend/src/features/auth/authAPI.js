@@ -1,5 +1,6 @@
 // A mock function to mimic making an async request for data
 const SERVER_URL=import.meta.env.VITE_REACT_APP_SERVER_URL;
+
 export function createUser(data) {
   return new Promise(async (resolve, reject) => {
     console.log("data sync: ", data);

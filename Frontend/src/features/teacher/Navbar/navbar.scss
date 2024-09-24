@@ -26,7 +26,9 @@
   z-index: 4;
   top: 0;
   left: 0;
-
+  //     left: 50%;
+  //     transform: translateX(-50%);
+}
 
 .navLogo {
   margin: 0 2rem;
@@ -70,7 +72,7 @@
   }
 }
 
-.input-cont {
+.input-container {
   position: relative;
   margin-left: 7rem;
   width: 100%;
@@ -87,7 +89,7 @@
     max-width: 185px;
     background-color: #ffffff;
     padding: 4px 5px 4px 30px; /* Padding to avoid text overlaying the icon */
-    // border: 1px solid #ccc;
+    border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
     transition: border-color 0.3s ease;
@@ -293,7 +295,7 @@
   justify-content: center;
   h3 {
     font-weight: 500;
-    color: #343a40;  
+    color: #343a40;  // Dark Gray
   }
   img {
     width: 60px;
@@ -324,7 +326,7 @@ ul {
   flex-direction: row;
   align-items: center;
   margin: 12px 0;
-  cursor: pointer;
+
   p {
     width: 100%;
   }
@@ -352,5 +354,4 @@ ul {
     font-weight: 600;
     color: #495057;  // Slightly Darker Gray on hover
   }
-}
 }

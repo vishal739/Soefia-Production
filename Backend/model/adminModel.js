@@ -6,7 +6,7 @@ const adminSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     profileBio: { type: String },
-    role: { type: String, default: 'Admin' },
+    role: { type: String, default: 'admin' },
     permissions: [{ type: String }],
     school: { type: Schema.Types.ObjectId, ref: 'School' }
 }, { timestamps: true });
