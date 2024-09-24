@@ -30,8 +30,8 @@ const Navbar = () => {
   const handleClick = () => {
     setNavClick(!navClick);
   };
-  const handleLogout = () =>{
-    
+  const handleLogout = () => {
+
     dispatch(signOutAsync())
     navigate(`/${role}/login`)
   }
@@ -40,14 +40,14 @@ const Navbar = () => {
       handleClick();
     }
   };
-  useEffect(()=>{
-    console.log("dispatching fetch user");
-    dispatch(fetchUserAsync());
-  },[dispatch])
+  useEffect(() => {
+    if (!isLoggedIn) {
+      dispatch(fetchUserAsync());
+    }
+  }, [dispatch, isLoggedIn]);
   return (
-   
+    // <nav className="navbar-container">
     <header className="header">
-       {console.log(isLoggedIn)}
       <div className="navLogo">
         <Link to={`/teacher`}>Soefia</Link>
       </div>
@@ -76,7 +76,7 @@ const Navbar = () => {
             {/* <div className="search">
                                     <input type="text" placeholder="Search" />
                                 </div> */}
-            <div className="input-cont">
+            <div className="input-container">
               <FontAwesomeIcon icon={faMagnifyingGlass} className="search" />
               <input type="text" placeholder="Search..."></input>
             </div>
@@ -92,13 +92,13 @@ const Navbar = () => {
         <nav className="sub-menu">
           <div className="user-info">
             <img src={userimg} alt="" />
-            <h3>{isLoggedIn? isLoggedIn.name : "Guest"}</h3>
+            <h3>{isLoggedIn.name}</h3>
           </div>
           <hr></hr>
           <ul>
             <li>
               <Link href="#" className="sub-menu-link">
-                <img src={isLoggedIn? isLoggedIn.image : profileIcon}></img>
+                <img src={profileIcon}></img>
                 <p>Edit Profile</p>
                 <span>{">"}</span>
               </Link>

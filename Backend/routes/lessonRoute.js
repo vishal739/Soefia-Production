@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const lessonController=  require("../controller/lessonController")
-const { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId,  fetchCompletedLessonByClassId ,deleteLesson,updateLesson } = lessonController;
+const { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId,  fetchCompletedLessonByClassId ,deleteLesson,updateLesson,updateLessonMaterials,updateLessonDetails } = lessonController;
 
 router
     .post("/", createLesson)

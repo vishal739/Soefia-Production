@@ -34,7 +34,7 @@ const addStudent = async(req,res) =>{
     });
     
 
-    const newStudent = student.save();
+    const newStudent = await student.save();
     res.status(201).send({
         success: true,
         message: 'Student added successfully',
@@ -60,7 +60,7 @@ const updateStudent = async (req, res) => {
             });
         }
 
-        const updateStudent = new Student.findOneAndUpdate({ _id: data.id }, data, { new: true });
+        const updateStudent = await Student.findOneAndUpdate({ _id: data.id }, data, { new: true });
 
         res.status(201).send({
             success: true,
@@ -86,7 +86,7 @@ const fetchStudentById = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const student = Student.findOne({ _id: id });
+        const student =await Student.findOne({ _id: id });
         return res.status(200).send({
             success: true,
             message: 'fetched student successfully',
@@ -110,7 +110,7 @@ const fetchStudentByClass = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const student = Student.find({ clasId: classid });
+        const student =await Student.find({ clasId: classid });
         return res.status(200).send({
             success: true,
             message: 'fetched student successfully',
@@ -135,7 +135,7 @@ const deleteStudent = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const student = Student.findOneAndDelete({ _id: data.id });
+        const student =await Student.findOneAndDelete({ _id: data.id });
         return res.status(200).send({
             success: true,
             message: 'delete student successfully',

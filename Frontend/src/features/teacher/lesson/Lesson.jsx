@@ -1,11 +1,11 @@
 import "./Lesson.scss";
 import Navbar from "../Navbar/Navbar";
 import mic from "../../../assets/mic.png";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form"
 import useSpeechToText from "../../webSpeech/useSpeechToText";
 import { useEffect, useState } from "react";
-
+import { useDispatch } from "react-redux";
 
 const Lesson = () => {
 
@@ -41,36 +41,32 @@ const Lesson = () => {
     stopListening();
   };
 
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const className = queryParams.get('className');
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   watch,
+  //   setValue,
+  //   formState: { errors },
+  // } = useForm()
 
-  // const startStopListening = (textInput, setTextInput, transcript) => {
-  //   isListening ? stopVoiceInput(textInput, setTextInput, transcript) : startListening()
-  // }
+  const onSubmit = () => {
 
-  // const stopVoiceInput = (textInput,setTextInput, transcript) => {
-  //   console.log('prevVal: ', textInput1)
-  //   console.log('transcript: ', transcript)
-  //   const newText = transcript.length ? (textInput1.length ? textInput1 + ' ' + transcript : transcript) : textInput1;
-  //   setTextInput1(newText);
-  //   console.log("newText: ", newText)
-  //   console.log('text: ', textInput1)
-  //   stopListening()
-  // }
-  // const stopVoiceInput = (textInput, setTextInput, transcript) => {
-  //   console.log('prevVal: ', textInput)
-  //   console.log('transcript: ', transcript)
-  //   const newText = transcript.length ? (textInput.length ? textInput + ' ' + transcript : transcript) : textInput;
-  //   setTextInput(newText);
-  //   console.log("newText: ", newText)
-  //   console.log('text: ', textInput)
-  //   stopListening()
-  // }
-
-  // useEffect(() => {
-  //   // console.log('Updated textInput1: ', textInput1);
-  // }, [isListening1, isListening2]);
-
-
-
+    const lessonData = {
+      "classId":  className,
+      "LessonStructureOverview": textInput1,
+      "learningGoals": textInput2,
+      "SocialCollaborationGoal": textInput3,
+      "lessonExercise": textInput4,
+      "lessonMaterials": textInput5
+    }
+    console.log("Creating lesson for this data: ", lessonData);
+    // dispatch();
+    // console.log("signup data: ", data);
+  };
 
 
 
@@ -80,21 +76,30 @@ const Lesson = () => {
       <div className="main">
         <h2>Creating a Lesson</h2>
         <div className="lesson-container">
+
           <div className="left-pane">
+            {/* <form noValidate
+              onSubmit={handleSubmit(onSubmit)}> */}
             <section>
+
               <div className="headings">
                 <h4>Lesson Structure or Overview</h4>
                 <img className="mic-icon" src={mic} alt="failed to load" />
               </div>
               <div>
                 <textarea
+                  // defaultValue=""
                   className="lesson-text-area"
                   disabled={isListening1}
                   value={isListening1 ? textInput1 + (transcript1 ? ` ${transcript1}` : '') : textInput1}
                   onChange={(e) => {
                     setTextInput1(e.target.value);
                   }}
+                  id="LessonStructureOverview"
+                // {...register("LessonStructureOverview")}
+
                 ></textarea>
+
 
                 <div className="buttons">
                   <button
@@ -104,6 +109,7 @@ const Lesson = () => {
                   </button>
                   <button>Upload Files</button>
                 </div>
+                {/* {errors.LessonStructureOverview && (<p className='error-message'>{errors.LessonStructureOverview.message}</p>)} */}
               </div>
             </section>
             <div className="learning-goal">
@@ -116,8 +122,14 @@ const Lesson = () => {
                   <textarea
                     className="lesson-text-area"
                     disabled={isListening2}
+                    // defaultValue=""
                     value={isListening2 ? textInput2 + (transcript2 ? ` ${transcript2}` : '') : textInput2}
-                    onChange={(e) => { setTextInput2(e.target.value) }}
+                    onChange={(e) => {
+                      setTextInput2(e.target.value);
+                      setValue("learningGoals", e.target.value);
+                    }}
+                    id="learningGoals"
+                  // {...register("learningGoals")}
                   ></textarea>
                   <div className="buttons">
                     <button
@@ -127,6 +139,7 @@ const Lesson = () => {
                     </button>
                     <button>Upload Files</button>
                   </div>
+                  {/* {errors.learningGoals && (<p className='error-message'>{errors.learningGoals.message}</p>)} */}
                 </div>
               </section>
               <section>
@@ -138,8 +151,11 @@ const Lesson = () => {
                   <textarea
                     className="lesson-text-area"
                     disabled={isListening3}
+                    // defaultValue=""
                     value={isListening3 ? textInput3 + (transcript3 ? ` ${transcript3}` : '') : textInput3}
                     onChange={(e) => { setTextInput3(e.target.value) }}
+                    id="SocialCollaborationGoal"
+                  // {...register("SocialCollaborationGoal")}
                   ></textarea>
                   <div className="buttons">
                     <button
@@ -149,6 +165,7 @@ const Lesson = () => {
                     </button>
                     <button>Upload Files</button>
                   </div>
+                  {/* {errors.SocialCollaborationGoal && (<p className='error-message'>{errors.SocialCollaborationGoal.message}</p>)} */}
                 </div>
               </section>
             </div>
@@ -161,8 +178,11 @@ const Lesson = () => {
                 <textarea
                   className="lesson-text-area"
                   disabled={isListening4}
+                  // defaultValue=""
                   value={isListening4 ? textInput4 + (transcript4 ? ` ${transcript4}` : '') : textInput4}
                   onChange={(e) => { setTextInput4(e.target.value) }}
+                  id="lessonMaterials"
+                // {...register("lessonMaterials")}
                 ></textarea>
                 <div className="buttons">
                   <button
@@ -173,6 +193,7 @@ const Lesson = () => {
                   <button>Add URL</button>
                   <button>Upload Files</button>
                 </div>
+                {/* {errors.lessonMaterials && (<p className='error-message'>{errors.lessonMaterials.message}</p>)} */}
               </div>
             </section>
             <section>
@@ -184,8 +205,11 @@ const Lesson = () => {
                 <textarea
                   className="lesson-text-area"
                   disabled={isListening5}
+                  // defaultValue=""
                   value={isListening5 ? textInput5 + (transcript5 ? ` ${transcript5}` : '') : textInput5}
                   onChange={(e) => { setTextInput5(e.target.value) }}
+                  id="lessonExercise"
+                // {...register("lessonExercise")}
                 ></textarea>
                 <div className="buttons">
                   <button
@@ -196,8 +220,14 @@ const Lesson = () => {
                   <button>Add URL</button>
                   <button>Upload Files</button>
                 </div>
+                {/* {errors.lessonExercise && (<p className='error-message'>{errors.lessonExercise.message}</p>)} */}
               </div>
             </section>
+            <div className="buttons">
+              <button type="submit" className="formSubmit" onClick={onSubmit}>Submit Lesson</
+              button>
+            </div>
+            {/* </form> */}
           </div>
           <div className="right-pane">
             <button className="card">

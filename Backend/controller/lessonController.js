@@ -73,7 +73,7 @@ const updateLesson = async (req, res) => {
             });
         }
 
-        const updateLesson = new Lesson.findOneAndUpdate({ _id: id }, data, { new: true });
+        const updateLesson = await Lesson.findOneAndUpdate({ _id: id }, data, { new: true });
 
         res.status(201).send({
             success: true,
@@ -99,7 +99,7 @@ const deleteLesson = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const lesson = Lesson.findOneAndDelete({ _id: data.id });
+        const lesson =await Lesson.findOneAndDelete({ _id: data.id });
         return res.status(200).send({
             success: true,
             message: 'delete lesson successfully',
@@ -267,4 +267,4 @@ const updateLessonDetails = async (req, res) => {
 
 
 
-module.exports = { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId,  fetchCompletedLessonByClassId ,deleteLesson,updateLesson };
+module.exports = { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId,  fetchCompletedLessonByClassId ,deleteLesson,updateLesson,updateLessonMaterials,updateLessonDetails };

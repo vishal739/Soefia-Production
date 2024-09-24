@@ -49,11 +49,11 @@ const Home = () => {
   const isLoggedIn = useSelector(selectCheckUser);
   const isLoading = useSelector(selectUserStatus); 
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      dispatch(fetchUserAsync());
-    }
-  }, [dispatch, isLoggedIn]);
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     dispatch(fetchUserAsync());
+  //   }
+  // }, [dispatch, isLoggedIn]);
 
   return (
     <>

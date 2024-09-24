@@ -6,9 +6,11 @@ const teacherSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     profileBio: { type: String },
-    upcomingClasses: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }], 
-    previousClasses: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }], 
-    schoolId: { type: Schema.Types.ObjectId, ref: 'School' }
+    upcomingLesson: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }], 
+    previousLesson: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }], 
+    schoolId: { type: Schema.Types.ObjectId, ref: 'School' },
+    classes: [String],
+    role: { type: String, default: 'teacher' }
 }, { timestamps: true });
 
 const Teacher = mongoose.model('Teacher', teacherSchema);

@@ -24,7 +24,7 @@ const Login = () => {
       // const role = isLoggedIn.role;
       // const id = isLoggedIn.id;
       if(isLoggedIn.role!=role){
-        console.log("Role not matched")
+        alert("Role not matched trying loging in", isLoggedIn.role)
       }
       else if(role=="teacher"){
         navigate(`/teacher`);

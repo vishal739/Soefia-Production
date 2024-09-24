@@ -31,16 +31,16 @@ const Signup = () => {
             return;
         }
         dispatch(createUserAsync({ email: data.email, password: data.password, role: data.role, name: data.name }));
-        console.log("signup data: ",data);
+        console.log("signup data: ", data);
     };
-   
+
     return (
         <div className="signup-container">
             <div className="auth-wrapper">
                 <div className="auth-inner">
                     <h2 className='logo'>Soefia</h2>
                     <h2 className="title">
-                        Create your account  
+                        Create your account
                     </h2>
                     <h5 className="sub-title">Register here before login</h5>
                     <div className="form-container">
@@ -57,7 +57,7 @@ const Signup = () => {
                                             id="student"
                                             value="student"
                                             {...register("role", { required: "Please select a role" })}
-                                            
+
                                         />
                                         <label htmlFor="student">Student</label>
                                     </div>

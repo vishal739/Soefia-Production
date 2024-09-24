@@ -45,7 +45,7 @@ const updateSchool = async (req, res) => {
             });
         }
 
-        const updateSchool = new School.findOneAndUpdate({ _id: data.id }, data, { new: true });
+        const updateSchool = await School.findOneAndUpdate({ _id: data.id }, data, { new: true });
 
         res.status(201).send({
             success: true,
@@ -71,7 +71,7 @@ const fetchSchoolById = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const school = School.findOne({ _id: id });
+        const school =await School.findOne({ _id: id });
         return res.status(200).send({
             success: true,
             message: 'fetched school successfully',
@@ -96,7 +96,7 @@ const deleteSchool = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const school = School.findOneAndDelete({ _id: data.id });
+        const school = await School.findOneAndDelete({ _id: data.id });
         return res.status(200).send({
             success: true,
             message: 'delete school successfully',
