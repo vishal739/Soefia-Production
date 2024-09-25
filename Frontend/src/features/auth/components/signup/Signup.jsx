@@ -36,6 +36,7 @@ const Signup = () => {
 
     return (
         <div className="signup-container">
+            
             <div className="auth-wrapper">
                 <div className="auth-inner">
                     <h2 className='logo'>Soefia</h2>

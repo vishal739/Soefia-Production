@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,11 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const role = location.pathname.split('/')[1];
+  const [activeButton, setActiveButton] =useState(null);
 
+  const handleButtonClick = (role) => {
+    setActiveButton(role);
+  };
   useEffect(() => {
     console.log('isLoggedIn:', isLoggedIn);
     console.log('checkError:', checkError);
@@ -23,14 +27,14 @@ const Login = () => {
       console.log('Redirecting...', role);
       // const role = isLoggedIn.role;
       // const id = isLoggedIn.id;
-      if(isLoggedIn.role!=role){
+      if (isLoggedIn.role != role) {
         alert("Role not matched trying loging in", isLoggedIn.role)
       }
-      else if(role=="teacher"){
+      else if (role == "teacher") {
         navigate(`/teacher`);
-      }else if(role=="student"){
+      } else if (role == "student") {
         navigate("/student")
-      }else{
+      } else {
         navigate("/admin")
       }
     }
@@ -45,10 +49,36 @@ const Login = () => {
 
   const handleGoogleAuth = () => {
     console.log("google authentication")
-    window.open(`${import.meta.env.VITE_REACT_APP_SERVER_URL}/api/auth/google/`,"_self")
+    window.open(`${import.meta.env.VITE_REACT_APP_SERVER_URL}/api/auth/google/`, "_self")
   }
   return (
     <div className="login-container">
+      <div className="login-btn">
+        <Link to="/admin/login">
+          <button
+            className={`btn ${activeButton === 'admin' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('admin')}
+          >
+            Admin
+          </button>
+        </Link>
+        <Link to="/teacher/login">
+          <button
+            className={`btn ${activeButton === 'teacher' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('teacher')}
+          >
+            Teacher
+          </button>
+        </Link>
+        <Link to="/student/login">
+          <button
+            className={`btn ${activeButton === 'student' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('student')}
+          >
+            Student
+          </button>
+        </Link>
+      </div>
       <div className="login-form">
         <h2 className='logo'>Soefia</h2>
         <h2 className="title">
@@ -115,7 +145,7 @@ const Login = () => {
             </Link>
           </p>
           <p>or{' '}</p>
-            
+
           <div className="google-btn" onClick={handleGoogleAuth}>
             <div className="google-icon-wrapper">
               <img alt="Google icon" className="google-icon" src={googleicon} />

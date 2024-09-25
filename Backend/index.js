@@ -13,7 +13,7 @@ const adminRoute= require("./routes/adminRoute")
 const studentRoute= require("./routes/studentRoute")
 const schoolRoute= require("./routes/schoolRoute")
 const teacherRoute= require("./routes/teacherRoute")
-
+const classRoute= require("./routes/classRoute")
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: 'GET,POST,PUT,DELETE',
+  methods: 'GET,POST,PUT,PATCH,DELETE',
   credentials: true
 }));
 
@@ -53,6 +53,7 @@ app.use("/api/admin",adminRoute);
 app.use("/api/student",studentRoute);
 app.use("/api/teacher",teacherRoute);
 app.use("/api/school",schoolRoute);
+app.use("/api/class",classRoute);
 
 
 app.listen(port, () => {

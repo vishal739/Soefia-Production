@@ -48,25 +48,70 @@ const signupUser = async (req, res) => {
     }
 };
 
+// const getTeacherData = async (id) => {
+//     try {
+//         const teacherData =  // Populate classes
+
+//         return teacherData;
+//     } catch (error) {
+//         console.error("Error fetching teacher data: ", error);
+//         throw new Error('Could not fetch teacher data');
+//     }
+// };
+
+
 
 const loginUser = async (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('local', async (err, user, info) => { // Added 'async' here
         if (err) {
             return res.status(500).json({ message: 'Internal server error', err });
         }
         if (!user) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
-        req.logIn(user, (err) => {
+        req.logIn(user, async (err) => {
             if (err) {
                 return res.status(500).json({ status: false, message: 'Login failed' });
             }
-            const userObject = user.toObject();
+            let userObject = user.toObject(); // Use a different variable to avoid conflicts
+
+            // Remove sensitive fields
             delete userObject.password;
-            return res.status(200).json({ status: true, message: 'Login successful', user: userObject });
+
+            const role = userObject.role;
+            const id = userObject._id;
+            let userData;
+
+            try {
+                if (role === "teacher") {
+                    userData = await Teacher.findOne({ userId: id }).populate('classes');
+                } else if (role === "admin") {
+                    userData = await Admin.findOne({ userId: id });
+                } else if (role === "student") {
+                    userData = await Student.findOne({ userId: id });
+                }
+
+                // Ensure userData exists before proceeding
+                // if (!userData) {
+                //     return res.status(404).json({ status: false, message: 'User data not found' });
+                // }
+
+                // Combine base user info with userData
+                const combinedData = { ...userObject, userData };
+                
+                return res.status(200).json({
+                    auth: true,
+                    status: true,
+                    message: "User Login",
+                    user: combinedData
+                });
+            } catch (error) {
+                return res.status(500).json({ status: false, message: 'Error fetching user data', error });
+            }
         });
     })(req, res, next);
 };
+
 
 
 
@@ -122,7 +167,7 @@ const checkUser = async (req, res) => {
             const id= user._id;
             let userData;
             if(role=="teacher"){
-                userData= await Teacher.findOne({userId: id })
+                userData = await Teacher.findOne({ userId: id }).populate('classes').populate('upcomingLesson');
             }else if(role=="admin"){
                 userData= await Admin.findOne({userId: id })
             }else if(role=="student"){

@@ -1,5 +1,7 @@
-const Class = require("../model/classDataModel")
-
+const Class = require("../model/classModel")
+const Teacher= require("../model/teacherModel")
+const Lesson= require("../model/lessonModel")
+const Student= require("../model/studentModel")
 const addClass = async (req, res) => {
     try {
         const data = req.body;
@@ -11,9 +13,9 @@ const addClass = async (req, res) => {
         }
         const newClass = new Class({
             name: data.name,           
-            teacher: data.teacherId,    
+            teacher: data.teacher,    
             students: data.students || [],  
-            school: data.schoolId,      
+            school: data.school,      
         });
 
         const ClassProfile = await newClass.save();
@@ -69,7 +71,12 @@ const fetchClassById = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const classData =await Class.findOne({ _id: id });
+        const classData = await Class.findById(classId)
+            .populate('teacher')  // Populate the Teacher document
+            .populate('students')  // Populate the Student documents
+            .populate('lessons')   // Populate the Lesson documents
+            .exec();
+
         return res.status(200).send({
             success: true,
             message: 'fetched classData successfully',

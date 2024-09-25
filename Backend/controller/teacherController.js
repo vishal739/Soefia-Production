@@ -45,22 +45,52 @@ const updateTeacher = async (req, res) => {
             });
         }
 
-        const updateTeacher = await Teacher.findOneAndUpdate({ _id: data.id }, data, { new: true });
+        const updateFields = {};
 
-        res.status(201).send({
+        if (data.completedLectureId) {
+            updateFields.$pull = { upcomingLesson: data.completedLectureId };
+            updateFields.$push = { previousLesson: data.completedLectureId };
+        }
+
+        for (const key in data) {
+            if (key === 'classes') {
+                updateFields.$push = updateFields.$push || {};
+                updateFields.$push[key] = { $each: data[key] };
+            } else if (key !== 'id' && key !== 'completedLectureId') {
+                updateFields.$set = updateFields.$set || {};
+                updateFields.$set[key] = data[key];
+            }
+        }
+
+        const updatedTeacher = await Teacher.findOneAndUpdate(
+            { _id: data.id },
+            updateFields,
+            { new: true }
+        );
+
+        if (!updatedTeacher) {
+            return res.status(404).send({
+                success: false,
+                message: 'Teacher not found'
+            });
+        }
+
+        res.status(200).send({
             success: true,
-            message: 'Teacher added successfully',
-            data: updateTeacher
+            message: 'Teacher updated successfully',
+            data: updatedTeacher
         });
     } catch (error) {
         console.error(error);
         res.status(500).send({
             success: false,
-            message: 'Error update Teacher',
+            message: 'Error updating teacher',
             error: error.message
         });
     }
 }
+
+
 
 const fetchTeacherById = async (req, res) => {
     try {
