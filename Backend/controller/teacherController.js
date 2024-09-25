@@ -1,24 +1,24 @@
-const Teacher= require("../model/teacherModel")
+const Teacher = require("../model/teacherModel")
 
-const addTeacher = async (req,res) =>{
-    try{
-        const data= req.body;
-        if(!data || !data.name || !data.email || !data.schoolId || !data.userId){
+const addTeacher = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data || !data.name || !data.email || !data.schoolId || !data.userId) {
             return res.status(400).send({
                 success: false,
                 message: 'Required fields are missing'
             });
         }
         const newTeacher = new Teacher({
-            userId: data.userId, 
-            name: data.name, 
-            email: data.email, 
+            userId: data.userId,
+            name: data.name,
+            email: data.email,
             profileBio: data.profileBio || "No bio available",
             upcomingClasses: [],
             previousClasses: [],
             schoolId: data.schoolId
         });
-        const TeacherProfile= await newTeacher.save();
+        const TeacherProfile = await newTeacher.save();
         res.status(201).send({
             success: true,
             message: 'Teacher added successfully',
@@ -48,17 +48,24 @@ const updateTeacher = async (req, res) => {
         const updateFields = {};
 
         if (data.completedLectureId) {
+            
             updateFields.$pull = { upcomingLesson: data.completedLectureId };
             updateFields.$push = { previousLesson: data.completedLectureId };
-        }
+        } else {
+            for (const key in data) {
+                if (key === 'classes' || key === 'upcomingLesson' || key === 'previousLesson') {
+                    updateFields.$push = updateFields.$push || {};
 
-        for (const key in data) {
-            if (key === 'classes') {
-                updateFields.$push = updateFields.$push || {};
-                updateFields.$push[key] = { $each: data[key] };
-            } else if (key !== 'id' && key !== 'completedLectureId') {
-                updateFields.$set = updateFields.$set || {};
-                updateFields.$set[key] = data[key];
+                    // If it's an array, make sure to push using $each to preserve existing items
+                    if (Array.isArray(data[key])) {
+                        updateFields.$push[key] = { $each: data[key] };
+                    } else {
+                        updateFields.$push[key] = data[key]; // Otherwise, just push the value directly
+                    }
+                } else if (key !== 'id') {
+                    updateFields.$set = updateFields.$set || {};
+                    updateFields.$set[key] = data[key]; // Use $set for non-array fields
+                }
             }
         }
 
