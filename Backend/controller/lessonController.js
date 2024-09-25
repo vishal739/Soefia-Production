@@ -22,13 +22,16 @@ const createLesson = async (req, res) => {
         const data = req.body;
 
         // Validate the incoming request
-        if (!data || !data.title || !data.classId || !data.date || !data.status || !data.type || !data.teacherId) {
+        if (!data || !data.title || !data.classId || !data.date || !data.teacherId) {
             return res.status(400).send({
                 success: false,
                 message: 'Required fields are missing. Title, classId, date, and status are required.'
             });
         }
-
+        if (data.date) {
+            const [day, month, year] = data.date.split('/');
+            data.date = new Date(`${year}-${month}-${day}`); 
+        }
         const newLesson = new Lesson({
             title: data.title,
             date: data.date,
@@ -47,7 +50,7 @@ const createLesson = async (req, res) => {
 
        
         const savedLesson = await newLesson.save();
-
+        console.log(savedLesson);
         res.status(201).send({
             success: true,
             message: 'Lesson created successfully',

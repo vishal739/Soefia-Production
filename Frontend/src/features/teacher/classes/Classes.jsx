@@ -31,6 +31,7 @@ const Classes = () => {
 
     const handleCreateLessonClick = () => {
         // Navigate to the lesson page with the selected class as a parameter
+        
         if (selectedClass) {
             navigate(`/teacher/lesson?className=${encodeURIComponent(selectedClass)}`);
         } else {
@@ -51,7 +52,7 @@ const Classes = () => {
                         <select id="class-select" onChange={handleClassChange}>
                             <option value="">Select a class</option>
                             {userData.classes &&  userData.classes.map((className, index) => (
-                                <option key={index} value={className}> {className} </option>
+                                <option key={index} value={className._id}> {className.name} </option>
                             ))}
 
                         </select>

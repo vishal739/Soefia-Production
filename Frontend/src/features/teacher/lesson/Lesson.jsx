@@ -5,7 +5,14 @@ import { Link, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form"
 import useSpeechToText from "../../webSpeech/useSpeechToText";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+import { faPray } from "@fortawesome/free-solid-svg-icons";
+import { selectCheckUser } from "../../auth/authSlice";
+import { createLessonAsync, selectLesson } from "../../APILibrary/LessonAPI/lessonSlice";
+import { updateTeacherAsync } from "../../APILibrary/TeacherAPI/teacherSlice";
 
 const Lesson = () => {
 
@@ -14,6 +21,8 @@ const Lesson = () => {
   const [textInput3, setTextInput3] = useState('');
   const [textInput4, setTextInput4] = useState('');
   const [textInput5, setTextInput5] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
+  const [title, setTitle] = useState("");
   // const [textInput6, setTextInput6] = useState('');
 
   const speechToText1 = useSpeechToText({ continuous: true });
@@ -40,7 +49,8 @@ const Lesson = () => {
     setTextInput(newText);
     stopListening();
   };
-
+  const isLoggedIn= useSelector(selectCheckUser);
+  const fetchedLesson= useSelector(selectLesson);
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -52,11 +62,17 @@ const Lesson = () => {
   //   setValue,
   //   formState: { errors },
   // } = useForm()
+ 
+
+  const formattedDate = format(startDate, 'dd/MM/yyyy');
 
   const onSubmit = () => {
 
     const lessonData = {
-      "classId":  className,
+      "teacherId" : isLoggedIn.userData._id,
+      "title": title,
+      "date": formattedDate,
+      "classId": className,
       "LessonStructureOverview": textInput1,
       "learningGoals": textInput2,
       "SocialCollaborationGoal": textInput3,
@@ -64,11 +80,23 @@ const Lesson = () => {
       "lessonMaterials": textInput5
     }
     console.log("Creating lesson for this data: ", lessonData);
-    // dispatch();
+    dispatch(createLessonAsync(lessonData));
+    // const upcomingLesson={
+    //   id: "66ee7b9064cf488d67683b68",
+    // upcomingLesson: "64f8a9c12b4e38f62a1f8d71"
+    // }
     // console.log("signup data: ", data);
   };
 
-
+  useEffect(()=>{
+    if(fetchedLesson){
+      const upcomingLesson = {
+        id: fetchedLesson.teacherId,
+        upcomingLesson: fetchedLesson._id
+      }
+      dispatch(updateTeacherAsync(upcomingLesson))
+    }
+  },[dispatch,fetchedLesson])
 
   return (
     <div className="less-box">
@@ -81,7 +109,10 @@ const Lesson = () => {
             {/* <form noValidate
               onSubmit={handleSubmit(onSubmit)}> */}
             <section>
-
+              <div className="titleAndDate">
+                <label>Title: <input type="text" onChange={(e) => setTitle(e.target.value)} /></label>
+                <label>Date: <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy"/></label>
+              </div>
               <div className="headings">
                 <h4>Lesson Structure or Overview</h4>
                 <img className="mic-icon" src={mic} alt="failed to load" />
