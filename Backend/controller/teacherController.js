@@ -56,15 +56,14 @@ const updateTeacher = async (req, res) => {
                 if (key === 'classes' || key === 'upcomingLesson' || key === 'previousLesson') {
                     updateFields.$push = updateFields.$push || {};
 
-                    // If it's an array, make sure to push using $each to preserve existing items
                     if (Array.isArray(data[key])) {
                         updateFields.$push[key] = { $each: data[key] };
                     } else {
-                        updateFields.$push[key] = data[key]; // Otherwise, just push the value directly
+                        updateFields.$push[key] = data[key]; 
                     }
                 } else if (key !== 'id') {
                     updateFields.$set = updateFields.$set || {};
-                    updateFields.$set[key] = data[key]; // Use $set for non-array fields
+                    updateFields.$set[key] = data[key]; 
                 }
             }
         }
@@ -136,6 +135,7 @@ const deleteTeacher = async (req, res) => {
         }
         const teacher = await Teacher.findOneAndDelete({ _id: data.id });
         return res.status(200).send({
+            
             success: true,
             message: 'delete teacher successfully',
             data: teacher

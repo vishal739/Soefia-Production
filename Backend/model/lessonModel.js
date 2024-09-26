@@ -6,7 +6,9 @@ const GroupSchema = new Schema({
     students: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
     formationType: { type: String, enum: ['Alphabetic', 'Numeric', 'Other'] },
     targetGroupSize: Number,
-}, { _id: false });
+    deitaPerspective: {type: String},
+    groupPerspective: {type: String}
+});
 
 const LessonSchema = new Schema({
     title: {type: String, required: true},
@@ -22,7 +24,12 @@ const LessonSchema = new Schema({
     status: { type: String, enum: ['Draft', 'Ready to Launch', 'Completed'], default: 'Draft'},
     groups: [GroupSchema],
     classId: { type: Schema.Types.ObjectId, ref: 'Class', require: true },
-    teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher', require: true }
+    teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher', require: true },
+    students:{
+        studentsId: { type: Schema.Types.ObjectId, ref: 'Student'},
+        deitaPerspective: {type: String},
+        
+    }
 }, { timestamps: true });
 
 const Lesson = mongoose.model('Lesson', LessonSchema);
