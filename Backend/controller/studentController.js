@@ -1,46 +1,34 @@
-const Student= require("../model/studentModel");
+const Student = require("../model/studentModel");
 
-const addStudent = async(req,res) =>{
-    try{
-    const data= req.body;
-    if(!data || !data.name || !data.address || !data.contactNumber){
-        return res.status(400).send({
-            success: false,
-            message: 'Required fields are missing'
+const addStudent = async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data || !data.name || !data.address || !data.contactNumber) {
+            return res.status(400).send({
+                success: false,
+                message: 'Required fields are missing'
+            });
+        }
+
+
+        const student = new Student({
+            userId: data.userId,
+            name: data.name,
+            email: data.email,
+            profileBio: data.profileBio || "No Bio",
+            classId: data.classId,
+            academicFactors: data.academicFactors,
+            school: data.school
         });
-    }
 
-    // Academic Factor 
-    // [
-    //     {
-    //         subjectName: "Math", 
-    //         grade: "A", 
-    //         performance: "Excellent"
-    //     },
-    //     {
-    //         subjectName: "Science", 
-    //         grade: "B", 
-    //         performance: "Good"
-    //     }
-    // ]
-    const student = new Student({
-        userId: data.userId, // Example: ObjectId("64c9a84e7b292700a45c8d3e")
-        name: data.name,  //"John Doe", // Example: "John Doe"
-        email: data.email, //"johndoe@example.com", // Example: "johndoe@example.com"
-        profileBio: data.profileBio || "No Bio", // Example: "Passionate about learning."
-        classId: data.classId , // Example: ObjectId of the class
-        academicFactors: data.academicFactors , // Array of academic factors
-        school: data.school // Example: ObjectId of the school
-    });
-    
 
-    const newStudent = await student.save();
-    res.status(201).send({
-        success: true,
-        message: 'Student added successfully',
-        data: newStudent
-    });
-    }catch(error){
+        const newStudent = await student.save();
+        res.status(201).send({
+            success: true,
+            message: 'Student added successfully',
+            data: newStudent
+        });
+    } catch (error) {
         console.error(error);
         res.status(500).send({
             success: false,
@@ -86,7 +74,7 @@ const fetchStudentById = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const student =await Student.findOne({ _id: id });
+        const student = await Student.findOne({ _id: id });
         return res.status(200).send({
             success: true,
             message: 'fetched student successfully',
@@ -110,7 +98,7 @@ const fetchStudentByClass = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const student =await Student.find({ clasId: classid });
+        const student = await Student.find({ clasId: classid });
         return res.status(200).send({
             success: true,
             message: 'fetched student successfully',
@@ -135,7 +123,7 @@ const deleteStudent = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const student =await Student.findOneAndDelete({ _id: data.id });
+        const student = await Student.findOneAndDelete({ _id: data.id });
         return res.status(200).send({
             success: true,
             message: 'delete student successfully',
@@ -151,5 +139,5 @@ const deleteStudent = async (req, res) => {
     }
 }
 
-module.exports = { addStudent, updateStudent, fetchStudentById,fetchStudentByClass, deleteStudent };
+module.exports = { addStudent, updateStudent, fetchStudentById, fetchStudentByClass, deleteStudent };
 

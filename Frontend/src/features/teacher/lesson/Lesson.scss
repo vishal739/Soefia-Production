@@ -10,151 +10,171 @@
       color: black;
     }
   }
-  .lesson-text-area {
-    color: black !important;
-  }
-  .lesson-container {
-    display: flex;
-    height: 100vh;
-  }
-  .left-pane {
-    width: 65%;
-    section {
-      width: 100%;
-      margin-top: 5px;
+}
+.teacher-lesson-main-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  .uploadFiles {
+    border: 1px solid darkblue;
+    border-radius: 10px;
+    padding: 7px;
+    span {
+      margin-right: 5px;
+      font-weight: 500;
     }
-  }
-  .right-pane {
-    width: 30%;
-    position: sticky;
-    height: 100vh;
-    right: 0;
-    top: 0;
-    margin-left: 5rem;
-  }
-  .headings {
-    display: flex;
-    align-items: center;
-    h4 {
-      width: 85%;
-    }
-  }
-  .mic-icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    background: url("mic-icon.png") no-repeat center center;
-    background-size: contain;
-  }
-  .lesson-text-area {
-    display: block;
-    width: 85%;
-    height: 8rem;
-    border: 1.5px solid #5f5b5b56;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.2rem;
-  }
-  .buttons {
-    display: flex;
-    width: 85%;
     button {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #5f5b5b56;
-      background-color: white;
-      color: black;
-      border-radius: 8px;
-      cursor: pointer;
-      &:hover {
-        background-color: #307b85;
-      }
-    }
-  }
-  .learning-goal {
-    display: flex;
-    width: 95%;
-    margin-top: 5px;
-    section {
-      width: 50%;
-    }
-  }
-
-  // .part-1 {
-  //   display: grid;
-  //   grid-template-columns: auto auto auto;
-  //   grid-template-rows: auto auto auto;
-  // }
-  // .headings {
-  //   display: flex;
-  //   align-items: center;
-  //   margin-top: 10px;
-  //   grid-area: 1/1/1/4;
-  // }
-  // .left-pane {
-  //   grid-area: 2/1/3/2;
-  // }
-  // .right-pane {
-  //   grid-area: 2/3/3/4;
-  //   display: flex;
-  //   justify-content: end;
-  // }
-  // .buttons {
-  //   grid-area: 3/1/4/2;
-  //   button {
-  //     margin: 3px 5px;
-  //     padding: 10px;
-  //     border: 1px solid black;
-  //     background-color: white;
-  //     color: black;
-  //     border-radius: 5px;
-  //     cursor: pointer;
-  //     &:hover {
-  //       background-color: #307b85;
-  //     }
-  //   }
-  // }
-  .card {
-    background-color: white;
-    width: 85%;
-    height: 9rem;
-    border: 1.5px solid #2a2828;
-    border-radius: 5px;
-    margin: 2px;
-    // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    a {
-      color: black;
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-  }
-
-  .excercise-options {
-    // width: 50%;
-    // height: 32%;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    // align-items: center;
-    margin-top: 7rem;
-    .select {
-      display: flex;
-      flex-direction: column;
-      // width: 40%;
-      background-color: white;
-      select {
-        padding: 10px;
-        border-radius: 10px;
-        background-color: white;
-        color: black;
-        max-width: fit-content;
-      }
+      width: 7.5rem;
+      height: 2rem;
+      padding: 5px;
+      border-radius: 10px;
+      background-color: rgb(101, 106, 175);
     }
   }
 }
+.lesson-text-area {
+  color: black !important;
+}
+.lesson-container {
+  display: flex;
+  height: 100vh;
+}
+.lesson-left-pane {
+  width: 65%;
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  section {
+    width: 100%;
+    margin-top: 5px;
+  }
+}
+.timeAndDate {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+  align-items: center;
+  input {
+    border-width: thin;
+  }
+}
+.lesson-right-pane {
+  width: 30%;
+  position: sticky;
+  height: 100vh;
+  right: 0;
+  top: 0;
+  margin-left: 5rem;
+}
+.headings {
+  display: flex;
+  align-items: center;
+  h4 {
+    width: 85%;
+  }
+}
+.mic-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: url("mic-icon.png") no-repeat center center;
+  background-size: contain;
+}
+.lesson-text-area {
+  display: block;
+  width: 85%;
+  height: 8rem;
+  border: 1.5px solid #5f5b5b56;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.2rem;
+  resize: none;
+  overflow: auto;
+}
+.buttons {
+  display: flex;
+  width: 90%;
+  button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #5f5b5b56;
+    background-color: white;
+    color: black;
+    border-radius: 0 0 8px 8px;
+    cursor: pointer;
+    &:hover {
+      background-color: #307b85;
+    }
+  }
+}
+.learning-goal {
+  display: flex;
+  width: 95%;
+  margin-top: 5px;
+  section {
+    width: 50%;
+  }
+}
+
+.preview-card {
+  background-color: white;
+  width: 10rem !important;
+  height: 6rem;
+  border: 1.5px solid #2a2828;
+  border-radius: 5px;
+  margin-top: 20px;
+
+  color: black;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.titleAndDate {
+  display: flex;
+  justify-content: space-between;
+  width: 85%;
+  .inputBox {
+    width: 271px;
+    height: 27px;
+    top: 134px;
+    left: 103px;
+    gap: 0px;
+    border-radius: 4px 0px 0px 0px;
+    border: 1px 0px 0px 0px;
+    opacity: 0px;
+  }
+}
+.groups-options {
+  // width: 50%;
+  // height: 32%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 4rem;
+  p {
+    font-size: x-large;
+    font-weight: 600;
+  }
+  .select {
+    display: flex;
+    flex-direction: column;
+    // width: 40%;
+    background-color: white;
+    select {
+      padding: 10px;
+      border-radius: 10px;
+      background-color: white;
+      color: black;
+      width: 10rem;
+    }
+  }
+}
+
 .formSubmit {
   display: block;
   margin: 1rem auto;
   border: 2px solid black;
+  border-radius: 8px !important;
   font-weight: bold;
   background-color: white;
   padding: 10px 20px;

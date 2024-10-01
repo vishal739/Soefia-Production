@@ -1,11 +1,11 @@
-.teacher-home {
-  color: #c7c5c5;
+.teacher-home-container {
+  color: #61646B !important;
   margin: 1.5%;
   width: 95vw;
   background-color: white;
   font-weight: 800;
 
-  .main {
+  .teacher-home-main {
     background-color: white;
     margin: 5em 0.5em;
     width: 100%;
@@ -13,98 +13,174 @@
       color: black;
     }
   }
+}
+.teacher-home-contents {
+  display: grid;
+  row-gap: 3rem;
+}
+.teacher-home-buttons {
+  grid-area: 1 / 1 / 2 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 3rem;
+  button {
+    width: 10em;
+    height: 4rem;
+    color: #61646B;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: rgb(101, 106, 175);
+    color: white;
+  }
+  .teacher-card {
+    width: max-content;
+    border-color: #3A5F8F;;
+    box-shadow: 0px 2px 2px 0px #00000040;
 
-  .part1 {
+  }
+}
+.upcoming-lesson-table-container {
+  grid-area: 1 /2 /2/ 3;
+}
+.upcoming-lesson-table,
+.completed-lesson-table {
+  width: 100%;
+}
+.upcoming-lesson-table-heading,
+.completed-lesson-table-heading {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0 5px 0;
+  p {
+    font-size: 23px;
+    font-weight: 400;
+    color: black;
+  }
+  span {
     display: flex;
-    justify-content: space-between;
+  }
+  .input-container {
+    margin-left: 2rem;
+    .search {
+      top: 45%;
+    }
+  }
+}
+
+table {
+  border-collapse: separate;
+  border: solid black 1px;
+  border-radius: 6px;
+  overflow-x: scroll;
+}
+
+td,
+th {
+  border-left: solid black 1px;
+  border-top: solid black 1px;
+  color: black;
+}
+
+th {
+  background-color: blue;
+  border-top: none;
+}
+
+td:first-child,
+th:first-child {
+  border-left: none;
+}
+
+th {
+  background-color: #FAFAFA;
+
+  text-indent: start;
+  select {
+    border: none;
+    background: transparent;
+    color: black;
+    outline: none;
     width: 100%;
-    margin: 3em 0em;
-    .link{
-      adding: 0 1rem;
-      max-height: 4em;
-      cursor: pointer;
-    }
-    button {
-      height: 100%;
-      color: blue;
-      /* font-size: large; */
-      font-weight: bold;
-      background-color: white;
-      border: 1px solid;
-      border-radius: 11px;
-    }
-    .teacher-cards {
-      display: flex;
-      justify-content: space-between;
-      // width: 70%;
-      .teacher-card {
-        border: 2px solid rgba(20, 19, 19, 0.671);
-        height: 8em;
-        width: 25%;
-        border-radius: 4%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 800;
-      }
-    }
+    font-weight: bolder;
   }
+}
+td {
+  padding: 0 0 0 2px;
+  font-weight: normal;
+}
+.status-button{
+  height: 16px !important;
+  font-size: 12px !important;
+  box-shadow: 0px 2px 2px 0px #00000040;
+  border: 1px solid #AEAEAE !important
+}
+.revise-button {
+  background-color: #3A5F8F85 !important;
 
-  .part2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5rem;
-    .teacher-lesson {
-      color: rgba(2, 72, 129, 0.877);
-      font-style: italic;
-    }
-    .lesson-table {
-      border-collapse: collapse;
-      width: 100%;
-      color: #585656;
-      margin-top: 15px;
-
-      th,
-      td {
-        border: 1px solid #585656; /* Ensure border is set */
-        padding: 10px;
-        text-align: left;
-      }
-
-      button {
-        background-color: white;
-        color: #585656;
-        border: 1px black solid;
-        border-radius: 10px;
-        padding: 2px;
-        cursor: pointer;
-      }
-
-      button:hover {
-        background: blue;
-        color: aliceblue;
-      }
-    }
+  height: 16px !important;
+}
+.deita-pref-button {
+  grid-area: 2 / 2 / 3 / 1;
+  padding-left: 3rem;
+  // justify-self: center;
+  display: flex;
+  align-items: end;
+  button {
+    width: 10em;
+    height: 4rem;
+    color: rgb(101, 106, 175);
+    border: 1px solid rgb(101, 106, 175);
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 6px;
+    cursor: pointer;
   }
-
-  @media (max-width: 600px) {
-    .part1 {
-      flex-direction: column-reverse;
-      gap: 2rem;
-      button {
-        max-width: 11em;
-        padding: 1rem 0rem;
-      }
-    }
-    .teacher-cards {
-      width: 100%;
-    }
+  button:hover {
+    background-color: rgb(101, 106, 175);
+    color: white;
   }
-  @media (min-width: 601px) {
-    .teacher-cards {
-      width: 70%;
-    }
+}
+.completed-lesson-table-container {
+  grid-area: 2/3/3/2;
+}
+
+@media (max-width: 767px) {
+  // .teacher-home-contents{
+  //   display: grid;
+  //   grid-template-rows: repeat(4,1fr);
+  //   grid-auto-flow: row;
+  // }
+  .teacher-home-buttons {
+    grid-area: 1/1/2/2;
+    flex-direction: row;
+    padding: 3rem 0 3rem 0;
+  }
+  .upcoming-lesson-table-container {
+    grid-area: 2/1/3/2;
+  }
+  .deita-pref-button {
+    grid-area: 4/1/5/2;
+    padding-left: 0;
+  }
+  .completed-lesson-table-container {
+    grid-area: 3/1/4/2;
+  }
+  .status-button{
+    height: 25px !important;
+  }
+}
+@media (min-width: 601px) {
+  .teacher-cards {
+    width: 70%;
   }
 }

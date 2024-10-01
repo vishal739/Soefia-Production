@@ -4,7 +4,7 @@ const { addClass, updateClass, fetchClassById, deleteClass } = classController;
 
 router
     .post("/",addClass)
-    .get("/:id",fetchClassById)
+    .get("/",fetchClassById)
     .patch("/",updateClass)
     .delete("/",deleteClass);
 

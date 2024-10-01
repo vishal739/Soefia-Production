@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const studentRouter= require('../controller/studentController')
-const { addStudent, updateStudent, fetchStudentById,fetchStudentByClass, deleteStudent } = studentRouter;
+const studentController= require('../controller/studentController')
+const { addStudent, updateStudent, fetchStudentById,fetchStudentByClass, deleteStudent } = studentController;
 
 router
     .post("/",addStudent)

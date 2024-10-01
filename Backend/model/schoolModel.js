@@ -5,9 +5,9 @@ const schoolSchema = new Schema({
     name: { type: String, required: true },
     address: { type: String, required: true },
     contactNumber: { type: String, required: true },
-    teachers: [{ type: Schema.Types.ObjectId, ref: 'Teacher' }],
-    students: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
-    admins: [{ type: Schema.Types.ObjectId, ref: 'Admin' }]
+    teachersId: [{ type: Schema.Types.ObjectId, ref: 'Teacher' }],
+    studentsId: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
+    adminsId: [{ type: Schema.Types.ObjectId, ref: 'Admin' }]
 }, { timestamps: true });
 
 const School = mongoose.model('School', schoolSchema);
