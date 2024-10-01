@@ -17,6 +17,7 @@ import {
 } from "../../APILibrary/LessonAPI/lessonSlice";
 import { updateTeacherAsync } from "../../APILibrary/TeacherAPI/teacherSlice";
 import { Button } from "@mui/material";
+import { createDeitaAsync, selectDeita } from "../../APILibrary/DeitaAPI/deitaSlice";
 
 const Lesson = () => {
   const [textInput1, setTextInput1] = useState("");
@@ -97,17 +98,18 @@ const Lesson = () => {
   };
   const isLoggedIn = useSelector(selectCheckUser);
   const currentLesson = useSelector(selectCurrentLesson);
+  const deita= useSelector(selectDeita)
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const className = queryParams.get("className");
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const formattedDate = format(startDate, "dd/MM/yyyy");
   const clearTranscripts = () => {
-    speechToText1.clearTranscript(); 
-    speechToText2.clearTranscript(); 
-    speechToText3.clearTranscript(); 
-    speechToText4.clearTranscript(); 
+    speechToText1.clearTranscript();
+    speechToText2.clearTranscript();
+    speechToText3.clearTranscript();
+    speechToText4.clearTranscript();
     speechToText5.clearTranscript();
   };
 
@@ -134,21 +136,32 @@ const Lesson = () => {
       lessonMaterials: textInput5,
     };
     console.log("Creating lesson for this data: ", lessonData);
-    dispatch(createLessonAsync(lessonData))
+    dispatch(createLessonAsync(lessonData)).then((result) => {
+      console.log("currentLesson: ",result.payload )
+      const currentLessonId = result.payload._id; 
+
+      dispatch(createDeitaAsync({ lessonId: currentLessonId }));
+    });
+    
+    
   };
 
   const handlePreviewLessonClick = () => {
     // Navigate to the lesson page with the selected class as a parameter
-
-    if (currentLesson) {
-        navigate(
-            `/teacher/groups?lessonId=${encodeURIComponent("66f913f0229ea54596d4dd46")}`
-        );
+    console.log("deitaLesson: ", deita)
+    if (currentLesson._id) {
+      navigate(
+        `/teacher/groups?lessonId=${encodeURIComponent(currentLesson._id)}`
+      );
     } else {
-        alert("Please create a lesson before preview lesson.");
+      alert("Please create a lesson before preview lesson.");
     }
-};
-
+  };
+  // useEffect(()=>{
+  //    if(currentLesson){
+  //     dispatch(createDeitaAsync({lessonId: currentLesson._id}))
+  //    }
+  // })
   return (
     <div className="less-box">
       <Navbar />
@@ -172,6 +185,7 @@ const Lesson = () => {
                     type="text"
                     onChange={(e) => setTitle(e.target.value)}
                     className="inputBox"
+                    value={title}
                   />
                 </label>
                 <label>
