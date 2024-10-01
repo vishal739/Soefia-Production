@@ -62,7 +62,7 @@ const signupUser = async (req, res) => {
 
 
 const loginUser = async (req, res, next) => {
-    passport.authenticate('local', async (err, user, info) => { // Added 'async' here
+    passport.authenticate('local', async (err, user, info) => { 
         if (err) {
             return res.status(500).json({ message: 'Internal server error', err });
         }
@@ -73,9 +73,9 @@ const loginUser = async (req, res, next) => {
             if (err) {
                 return res.status(500).json({ status: false, message: 'Login failed' });
             }
-            let userObject = user.toObject(); // Use a different variable to avoid conflicts
+            let userObject = user.toObject(); 
 
-            // Remove sensitive fields
+            
             delete userObject.password;
 
             const role = userObject.role;
@@ -91,12 +91,7 @@ const loginUser = async (req, res, next) => {
                     userData = await Student.findOne({ userId: id });
                 }
 
-                // Ensure userData exists before proceeding
-                // if (!userData) {
-                //     return res.status(404).json({ status: false, message: 'User data not found' });
-                // }
-
-                // Combine base user info with userData
+               
                 const combinedData = { ...userObject, userData };
                 
                 return res.status(200).json({
@@ -160,14 +155,14 @@ const checkUser = async (req, res) => {
     console.log(req.user)
     try {
         const user= req.user;
-        console.log("checkUser: ", user);
+        // console.log("checkUser: ", user);
         // delete user.password;
         if (req.user) {
             const role= user.role;
             const id= user._id;
             let userData;
             if(role=="teacher"){
-                userData = await Teacher.findOne({ userId: id }).populate('classes').populate('upcomingLesson');
+                userData = await Teacher.findOne({ userId: id }).populate('classId').populate('upcomingLesson');
             }else if(role=="admin"){
                 userData= await Admin.findOne({userId: id })
             }else if(role=="student"){

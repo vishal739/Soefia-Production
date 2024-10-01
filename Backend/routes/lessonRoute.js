@@ -8,6 +8,6 @@ router
     .delete("/", deleteLesson)
     .get("/upcoming", fetchUpcomingLessonByTeacherId)
     .get('/completed', fetchCompletedLessonByTeacherId)
-    .get('/completed', fetchCompletedLessonByClassId)
+    .get('/completeByClass', fetchCompletedLessonByClassId)
 
 module.exports= router;

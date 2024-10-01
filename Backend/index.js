@@ -14,6 +14,7 @@ const studentRoute= require("./routes/studentRoute")
 const schoolRoute= require("./routes/schoolRoute")
 const teacherRoute= require("./routes/teacherRoute")
 const classRoute= require("./routes/classRoute")
+const deitaRoute= require("./routes/deitaRoute")
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.use("/api/student",studentRoute);
 app.use("/api/teacher",teacherRoute);
 app.use("/api/school",schoolRoute);
 app.use("/api/class",classRoute);
+app.use("/api/deita",deitaRoute);
 
 
 app.listen(port, () => {

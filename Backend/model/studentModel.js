@@ -21,8 +21,8 @@ const studentSchema = new Schema({
             Negative: { type: Number, default: 0 }
         }
     }],
-    previousLesson: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }],
-    school: { type: Schema.Types.ObjectId, ref: 'School' }
+    lessonId: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }],
+    schoolId: { type: Schema.Types.ObjectId, ref: 'School' }
 }, { timestamps: true });
 
 

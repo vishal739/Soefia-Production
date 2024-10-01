@@ -1,26 +1,29 @@
 import "./Lesson.scss";
 import Navbar from "../Navbar/Navbar";
 import mic from "../../../assets/mic.png";
-import { Link, useLocation } from "react-router-dom";
-import { useForm } from "react-hook-form"
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import useSpeechToText from "../../webSpeech/useSpeechToText";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import { faPray } from "@fortawesome/free-solid-svg-icons";
 import { selectCheckUser } from "../../auth/authSlice";
-import { createLessonAsync, selectLesson } from "../../APILibrary/LessonAPI/lessonSlice";
+import {
+  createLessonAsync,
+  selectCurrentLesson,
+} from "../../APILibrary/LessonAPI/lessonSlice";
 import { updateTeacherAsync } from "../../APILibrary/TeacherAPI/teacherSlice";
+import { Button } from "@mui/material";
 
 const Lesson = () => {
-
-  const [textInput1, setTextInput1] = useState('');
-  const [textInput2, setTextInput2] = useState('');
-  const [textInput3, setTextInput3] = useState('');
-  const [textInput4, setTextInput4] = useState('');
-  const [textInput5, setTextInput5] = useState('');
+  const [textInput1, setTextInput1] = useState("");
+  const [textInput2, setTextInput2] = useState("");
+  const [textInput3, setTextInput3] = useState("");
+  const [textInput4, setTextInput4] = useState("");
+  const [textInput5, setTextInput5] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [title, setTitle] = useState("");
   // const [textInput6, setTextInput6] = useState('');
@@ -33,85 +36,153 @@ const Lesson = () => {
   // const speechToText6 = useSpeechToText({ continuous: true });
 
   // Then you can access them like this:
-  const { isListening: isListening1, transcript: transcript1, startListening: startListening1, stopListening: stopListening1 } = speechToText1;
-  const { isListening: isListening2, transcript: transcript2, startListening: startListening2, stopListening: stopListening2 } = speechToText2;
-  const { isListening: isListening3, transcript: transcript3, startListening: startListening3, stopListening: stopListening3 } = speechToText3;
-  const { isListening: isListening4, transcript: transcript4, startListening: startListening4, stopListening: stopListening4 } = speechToText4;
-  const { isListening: isListening5, transcript: transcript5, startListening: startListening5, stopListening: stopListening5 } = speechToText5;
+  const {
+    isListening: isListening1,
+    transcript: transcript1,
+    startListening: startListening1,
+    stopListening: stopListening1,
+  } = speechToText1;
+  const {
+    isListening: isListening2,
+    transcript: transcript2,
+    startListening: startListening2,
+    stopListening: stopListening2,
+  } = speechToText2;
+  const {
+    isListening: isListening3,
+    transcript: transcript3,
+    startListening: startListening3,
+    stopListening: stopListening3,
+  } = speechToText3;
+  const {
+    isListening: isListening4,
+    transcript: transcript4,
+    startListening: startListening4,
+    stopListening: stopListening4,
+  } = speechToText4;
+  const {
+    isListening: isListening5,
+    transcript: transcript5,
+    startListening: startListening5,
+    stopListening: stopListening5,
+  } = speechToText5;
   // const { isListening: isListening6, transcript: transcript6, startListening: startListening6, stopListening: stopListening6 } = speechToText6;
 
-  const startStopListening = (isListening, textInput, setTextInput, transcript, startListening, stopListening) => {
-    isListening ? stopVoiceInput(textInput, setTextInput, transcript, stopListening) : startListening();
+  const startStopListening = (
+    isListening,
+    textInput,
+    setTextInput,
+    transcript,
+    startListening,
+    stopListening
+  ) => {
+    isListening
+      ? stopVoiceInput(textInput, setTextInput, transcript, stopListening)
+      : startListening();
   };
 
-  const stopVoiceInput = (textInput, setTextInput, transcript, stopListening) => {
-    const newText = transcript.length ? (textInput.length ? textInput + ' ' + transcript : transcript) : textInput;
+  const stopVoiceInput = (
+    textInput,
+    setTextInput,
+    transcript,
+    stopListening
+  ) => {
+    const newText = transcript.length
+      ? textInput.length
+        ? textInput + " " + transcript
+        : transcript
+      : textInput;
     setTextInput(newText);
     stopListening();
   };
-  const isLoggedIn= useSelector(selectCheckUser);
-  const fetchedLesson= useSelector(selectLesson);
+  const isLoggedIn = useSelector(selectCheckUser);
+  const currentLesson = useSelector(selectCurrentLesson);
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const className = queryParams.get('className');
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   setValue,
-  //   formState: { errors },
-  // } = useForm()
- 
-
-  const formattedDate = format(startDate, 'dd/MM/yyyy');
-
-  const onSubmit = () => {
-
-    const lessonData = {
-      "teacherId" : isLoggedIn.userData._id,
-      "title": title,
-      "date": formattedDate,
-      "classId": className,
-      "LessonStructureOverview": textInput1,
-      "learningGoals": textInput2,
-      "SocialCollaborationGoal": textInput3,
-      "lessonExercise": textInput4,
-      "lessonMaterials": textInput5
-    }
-    console.log("Creating lesson for this data: ", lessonData);
-    dispatch(createLessonAsync(lessonData));
-    // const upcomingLesson={
-    //   id: "66ee7b9064cf488d67683b68",
-    // upcomingLesson: "64f8a9c12b4e38f62a1f8d71"
-    // }
-    // console.log("signup data: ", data);
+  const className = queryParams.get("className");
+  const navigate= useNavigate();
+  const formattedDate = format(startDate, "dd/MM/yyyy");
+  const clearTranscripts = () => {
+    speechToText1.clearTranscript(); 
+    speechToText2.clearTranscript(); 
+    speechToText3.clearTranscript(); 
+    speechToText4.clearTranscript(); 
+    speechToText5.clearTranscript();
   };
 
-  useEffect(()=>{
-    if(fetchedLesson){
-      const upcomingLesson = {
-        id: fetchedLesson.teacherId,
-        upcomingLesson: fetchedLesson._id
-      }
-      dispatch(updateTeacherAsync(upcomingLesson))
+  const resetForm = () => {
+    setTextInput1("");
+    setTextInput2("");
+    setTextInput3("");
+    setTextInput4("");
+    setTextInput5("");
+    setTitle("");
+    setStartDate(new Date());
+    clearTranscripts();
+  }
+  const onSubmit = () => {
+    const lessonData = {
+      teacherId: isLoggedIn.userData._id,
+      title: title,
+      date: formattedDate,
+      classId: className,
+      lessonStructureOverview: textInput1,
+      learningGoals: textInput2,
+      socialCollaborationGoal: textInput3,
+      lessonExercise: textInput4,
+      lessonMaterials: textInput5,
+    };
+    console.log("Creating lesson for this data: ", lessonData);
+    dispatch(createLessonAsync(lessonData))
+  };
+
+  const handlePreviewLessonClick = () => {
+    // Navigate to the lesson page with the selected class as a parameter
+
+    if (currentLesson) {
+        navigate(
+            `/teacher/groups?lessonId=${encodeURIComponent("66f913f0229ea54596d4dd46")}`
+        );
+    } else {
+        alert("Please create a lesson before preview lesson.");
     }
-  },[dispatch,fetchedLesson])
+};
 
   return (
     <div className="less-box">
       <Navbar />
       <div className="main">
-        <h2>Creating a Lesson</h2>
+        <div className="teacher-lesson-main-heading">
+          <h2>Lesson Creation</h2>
+          <div className="uploadFiles">
+            <span>Read From My Lesson Plan</span>
+            <Button variant="contained">Upload Files</Button>
+          </div>
+        </div>
         <div className="lesson-container">
-
-          <div className="left-pane">
+          <div className="lesson-left-pane">
             {/* <form noValidate
               onSubmit={handleSubmit(onSubmit)}> */}
             <section>
               <div className="titleAndDate">
-                <label>Title: <input type="text" onChange={(e) => setTitle(e.target.value)} /></label>
-                <label>Date: <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy"/></label>
+                <label>
+                  Title:{" "}
+                  <input
+                    type="text"
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="inputBox"
+                  />
+                </label>
+                <label>
+                  Date:{" "}
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    dateFormat="dd/MM/yyyy"
+                    className="inputBox"
+                  />
+                </label>
               </div>
               <div className="headings">
                 <h4>Lesson Structure or Overview</h4>
@@ -122,21 +193,32 @@ const Lesson = () => {
                   // defaultValue=""
                   className="lesson-text-area"
                   disabled={isListening1}
-                  value={isListening1 ? textInput1 + (transcript1 ? ` ${transcript1}` : '') : textInput1}
+                  value={
+                    isListening1
+                      ? textInput1 + (transcript1 ? ` ${transcript1}` : "")
+                      : textInput1
+                  }
                   onChange={(e) => {
                     setTextInput1(e.target.value);
                   }}
                   id="LessonStructureOverview"
                 // {...register("LessonStructureOverview")}
-
                 ></textarea>
-
 
                 <div className="buttons">
                   <button
-                    onClick={() => startStopListening(isListening1, textInput1, setTextInput1, transcript1, startListening1, stopListening1)}
+                    onClick={() =>
+                      startStopListening(
+                        isListening1,
+                        textInput1,
+                        setTextInput1,
+                        transcript1,
+                        startListening1,
+                        stopListening1
+                      )
+                    }
                   >
-                    {isListening1 ? 'Stop Listening' : 'Talk to Me'}
+                    {isListening1 ? "Stop Listening" : "Talk to Me"}
                   </button>
                   <button>Upload Files</button>
                 </div>
@@ -154,19 +236,32 @@ const Lesson = () => {
                     className="lesson-text-area"
                     disabled={isListening2}
                     // defaultValue=""
-                    value={isListening2 ? textInput2 + (transcript2 ? ` ${transcript2}` : '') : textInput2}
+                    value={
+                      isListening2
+                        ? textInput2 + (transcript2 ? ` ${transcript2}` : "")
+                        : textInput2
+                    }
                     onChange={(e) => {
                       setTextInput2(e.target.value);
-                      setValue("learningGoals", e.target.value);
+
                     }}
                     id="learningGoals"
                   // {...register("learningGoals")}
                   ></textarea>
                   <div className="buttons">
                     <button
-                      onClick={() => startStopListening(isListening2, textInput2, setTextInput2, transcript2, startListening2, stopListening2)}
+                      onClick={() =>
+                        startStopListening(
+                          isListening2,
+                          textInput2,
+                          setTextInput2,
+                          transcript2,
+                          startListening2,
+                          stopListening2
+                        )
+                      }
                     >
-                      {isListening2 ? 'Stop Listening' : 'Talk to Me'}
+                      {isListening2 ? "Stop Listening" : "Talk to Me"}
                     </button>
                     <button>Upload Files</button>
                   </div>
@@ -183,16 +278,31 @@ const Lesson = () => {
                     className="lesson-text-area"
                     disabled={isListening3}
                     // defaultValue=""
-                    value={isListening3 ? textInput3 + (transcript3 ? ` ${transcript3}` : '') : textInput3}
-                    onChange={(e) => { setTextInput3(e.target.value) }}
+                    value={
+                      isListening3
+                        ? textInput3 + (transcript3 ? ` ${transcript3}` : "")
+                        : textInput3
+                    }
+                    onChange={(e) => {
+                      setTextInput3(e.target.value);
+                    }}
                     id="SocialCollaborationGoal"
                   // {...register("SocialCollaborationGoal")}
                   ></textarea>
                   <div className="buttons">
                     <button
-                      onClick={() => startStopListening(isListening3, textInput3, setTextInput3, transcript3, startListening3, stopListening3)}
+                      onClick={() =>
+                        startStopListening(
+                          isListening3,
+                          textInput3,
+                          setTextInput3,
+                          transcript3,
+                          startListening3,
+                          stopListening3
+                        )
+                      }
                     >
-                      {isListening3 ? 'Stop Listening' : 'Talk to Me'}
+                      {isListening3 ? "Stop Listening" : "Talk to Me"}
                     </button>
                     <button>Upload Files</button>
                   </div>
@@ -210,16 +320,31 @@ const Lesson = () => {
                   className="lesson-text-area"
                   disabled={isListening4}
                   // defaultValue=""
-                  value={isListening4 ? textInput4 + (transcript4 ? ` ${transcript4}` : '') : textInput4}
-                  onChange={(e) => { setTextInput4(e.target.value) }}
+                  value={
+                    isListening4
+                      ? textInput4 + (transcript4 ? ` ${transcript4}` : "")
+                      : textInput4
+                  }
+                  onChange={(e) => {
+                    setTextInput4(e.target.value);
+                  }}
                   id="lessonMaterials"
                 // {...register("lessonMaterials")}
                 ></textarea>
                 <div className="buttons">
                   <button
-                    onClick={() => startStopListening(isListening4, textInput4, setTextInput4, transcript4, startListening4, stopListening4)}
+                    onClick={() =>
+                      startStopListening(
+                        isListening4,
+                        textInput4,
+                        setTextInput4,
+                        transcript4,
+                        startListening4,
+                        stopListening4
+                      )
+                    }
                   >
-                    {isListening4 ? 'Stop Listening' : 'Talk to Me'}
+                    {isListening4 ? "Stop Listening" : "Talk to Me"}
                   </button>
                   <button>Add URL</button>
                   <button>Upload Files</button>
@@ -237,16 +362,31 @@ const Lesson = () => {
                   className="lesson-text-area"
                   disabled={isListening5}
                   // defaultValue=""
-                  value={isListening5 ? textInput5 + (transcript5 ? ` ${transcript5}` : '') : textInput5}
-                  onChange={(e) => { setTextInput5(e.target.value) }}
+                  value={
+                    isListening5
+                      ? textInput5 + (transcript5 ? ` ${transcript5}` : "")
+                      : textInput5
+                  }
+                  onChange={(e) => {
+                    setTextInput5(e.target.value);
+                  }}
                   id="lessonExercise"
                 // {...register("lessonExercise")}
                 ></textarea>
                 <div className="buttons">
                   <button
-                    onClick={() => startStopListening(isListening5, textInput5, setTextInput5, transcript5, startListening5, stopListening5)}
+                    onClick={() =>
+                      startStopListening(
+                        isListening5,
+                        textInput5,
+                        setTextInput5,
+                        transcript5,
+                        startListening5,
+                        stopListening5
+                      )
+                    }
                   >
-                    {isListening5 ? 'Stop Listening' : 'Talk to Me'}
+                    {isListening5 ? "Stop Listening" : "Talk to Me"}
                   </button>
                   <button>Add URL</button>
                   <button>Upload Files</button>
@@ -255,27 +395,38 @@ const Lesson = () => {
               </div>
             </section>
             <div className="buttons">
-              <button type="submit" className="formSubmit" onClick={onSubmit}>Submit Lesson</
-              button>
+              <button type="submit" className="formSubmit" onClick={onSubmit}>
+                Submit Lesson
+              </button>
+              <button type="submit" className="formSubmit" onClick={resetForm}>
+                Reset Lesson
+              </button>
             </div>
             {/* </form> */}
           </div>
-          <div className="right-pane">
-            <button className="card">
-              <Link to="/teacher/livelesson">Live Lesson</Link>
+          <div className="lesson-right-pane">
+            <button className="preview-card" onClick={handlePreviewLessonClick}>
+              Preview Lesson
             </button>
-            <button className="card">
-              <Link to="/teacher/lesson">Preview Lesson</Link>
-            </button>
-            <div className="excercise-options">
+            <div className="groups-options">
+              <p>Groups</p>
               <div className="select">
-                <label>Type of Exercise</label>
+                <label>Formation</label>
                 <select name="Type" id="">
-                  <option>Group Problem Solving</option>
+                  <option>Alphabetic</option>
                 </select>
               </div>
               <div className="select">
-                <label>Type of Exercise</label>
+                <label>Naming</label>
+                <select name="group-count" id="">
+                  <option>By Number</option>
+                  {/* <option>2</option>
+                  <option>3</option>
+                  <option>4</option> */}
+                </select>
+              </div>
+              <div className="select">
+                <label>Targeted Group Size</label>
                 <select name="group-count" id="">
                   <option>1</option>
                   <option>2</option>

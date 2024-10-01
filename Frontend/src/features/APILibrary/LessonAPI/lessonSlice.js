@@ -1,18 +1,39 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchLesson, createLesson, updateLesson, deleteLesson } from "./lessonAPI"
-import { updateTeacherAsync } from "../TeacherAPI/teacherSlice";
-import { updateTeacher } from "../TeacherAPI/teacherAPI";
+import { fetchUpcomingLesson, fetchCompletedLesson, createLesson, updateLesson, deleteLesson, fetchCompletedLessonByClass } from "./lessonAPI"
+
 
 const initialState = {
-  value: 0,
-  lesson: [],
+  currentlesson: [],
+  upcomingLesson: [],
+  completedLesson: [],
+  classLesson: []
 };
 
 
-export const fetchLessonAsync = createAsyncThunk(
-  "lesson/fetchLesson",
+export const fetchUpcomingLessonAsync = createAsyncThunk(
+  "lesson/fetchUpcomingLesson",
+  async (data, { rejectWithValue }) => {
+    try {
+    console.log("fetchUpcomingLessonAsync: ",data)
+    const response = await fetchUpcomingLesson(data);
+    return response;
+  } catch (error) {
+    console.error("Error creating lesson: ", error); 
+    return rejectWithValue(error.message); 
+  }
+  }
+);
+export const fetchCompletedLessonAsync = createAsyncThunk(
+  "lesson/fetchCompletedLesson",
   async (data) => {
-    const response = await fetchLesson(data);
+    const response = await fetchCompletedLesson(data);
+    return response;
+  }
+);
+export const fetchCompletedLessonByClassAsync = createAsyncThunk(
+  "lesson/fetchCompletedLessonByClass",
+  async (data) => {
+    const response = await fetchCompletedLessonByClass(data);
     return response;
   }
 );
@@ -51,19 +72,33 @@ export const lessonSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchLessonAsync.pending, (state) => {
+      .addCase(fetchUpcomingLessonAsync.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchLessonAsync.fulfilled, (state, action) => {
+      .addCase(fetchUpcomingLessonAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.lesson = action.payload
+        state.upcomingLesson = action.payload
+      })
+      .addCase(fetchCompletedLessonAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchCompletedLessonAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.completedLesson = action.payload
+      })
+      .addCase(fetchCompletedLessonByClassAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchCompletedLessonByClassAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.classLesson = action.payload
       })
       .addCase(createLessonAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(createLessonAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.lesson = action.payload;
+        state.currentlesson = action.payload;
       })
       .addCase(updateLessonAsync.pending, (state) => {
         state.status = "loading";
@@ -84,7 +119,10 @@ export const lessonSlice = createSlice({
 
 
 
-export const selectLesson = (state) => state.lesson.lesson;
+export const selectUpcomingLesson = (state) => state.lesson.upcomingLesson;
+export const selectCompletedLesson = (state) => state.lesson.completedLesson;
+export const selectClassLesson = (state) => state.lesson.classLesson;
+export const selectCurrentLesson = (state) => state.lesson.currentlesson;
 
 
 export default lessonSlice.reducer;

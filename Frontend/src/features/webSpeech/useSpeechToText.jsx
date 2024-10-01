@@ -65,12 +65,15 @@ const useSpeechToText = (options) => {
             setIsListening(false);
         }
     };
-
+    const clearTranscript = () => {
+        setTranscript('');
+    };
     return {
         isListening,
         transcript,
         startListening,
         stopListening,
+        clearTranscript
     };
 };
 

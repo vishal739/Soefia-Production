@@ -1,4 +1,6 @@
+const Class = require('../model/classModel');
 const Lesson = require('../model/lessonModel'); // Make sure to require your Lesson model
+const Teacher = require('../model/teacherModel');
 
 // Data Format 
 // const newLesson = new Lesson({
@@ -21,7 +23,6 @@ const createLesson = async (req, res) => {
     try {
         const data = req.body;
 
-        // Validate the incoming request
         if (!data || !data.title || !data.classId || !data.date || !data.teacherId) {
             return res.status(400).send({
                 success: false,
@@ -30,7 +31,7 @@ const createLesson = async (req, res) => {
         }
         if (data.date) {
             const [day, month, year] = data.date.split('/');
-            data.date = new Date(`${year}-${month}-${day}`); 
+            data.date = new Date(`${year}-${month}-${day}`);
         }
         const newLesson = new Lesson({
             title: data.title,
@@ -40,16 +41,25 @@ const createLesson = async (req, res) => {
             type: data.type,
             learningGoals: data.learningGoals || "",
             lessonSummary: data.lessonSummary || "",
-            LessonStructureOverview: data.LessonStructureOverview || "",
-            SocialCollaborationGoal: data.SocialCollaborationGoal || "",
+            lessonStructureOverview: data.lessonStructureOverview || "",
+            socialCollaborationGoal: data.socialCollaborationGoal || "",
             status: data.status,
-            groups: data.groups || [], 
+            groups: data.groups || [],
             classId: data.classId,
             teacherId: data.teacherId
         });
 
-       
         const savedLesson = await newLesson.save();
+        if (savedLesson) {
+            const teacher = await Teacher.findOne({ _id: data.teacherId });
+            teacher.upcomingLesson.push(savedLesson._id);
+            teacher.save();
+        }
+        if (savedLesson) {
+            const classObject = await Class.findOne({ _id: data.classId });
+            classObject.lessons.push(savedLesson._id);
+            classObject.save();
+        }
         console.log(savedLesson);
         res.status(201).send({
             success: true,
@@ -75,9 +85,42 @@ const updateLesson = async (req, res) => {
                 message: 'Required fields are missing'
             });
         }
-
-        const updateLesson = await Lesson.findOneAndUpdate({ _id: id }, data, { new: true });
-
+        // console.log(data);
+        const updateLesson = await Lesson.findOneAndUpdate({ _id: data._id }, data, { new: true });
+        if (data.type=="completed") {
+            const teacher = await Teacher.findOne({ upcomingLesson: data._id });
+            if(!teacher){
+                return res.status(404).send({
+                    success: false,
+                    message: 'teacher not found using upcoming lesson in updateLessonAPI'
+                });
+            }
+            await Teacher.findOneAndUpdate(
+                { _id: teacher._id },
+                {
+                    $pull: { upcomingLesson: data._id },
+                    $push: { previousLesson: data._id }
+                },
+                { new: true }
+            );
+        }
+        if (data.type=="upcoming") {
+            const teacher = await Teacher.findOne({ previousLesson: data._id });
+            if(!teacher){
+                return res.status(404).send({
+                    success: false,
+                    message: 'teacher not found using previous lesson in updateLessonAPI'
+                });
+            }
+            await Teacher.findOneAndUpdate(
+                { _id: teacher._id },
+                {
+                    $push: { upcomingLesson: data._id },
+                    $pull: { previousLesson: data._id }
+                },
+                { new: true }
+            );
+        }
         res.status(201).send({
             success: true,
             message: 'Lesson Updated successfully',
@@ -102,7 +145,7 @@ const deleteLesson = async (req, res) => {
                 message: 'Required fields are missing'
             })
         }
-        const lesson =await Lesson.findOneAndDelete({ _id: data.id });
+        const lesson = await Lesson.findOneAndDelete({ _id: data.id });
         return res.status(200).send({
             success: true,
             message: 'delete lesson successfully',
@@ -120,7 +163,7 @@ const deleteLesson = async (req, res) => {
 
 const fetchUpcomingLessonByTeacherId = async (req, res) => {
     try {
-        const { teacherId } = req.query; 
+        const { teacherId } = req.query;
         // const {date,status,classId,lessonTopic,type,title } 
         if (!teacherId) {
             return res.status(404).send({
@@ -128,7 +171,8 @@ const fetchUpcomingLessonByTeacherId = async (req, res) => {
                 message: 'unable to fetch Lesson'
             })
         }
-        const upcomingLesson= await Lesson.find({teacherId: teacherId,type: "upcoming"})
+        const upcomingLesson = await Lesson.find({ teacherId: teacherId, type: "upcoming" }).populate('classId')
+        // console.log("upcoming Lesson: ", upcomingLesson)
         res.status(200).send({
             success: true,
             message: 'Lesson Added Succesfully',
@@ -146,7 +190,7 @@ const fetchUpcomingLessonByTeacherId = async (req, res) => {
 
 const fetchCompletedLessonByTeacherId = async (req, res) => {
     try {
-        const { teacherId } = req.query; 
+        const { teacherId } = req.query;
         // const {date,status,classId,lessonTopic,type,title } 
         if (!teacherId) {
             return res.status(404).send({
@@ -154,7 +198,7 @@ const fetchCompletedLessonByTeacherId = async (req, res) => {
                 message: 'unable to fetch Lesson'
             })
         }
-        const completedLesson= await Lesson.find({teacherId: teacherId,type: "Completed"})
+        const completedLesson = await Lesson.find({ teacherId: teacherId, type: "completed" }).populate('classId')
         res.status(200).send({
             success: true,
             message: 'Lesson Fetched Succesfully',
@@ -172,15 +216,17 @@ const fetchCompletedLessonByTeacherId = async (req, res) => {
 
 const fetchCompletedLessonByClassId = async (req, res) => {
     try {
-        const { teacherId,classId } = req.query; 
+        const { teacherId, classId } = req.query;
         // const {date,status,classId,lessonTopic,type,title } 
-        if (!teacherId || classId) {
+        console.log(teacherId, classId);
+        if (!teacherId || !classId) {
             return res.status(404).send({
                 success: false,
                 message: 'unable to fetch Lesson'
             })
         }
-        const completedLesson= await Lesson.find({classId: classId, teacherId: teacherId,type: "Completed"})
+        const completedLesson = await Lesson.find({ classId: classId, teacherId: teacherId, type: "completed" }).populate('classId')
+        console.log("classLesson: ", completedLesson)
         res.status(200).send({
             success: true,
             message: 'Lesson Fetched Succesfully',
@@ -198,7 +244,7 @@ const fetchCompletedLessonByClassId = async (req, res) => {
 
 const updateLessonMaterials = async (req, res) => {
     try {
-        const { lessonId, materials } = req.body; 
+        const { lessonId, materials } = req.body;
         if (!lessonId || !materials) {
             return res.status(400).send({
                 success: false,
@@ -208,7 +254,7 @@ const updateLessonMaterials = async (req, res) => {
 
         const updatedLesson = await Lesson.findByIdAndUpdate(
             lessonId,
-            { $addToSet: { lessonMaterials: { $each: materials } } }, 
+            { $addToSet: { lessonMaterials: { $each: materials } } },
             { new: true }
         );
 
@@ -240,7 +286,7 @@ const updateLessonDetails = async (req, res) => {
         }
 
         const updateFields = {};
-        
+
         if (lessonExercise) updateFields.lessonExercise = lessonExercise;
         if (learningGoals) updateFields.learningGoals = learningGoals;
         if (lessonSummary) updateFields.lessonSummary = lessonSummary;
@@ -249,7 +295,7 @@ const updateLessonDetails = async (req, res) => {
 
         const updatedLesson = await Lesson.findByIdAndUpdate(
             lessonId,
-            { $set: updateFields }, 
+            { $set: updateFields },
             { new: true }
         );
 
@@ -270,4 +316,4 @@ const updateLessonDetails = async (req, res) => {
 
 
 
-module.exports = { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId,  fetchCompletedLessonByClassId ,deleteLesson,updateLesson,updateLessonMaterials,updateLessonDetails };
+module.exports = { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId, fetchCompletedLessonByClassId, deleteLesson, updateLesson, updateLessonMaterials, updateLessonDetails };

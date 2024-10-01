@@ -8,7 +8,7 @@ const adminSchema = new Schema({
     profileBio: { type: String },
     role: { type: String, default: 'admin' },
     permissions: [{ type: String }],
-    school: { type: Schema.Types.ObjectId, ref: 'School' }
+    schoolId: { type: Schema.Types.ObjectId, ref: 'School' }
 }, { timestamps: true });
 
 const Admin = mongoose.model('Admin', adminSchema);

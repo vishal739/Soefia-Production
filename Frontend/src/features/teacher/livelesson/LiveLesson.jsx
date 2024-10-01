@@ -8,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-
+import { Link } from "react-router-dom";
 import "./LiveLesson.scss";
 
 import { getGroupData } from "./data";
@@ -24,7 +24,7 @@ const LiveLesson = () => {
       <div className="live-lession-main">
         <div className="live-lession-buttons">
           <button className="live-less-button">Pause Live Lession</button>
-          <button className="live-less-button">Stop Live Lession</button>
+          <Link to="/teacher"><button className="live-less-button">Stop Live Lession</button></Link>
         </div>
         <div className="chart-container">
           {groups &&

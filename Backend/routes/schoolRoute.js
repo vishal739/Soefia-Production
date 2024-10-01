@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const schoolRouter= require('../controller/schoolController')
-const { addSchool, updateSchool, fetchSchoolById, deleteSchool } = schoolRouter;
+const schoolController= require('../controller/schoolController')
+const { addSchool, updateSchool, fetchSchoolById, deleteSchool } = schoolController;
 
 router
     .post("/",addSchool)

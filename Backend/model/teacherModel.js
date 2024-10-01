@@ -9,7 +9,7 @@ const teacherSchema = new Schema({
     upcomingLesson: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }], 
     previousLesson: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }], 
     schoolId: { type: Schema.Types.ObjectId, ref: 'School' },
-    classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }],
+    classId: [{ type: Schema.Types.ObjectId, ref: 'Class' }],
 }, { timestamps: true });
 
 const Teacher = mongoose.model('Teacher', teacherSchema);

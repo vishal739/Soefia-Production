@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const adminRouter= require('../controller/adminController')
-const { addAdmin, updateAdmin, fetchAdminById, deleteAdmin } = adminRouter;
+const adminController= require('../controller/adminController')
+const { addAdmin, updateAdmin, fetchAdminById, deleteAdmin } = adminController;
 
 router
     .post("/",addAdmin)

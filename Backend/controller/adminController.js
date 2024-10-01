@@ -1,6 +1,5 @@
 const Admin = require("../model/adminModel")
 
-// const addSchool= async (req,res)
 
 const addAdmin = async (req, res) => {
     try {

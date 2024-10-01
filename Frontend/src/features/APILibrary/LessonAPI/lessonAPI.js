@@ -1,10 +1,40 @@
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
-export function fetchLesson(data) {
-  return new Promise(async (resolve) => {
-    const response = await fetch(`${SERVER_URL}/api/lesson/`)
+export function fetchUpcomingLesson(data) {
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(`${SERVER_URL}/api/lesson/upcoming?teacherId=${data._id}`)
+    console.log(`${SERVER_URL}/api/lesson/upcoming?teacherId=${data._id}`)
     const result = await response.json()
-    resolve(({ result }))
+    if (result.success) {
+      resolve(result.data);
+    } else {
+      reject(result.message);
+    }
+  });
+}
+export function fetchCompletedLesson(data) {
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(`${SERVER_URL}/api/lesson/completed?teacherId=${data._id}`)
+    console.log(`${SERVER_URL}/api/lesson/completed?teacherId=${data._id}`)
+    const result = await response.json()
+    if (result.success) {
+      resolve(result.data);
+    } else {
+      reject(result.message);
+    }
+  });
+}
+
+export function fetchCompletedLessonByClass(data) {
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(`${SERVER_URL}/api/lesson/completeByClass?teacherId=${data._id}&classId=${data.classId}`);
+    console.log(`${SERVER_URL}/api/lesson/completeByClass?teacherId=${data._id}&classId=${data.classId}`)
+    const result = await response.json()
+    if (result.success) {
+      resolve(result.data);
+    } else {
+      reject(result.message);
+    }
   });
 }
 

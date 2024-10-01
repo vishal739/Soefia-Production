@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import mic from "../../../assets/mic.png";
 import "./Group.scss";
 import Navbar from "../Navbar/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDeitaAsync, selectDeita } from "../../APILibrary/DeitaAPI/deitaSlice";
+import { useLocation } from "react-router-dom";
 // Define the data as a constant
 const data = {
   groups: [
@@ -43,15 +46,22 @@ const data = {
 
 const Group = () => {
   // const [groupData, setGroupData] = useState(null);
-
-  // useEffect(() => {
-  //   // Instead of fetching, directly use the constant data
-  //   setGroupData(data);
-  // }, []);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const lessonId = queryParams.get("lessonId");
+  const dispatch = useDispatch();
+  const deita= useSelector(selectDeita);
+  useEffect(() => {
+    // Instead of fetching, directly use the constant data
+    // setGroupData(data);
+    console.log(lessonId)
+    dispatch(fetchDeitaAsync({lessonId: lessonId}))
+  }, [dispatch,lessonId]);
 
   return (
     <div className="group-container">
       <Navbar />
+      {console.log("deita: ", deita)}
       <div className="grp-main">
         <div className="grp-left-pane">
           <p>Proposed Lesson Groups</p>
@@ -81,16 +91,25 @@ const Group = () => {
               <h3>My Introduction and Reference Framework</h3>
             </div>
             <div>
-              <textarea className="grp-text-area"></textarea>
+              <textarea className="grp-text-area" value={deita.previewLesson? deita.previewLesson.myIntroduction : ""}></textarea>
             </div>
           </section>
           <section>
             <div className="headings">
               <img className="mic-icon" src={mic} alt="failed to load" />
-              <h3>Exercise Proposed Progress</h3>
+              <h3>Proposed Progress: Academic Learning</h3>
             </div>
             <div>
-              <textarea className="grp-text-area"></textarea>
+              <textarea className="grp-text-area" value={deita.previewLesson? deita.previewLesson.academicLearning : ""}></textarea>
+            </div>
+          </section>
+          <section>
+            <div className="headings">
+              <img className="mic-icon" src={mic} alt="failed to load" />
+              <h3>Proposed Progress: Social Learning</h3>
+            </div>
+            <div>
+              <textarea className="grp-text-area" value={deita.previewLesson? deita.previewLesson.socialLearning : ""} ></textarea>
             </div>
           </section>
           <section>
@@ -99,7 +118,7 @@ const Group = () => {
               <h3>Key Concepts to Teach</h3>
             </div>
             <div>
-              <textarea className="grp-text-area"></textarea>
+              <textarea className="grp-text-area" value={deita.previewLesson? deita.previewLesson.keyConcepts : ""}></textarea>
             </div>
           </section>
         </div>
