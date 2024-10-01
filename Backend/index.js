@@ -18,7 +18,7 @@ const deitaRoute= require("./routes/deitaRoute")
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app'];
+const allowedOrigins = ['http://localhost:5173', 'https://soefia.netlify.app','https://soefia-1.netlify.app'];
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
