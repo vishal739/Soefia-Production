@@ -84,7 +84,7 @@ const loginUser = async (req, res, next) => {
 
             try {
                 if (role === "teacher") {
-                    userData = await Teacher.findOne({ userId: id }).populate('classes');
+                    userData = await Teacher.findOne({ userId: id }).populate('classId');
                 } else if (role === "admin") {
                     userData = await Admin.findOne({ userId: id });
                 } else if (role === "student") {

@@ -60,7 +60,7 @@ async function getChatGPTResponse(deitaObject) {
                 }
             }
         );
-        console.log(response)
+        // console.log(response)
         const parsedObject = JSON.parse(response.data.choices[0].message.content);
         return parsedObject;
     } catch (error) {
