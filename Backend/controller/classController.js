@@ -88,7 +88,7 @@ const fetchClassById = async (req, res) => {
             })
         }
         const classData = await Class.find({teacherId: teacherId})
-        console.log("clASSid: ", classData);
+        // console.log("clASSid: ", classData);
         return res.status(200).send({
             success: true,
             message: 'fetched classData successfully',

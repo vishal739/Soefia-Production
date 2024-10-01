@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchDeita, createDeita, updateDeita, deleteDeita } from "./deitaAPI"
 
 const initialState = {
+    status: "",
     value: 0,
     deita: {},
 };
@@ -18,6 +19,7 @@ export const createDeitaAsync = createAsyncThunk(
     "deita/createDeita",
     async (data) => {
         const response = await createDeita(data);
+        console.log("createDeitaAsync: ",response)
         return response;
     }
 );
@@ -82,6 +84,6 @@ export const deitaSlice = createSlice({
 
 
 export const selectDeita = (state) => state.deita.deita;
-
+export const selectDeitaLoader =(state)=> state.deita.status
 
 export default deitaSlice.reducer;

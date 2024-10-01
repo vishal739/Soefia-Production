@@ -57,7 +57,7 @@ const createLesson = async (req, res) => {
         }
         if (savedLesson) {
             const classObject = await Class.findOne({ _id: data.classId });
-            classObject.lessons.push(savedLesson._id);
+            classObject.lessonsId.push(savedLesson._id);
             classObject.save();
         }
         console.log(savedLesson);
