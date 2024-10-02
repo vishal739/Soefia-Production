@@ -1,28 +1,58 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchUpcomingLesson, fetchCompletedLesson, createLesson, updateLesson, deleteLesson, fetchCompletedLessonByClass } from "./lessonAPI"
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { fetchUpcomingLesson, fetchCompletedLesson, createLesson, updateLesson, deleteLesson, fetchCompletedLessonByClass, fetchLesson,fetchCurrentLesson } from "./lessonAPI"
 
 
 const initialState = {
-  currentlesson: [],
+  currentlesson: {},
   upcomingLesson: [],
   completedLesson: [],
-  classLesson: []
+  classLesson: [],
+  lesson: [],
 };
 
+
+export const fetchLessonAsync = createAsyncThunk(
+  "lesson/fetchLesson",
+  async (data, { rejectWithValue }) => {
+    try {
+      console.log("fetchLessonAsync: ", data)
+      const response = await fetchLesson(data);
+      return response;
+    } catch (error) {
+      console.error("Error fetchLessonAsync lesson: ", error);
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const fetchCurrentLessonAsync = createAsyncThunk(
+  "lesson/fetchCurrent",
+  async (data, { rejectWithValue }) => {
+    try {
+      console.log("fetchCurrentLessonAsync: ", data)
+      const response = await fetchCurrentLesson(data);
+      return response;
+    } catch (error) {
+      console.error("Error fetchCurrentLessonAsync lesson: ", error);
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 export const fetchUpcomingLessonAsync = createAsyncThunk(
   "lesson/fetchUpcomingLesson",
   async (data, { rejectWithValue }) => {
     try {
-    console.log("fetchUpcomingLessonAsync: ",data)
-    const response = await fetchUpcomingLesson(data);
-    return response;
-  } catch (error) {
-    console.error("Error creating lesson: ", error); 
-    return rejectWithValue(error.message); 
-  }
+      console.log("fetchUpcomingLessonAsync: ", data)
+      const response = await fetchUpcomingLesson(data);
+      return response;
+    } catch (error) {
+      console.error("Error creating lesson: ", error);
+      return rejectWithValue(error.message);
+    }
   }
 );
+
 export const fetchCompletedLessonAsync = createAsyncThunk(
   "lesson/fetchCompletedLesson",
   async (data) => {
@@ -42,12 +72,12 @@ export const createLessonAsync = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await createLesson(data);
-      console.log("response: ", response); 
-      
+      console.log("response: ", response);
+
       return response;
     } catch (error) {
-      console.error("Error creating lesson: ", error); 
-      return rejectWithValue(error.message); 
+      console.error("Error creating lesson: ", error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -72,6 +102,20 @@ export const lessonSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
+      .addCase(fetchLessonAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchLessonAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.lesson = action.payload
+      })
+      .addCase(fetchCurrentLessonAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchCurrentLessonAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.currentlesson= action.payload
+      })
       .addCase(fetchUpcomingLessonAsync.pending, (state) => {
         state.status = "loading";
       })
@@ -105,14 +149,19 @@ export const lessonSlice = createSlice({
       })
       .addCase(updateLessonAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.lesson = action.payload;
+        const index= state.lesson.findIndex(item=>item._id===action.payload._id);
+        state.lesson[index]=action.payload;
+        state.currentlesson = action.payload;
       })
       .addCase(deleteLessonAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(deleteLessonAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.lesson = action.payload;
+        const index= state.lesson.findIndex(item=>item._id===action.payload._id);
+        if (index !== -1) {
+          state.lesson.splice(index, 1); 
+        }
       });
   },
 });
@@ -123,6 +172,8 @@ export const selectUpcomingLesson = (state) => state.lesson.upcomingLesson;
 export const selectCompletedLesson = (state) => state.lesson.completedLesson;
 export const selectClassLesson = (state) => state.lesson.classLesson;
 export const selectCurrentLesson = (state) => state.lesson.currentlesson;
+export const selectLesson = (state) => state.lesson.lesson;
+export const selectLessonStatus = (state) => state.lesson.lessonStatus;
 
 
 export default lessonSlice.reducer;

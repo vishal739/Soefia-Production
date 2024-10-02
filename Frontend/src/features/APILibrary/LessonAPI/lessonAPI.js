@@ -1,5 +1,30 @@
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
+export function fetchLesson(data) {
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(`${SERVER_URL}/api/lesson?teacherId=${data.teacherId}`)
+    console.log(`${SERVER_URL}/api/lesson?teacherId=${data.teacherId}`)
+    const result = await response.json()
+    if (result.success) {
+      resolve(result.data);
+    } else {
+      reject(result.message);
+    }
+  });
+}
+export function fetchCurrentLesson(data) {
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(`${SERVER_URL}/api/lesson/current?lessonId=${data.lessonId}`)
+    console.log(`${SERVER_URL}/api/lesson/current?lessonId=${data.lessonId}`)
+    const result = await response.json()
+    if (result.success) {
+      resolve(result.data);
+    } else {
+      reject(result.message);
+    }
+  });
+}
+
 export function fetchUpcomingLesson(data) {
   return new Promise(async (resolve, reject) => {
     const response = await fetch(`${SERVER_URL}/api/lesson/upcoming?teacherId=${data._id}`)
@@ -72,15 +97,19 @@ export function updateLesson(data) {
   });
 }
 
-export function deleteLesson(id) {
-  return new Promise(async (resolve) => {
-    console.log("Deleting sync: ", id)
-    const response = await fetch(`${SERVER_URL}/api/lesson/` + id, {
+export function deleteLesson(data) {
+  return new Promise(async (resolve,reject) => {
+    console.log("Deleting sync: ", data)
+    const response = await fetch(`${SERVER_URL}/api/lesson?lessonId=${data.lessonId}`, {
       method: 'DELETE',
       headers: { 'content-type': 'application/json' },
     })
-    console.log("delete updated,", id);
+    console.log("delete updated,", data.lessonId);
     const result = await response.json()
-    resolve({ data: { id: id } })
+    if (result.success) {
+      resolve(result.data);
+    } else {
+      reject(result.message);
+    }
   });
 }

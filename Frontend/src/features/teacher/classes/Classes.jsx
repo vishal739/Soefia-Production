@@ -9,7 +9,7 @@ import { selectCheckUser } from "../../auth/authSlice";
 import { Button, ButtonGroup, Switch } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { createClassesAsync, selectClasses, updateClassesAsync } from "../../APILibrary/ClassesAPI/classesSlice";
+import { createClassesAsync, fetchClassesAsync, selectClasses, updateClassesAsync } from "../../APILibrary/ClassesAPI/classesSlice";
 
 const Classes = () => {
     const isLoggedIn = useSelector(selectCheckUser);
@@ -95,9 +95,15 @@ const Classes = () => {
         setTextInput1("");
         speechToText1.clearTranscript();
     }
-    // useEffect(() =>{
-    //     dispatch(updateClassesAsync({whatINeedToKnow: textInput1}))
-    // })
+    useEffect(() =>{
+        // dispatch(updateClassesAsync({whatINeedToKnow: textInput1}))
+        dispatch(fetchClassesAsync({ teacherId: isLoggedIn.userData._id })) .then(() => {
+            setFilteredData(prevData => prevData.filter(classid => classid._id !== classid));
+          })
+          .catch((error) => {
+            console.error("Error deleting lesson:", error);
+          });
+    },[dispatch,isLoggedIn])
     return (
         <>
             <Navbar />

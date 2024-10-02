@@ -2,14 +2,14 @@ const passport = require('passport');
 const bcrypt = require("bcrypt")
 const model = require('../model/userModel');
 const User = model.User;
-const  Admin = require("../model/adminModel")
-const  Teacher = require("../model/teacherModel")
-const  Student = require("../model/studentModel")
+const Admin = require("../model/adminModel")
+const Teacher = require("../model/teacherModel")
+const Student = require("../model/studentModel")
 require('../utils/auth');
 
 const signupUser = async (req, res) => {
     try {
-        const { email, password, role,name } = req.body;
+        const { email, password, role, name } = req.body;
 
         if (!password) {
             return res.status(400).json({ status: false, message: 'Password is required for registration.' });
@@ -38,10 +38,10 @@ const signupUser = async (req, res) => {
 
         req.login(user, (err) => {
             if (err) {
-              return next(err); // Handle error if login fails
+                return next(err); // Handle error if login fails
             }
             return res.status(201).json({ status: true, message: 'Signup successful', user: userObject });
-          });
+        });
     } catch (error) {
         console.log('Registration error:', error);
         res.status(500).json({ status: false, message: 'Internal server error' });
@@ -62,7 +62,7 @@ const signupUser = async (req, res) => {
 
 
 const loginUser = async (req, res, next) => {
-    passport.authenticate('local', async (err, user, info) => { 
+    passport.authenticate('local', async (err, user, info) => {
         if (err) {
             return res.status(500).json({ message: 'Internal server error', err });
         }
@@ -73,9 +73,9 @@ const loginUser = async (req, res, next) => {
             if (err) {
                 return res.status(500).json({ status: false, message: 'Login failed' });
             }
-            let userObject = user.toObject(); 
+            let userObject = user.toObject();
 
-            
+
             delete userObject.password;
 
             const role = userObject.role;
@@ -84,16 +84,19 @@ const loginUser = async (req, res, next) => {
 
             try {
                 if (role === "teacher") {
-                    userData = await Teacher.findOne({ userId: id }).populate('classId');
+                    userData = await Teacher.findOne({ userId: id }).populate({
+                        path: 'classId',
+                        select: 'name date',
+                    });
                 } else if (role === "admin") {
                     userData = await Admin.findOne({ userId: id });
                 } else if (role === "student") {
                     userData = await Student.findOne({ userId: id });
                 }
 
-               
+
                 const combinedData = { ...userObject, userData };
-                
+
                 return res.status(200).json({
                     auth: true,
                     status: true,
@@ -154,30 +157,33 @@ const logout = async (req, res) => {
 const checkUser = async (req, res) => {
     console.log(req.user)
     try {
-        const user= req.user;
+        const user = req.user;
         // console.log("checkUser: ", user);
         // delete user.password;
         if (req.user) {
-            const role= user.role;
-            const id= user._id;
+            const role = user.role;
+            const id = user._id;
             let userData;
-            if(role=="teacher"){
-                userData = await Teacher.findOne({ userId: id }).populate('classId').populate('upcomingLesson');
-            }else if(role=="admin"){
-                userData= await Admin.findOne({userId: id })
-            }else if(role=="student"){
-                userData= await Student.findOne({userId: id })
+            if (role == "teacher") {
+                userData = await Teacher.findOne({ userId: id }).populate({
+                    path: 'classId',
+                    select: 'name date',
+                });
+            } else if (role == "admin") {
+                userData = await Admin.findOne({ userId: id })
+            } else if (role == "student") {
+                userData = await Student.findOne({ userId: id })
             }
             // delete user._id;
             // console.log("userData: ",userData)
-            userData= {...user, userData}
-            res.status(200).json({auth: true, status: true, message: "user Login", user: userData })
+            userData = { ...user, userData }
+            res.status(200).json({ auth: true, status: true, message: "user Login", user: userData })
         } else {
-            res.status(401).json({auth: true, status: false, message: "Not Authorized"})
+            res.status(401).json({ auth: true, status: false, message: "Not Authorized" })
         }
     } catch (error) {
         console.log(error)
-        res.status(409).json({auth: false, status: false, message: error })
+        res.status(409).json({ auth: false, status: false, message: error })
     }
 }
 
