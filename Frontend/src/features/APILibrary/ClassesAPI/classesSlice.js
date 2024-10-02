@@ -67,7 +67,8 @@ export const classesSlice = createSlice({
             })
             .addCase(updateClassesAsync.fulfilled, (state, action) => {
                 state.status = "idle";
-                state.classes = action.payload;
+                const index= state.classes.findIndex(item=>item._id===action.payload._id);
+                state.classes[index] = action.payload;
             })
             .addCase(deleteClassesAsync.pending, (state) => {
                 state.status = "loading";

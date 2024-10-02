@@ -23,13 +23,7 @@ const addDeita = async (req, res) => {
         }
         //REST
         const deitaCheck = await Deita.findOne({ lessonId: data.lessonId });
-        if (deitaCheck) {
-            return res.status(201).send({
-                success: true,
-                message: 'Deita Object is already Present',
-                data: deitaCheck
-            });
-        }
+
         const deitaObject = {
             content: "generate the fields of whatIwant array based on resource array",
             WhatIwant: [
@@ -49,7 +43,7 @@ const addDeita = async (req, res) => {
         }
         // const jsonString = JSON.stringify(deitaObject);
         const response = await fetchResponse(deitaObject);
-        const deitaObj = new Deita({
+        const responseData = {
             lessonId: data.lessonId,
             previewLesson: {
                 myIntroduction: response["My Introduction and Reference Framework"],
@@ -57,7 +51,17 @@ const addDeita = async (req, res) => {
                 socialLearning: response["Proposed Progress: Social Learning"],
                 keyConcepts: response["Key Concepts to Teach"]
             }
-        });
+        }
+        if (deitaCheck) {
+            const updatedDieta = await Deita.findOneAndUpdate({ lessonId: data.lessonId }, responseData, { new: true });
+            return res.status(201).send({
+                success: true,
+                message: 'Deita added successfully',
+                data: updatedDieta
+            });
+        }
+        const deitaObj = new Deita(responseData);
+
         const newDeita = await deitaObj.save();
         res.status(201).send({
             success: true,
@@ -105,7 +109,7 @@ const updateDeita = async (req, res) => {
 const fetchDeitaById = async (req, res) => {
     try {
         const { lessonId } = req.query;
-        console.log("lessonId: ",lessonId)
+        console.log("lessonId: ", lessonId)
         if (!lessonId) {
             return res.status(404).send({
                 success: false,

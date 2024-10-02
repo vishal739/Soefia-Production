@@ -46,6 +46,13 @@
 
   }
 }
+.actions{
+  display: flex;
+  justify-content: space-evenly;
+  .actionIcon{
+    cursor: pointer;
+  }
+}
 .upcoming-lesson-table-container {
   grid-area: 1 /2 /2/ 3;
 }
