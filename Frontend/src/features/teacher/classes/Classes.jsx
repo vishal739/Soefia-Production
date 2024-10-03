@@ -10,16 +10,17 @@ import { Button, ButtonGroup, Switch } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { createClassesAsync, fetchClassesAsync, selectClasses, updateClassesAsync } from "../../APILibrary/ClassesAPI/classesSlice";
-
+import { format } from "date-fns";
 const Classes = () => {
+    const classes = useSelector(selectClasses)
     const isLoggedIn = useSelector(selectCheckUser);
     const [textInput1, setTextInput1] = useState("");
     const [selectedClass, setSelectedClass] = useState();
     const speechToText1 = useSpeechToText({ continuous: true });
     const userData = isLoggedIn.userData;
-    const dispatch= useDispatch();
-    const classes=useSelector(selectClasses)
-    console.log("classesAsync: ", classes);
+    const dispatch = useDispatch();
+    
+    // console.log("classesAsync: ", classes);
     const {
         isListening: isListening1,
         transcript: transcript1,
@@ -49,7 +50,6 @@ const Classes = () => {
     const findFilteredData = (selectedClass) => {
         const filteredClass = classes.find(cls => cls._id === selectedClass);
 
-        // Assuming setFilteredData is a state setter function (for example, useState in React)
         if (filteredClass) {
             setFilteredData(filteredClass);
         } else {
@@ -57,12 +57,13 @@ const Classes = () => {
         }
     };
     const handleClassChange = (e) => {
-        setSelectedClass(e.target.value);
-        // const filtered = classWiseData.filter((item) => {
-        //   return  item.classSection === e.target.value;
-        // });
-        findFilteredData(e.target.value);
+        const selectedValue = e.target.value;
+        if (selectedValue) {
+            setSelectedClass(selectedValue);
+            findFilteredData(selectedValue);
+        }
     };
+
 
     const stopVoiceInput = (
         textInput,
@@ -77,6 +78,7 @@ const Classes = () => {
             : textInput;
         setTextInput(newText);
         stopListening();
+        // clearTranscript();
     };
 
     const handleCreateLessonClick = () => {
@@ -90,20 +92,28 @@ const Classes = () => {
             alert("Please select a class before creating a lesson.");
         }
     };
-    const handleSubmit= () =>{
-        dispatch(updateClassesAsync({_id: selectedClass, whatINeedToKnow: textInput1}))
+    const handleSubmit = () => {
+        const date = new Date();
+        const formattedDate = date.toLocaleDateString('en-GB');
+        const updatedClass = {
+            ...filteredData,
+            whatINeedToKnow: [...(filteredData.whatINeedToKnow || []), { date: formattedDate, topic: textInput1 }]
+        };
+
+        dispatch(updateClassesAsync({ _id: selectedClass, whatINeedToKnow: textInput1 }));
         setTextInput1("");
         speechToText1.clearTranscript();
-    }
-    useEffect(() =>{
-        // dispatch(updateClassesAsync({whatINeedToKnow: textInput1}))
-        dispatch(fetchClassesAsync({ teacherId: isLoggedIn.userData._id })) .then(() => {
-            setFilteredData(prevData => prevData.filter(classid => classid._id !== classid));
-          })
-          .catch((error) => {
-            console.error("Error deleting lesson:", error);
-          });
-    },[dispatch,isLoggedIn])
+        setFilteredData(updatedClass);
+
+    };
+
+    
+    useEffect(() => {
+        if (isLoggedIn && isLoggedIn.userData) {
+            dispatch(fetchClassesAsync({ teacherId: isLoggedIn.userData._id }));
+        }
+    }, [dispatch, isLoggedIn]);
+
     return (
         <>
             <Navbar />
@@ -168,9 +178,9 @@ const Classes = () => {
                     </div>
                     <div className="right-pane">
                         {/* <Link to="/teacher/lesson" className="right-link"> */}
-                            <button className="card" onClick={handleCreateLessonClick}>
-                                Create Lesson
-                            </button>
+                        <button className="card" onClick={handleCreateLessonClick}>
+                            Create Lesson
+                        </button>
                         {/* </Link> */}
                     </div>
                 </div>
@@ -193,13 +203,13 @@ const Classes = () => {
                                 </thead>
                                 <tbody>
                                     {/* {console.log("filterClass: ", filteredData)} */}
-                                    {filteredData.whatINeedToKnow && filteredData.whatINeedToKnow.length!=0 ? filteredData.
+                                    {filteredData.whatINeedToKnow && filteredData.whatINeedToKnow.length != 0 ? filteredData.
                                         whatINeedToKnow
                                         .map((item, index) => {
                                             return (
                                                 <tr key={index}>
-                                                    {console.log(item)}
-                                                    <td>{item.date}</td>
+                                                    {/* {console.log(item)} */}
+                                                    <td>{format(new Date(item.date), "dd/MM/yyyy")}</td>
                                                     <td>{item.topic}</td>
                                                 </tr>
                                             );

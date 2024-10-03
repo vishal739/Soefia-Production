@@ -53,12 +53,34 @@ const Group = () => {
   const dispatch = useDispatch();
   const deita = useSelector(selectDeita);
   const isLoading = useSelector(selectDeitaLoader);
-  useEffect(() => {
-    
-    if (lessonId!=deita.lessonId) {
-      dispatch(fetchDeitaAsync({ lessonId: lessonId }))
-    }
-  }, [dispatch,lessonId]);
+  const [textInput1, setTextInput1] = useState(deita?.previewLesson.myIntroduction );
+  const [textInput2, setTextInput2] = useState(deita?.previewLesson.
+    academicLearning );
+  const [textInput3, setTextInput3] = useState(deita?.previewLesson.socialLearning );
+  const [textInput4, setTextInput4] = useState(deita?.previewLesson.keyConcepts );
+  // dispatch(fetchCurrentLessonAsync({ lessonId: lessonId }))
+  //     .then((result) => {
+  //       const lesson = result.payload;
+  //       setTextInput1(lesson?.lessonStructureOverview || "");
+  //       setTextInput2(lesson?.learningGoals || "");
+  //       setTextInput3(lesson?.socialCollaborationGoal || "");
+  //       setTextInput4(lesson?.lessonMaterials || "");
+  //       setTextInput5(lesson?.lessonExercise || "");
+  //       setTitle(lesson?.title || "");
+  //       setStartDate(lesson?.date ? new Date(lesson.date) : new Date());
+  //     });
+  // useEffect(() => {
+
+  //   // if (lessonId) {
+  //   //   dispatch(fetchDeitaAsync({ lessonId: lessonId })).then((result) => {
+  //   //     const deita = result.payload;
+  //   //     setTextInput1(deita?.previewLesson.myIntroduction );
+  //   //     setTextInput2(deita?.previewLesson.academicLearning );
+  //   //     setTextInput3(deita?.previewLesson.socialLearning );
+  //   //     setTextInput4(deita?.previewLesson.keyConcepts );
+  //   //   });
+  //   // }
+  // }, [dispatch, lessonId]);
 
   return (
     <div className="group-container">
@@ -96,7 +118,7 @@ const Group = () => {
                   <h3>My Introduction and Reference Framework</h3>
                 </div>
                 <div>
-                  <textarea className="grp-text-area" value={deita.previewLesson ? deita.previewLesson.myIntroduction : ""}></textarea>
+                  <textarea className="grp-text-area" value={textInput1}></textarea>
                 </div>
               </section>
               <section>
@@ -105,7 +127,7 @@ const Group = () => {
                   <h3>Proposed Progress: Academic Learning</h3>
                 </div>
                 <div>
-                  <textarea className="grp-text-area" value={deita.previewLesson ? deita.previewLesson.academicLearning : ""}></textarea>
+                  <textarea className="grp-text-area" value={textInput2}></textarea>
                 </div>
               </section>
               <section>
@@ -114,7 +136,7 @@ const Group = () => {
                   <h3>Proposed Progress: Social Learning</h3>
                 </div>
                 <div>
-                  <textarea className="grp-text-area" value={deita.previewLesson ? deita.previewLesson.socialLearning : ""}></textarea>
+                  <textarea className="grp-text-area" value={textInput3}></textarea>
                 </div>
               </section>
               <section>
@@ -123,7 +145,7 @@ const Group = () => {
                   <h3>Key Concepts to Teach</h3>
                 </div>
                 <div>
-                  <textarea className="grp-text-area" value={deita.previewLesson ? deita.previewLesson.keyConcepts : ""}></textarea>
+                  <textarea className="grp-text-area" value={textInput4}></textarea>
                 </div>
               </section>
             </div>
