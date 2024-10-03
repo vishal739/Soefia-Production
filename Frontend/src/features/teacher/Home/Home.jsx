@@ -142,7 +142,9 @@ const Home = () => {
   }
   useEffect(() => {
     console.log("teacherId: ", isLoggedIn.userData._id)
-    dispatch(fetchLessonAsync({ teacherId: isLoggedIn.userData._id }));
+    dispatch(fetchLessonAsync({ teacherId: isLoggedIn.userData._id })).then((result)=>{
+      setFilteredData(result.payload);
+    });
     
   }, [dispatch, isLoggedIn]);
 
