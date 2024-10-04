@@ -201,7 +201,7 @@ const Lesson = () => {
           setTitle(lesson?.title || "");
           setStartDate(lesson?.date ? new Date(lesson.date) : new Date());
         });
-        dispatch(fetchDeitaAsync({lessonId: lessonId}));
+        dispatch(fetchDeitaAsync({lessonId: lessonId}))
     } else {
       resetForm();
     }
