@@ -19,7 +19,7 @@ const Classes = () => {
     const speechToText1 = useSpeechToText({ continuous: true });
     const userData = isLoggedIn.userData;
     const dispatch = useDispatch();
-    
+
     // console.log("classesAsync: ", classes);
     const {
         isListening: isListening1,
@@ -99,15 +99,13 @@ const Classes = () => {
             ...filteredData,
             whatINeedToKnow: [...(filteredData.whatINeedToKnow || []), { date: formattedDate, topic: textInput1 }]
         };
-
         dispatch(updateClassesAsync({ _id: selectedClass, whatINeedToKnow: textInput1 }));
         setTextInput1("");
         speechToText1.clearTranscript();
         setFilteredData(updatedClass);
-
     };
 
-    
+
     useEffect(() => {
         if (isLoggedIn && isLoggedIn.userData) {
             dispatch(fetchClassesAsync({ teacherId: isLoggedIn.userData._id }));
@@ -127,11 +125,11 @@ const Classes = () => {
                         <label htmlFor="class-select">Class</label>
                         <select id="class-select" onChange={handleClassChange}>
                             <option value="">Select a class</option>
-                            {classes && classes.map((className, index) => (
-                                <option key={index} value={className._id}> {className.name} </option>
+                            {Array.isArray(classes) && classes.map((className, index) => (
+                                <option key={index} value={className._id}>{className.name}</option>
                             ))}
-
                         </select>
+
                     </section>
                 </div>
                 <div className="part-1">
