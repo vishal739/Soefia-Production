@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const deitaController= require('../controller/deitaController')
-const { addDeita, updateDeita,fetchDeitaById, deleteDeita } = deitaController;
-
+const { generateLessonSummary, updateDeita,fetchDeitaById, deleteDeita } = deitaController;
++
 router
-    .post("/",addDeita)
+    .post("/",generateLessonSummary)
     .get("/",fetchDeitaById)
     .patch("/",updateDeita)
     .delete("/",deleteDeita);

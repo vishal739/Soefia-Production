@@ -3,7 +3,7 @@ const Lesson = require("../model/lessonModel");
 const { fetchResponse } = require("../utils/openai");
 
 
-const addDeita = async (req, res) => {
+const generateLessonSummary = async (req, res) => {
     try {
         const data = req.body;
         if (!data || !data.lessonId) {
@@ -12,7 +12,7 @@ const addDeita = async (req, res) => {
                 message: 'Required fields are missing'
             });
         }
-
+        
         const lesson = await Lesson.findOne({ _id: data.lessonId });
 
         if (!lesson) {
@@ -157,5 +157,5 @@ const deleteDeita = async (req, res) => {
     }
 }
 
-module.exports = { addDeita, updateDeita, fetchDeitaById, deleteDeita };
+module.exports = { generateLessonSummary, updateDeita, fetchDeitaById, deleteDeita };
 

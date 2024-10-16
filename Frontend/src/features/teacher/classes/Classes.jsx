@@ -3,7 +3,7 @@ import "./Classes.scss";
 import mic from "../../../assets/mic.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useSpeechToText from "../../webSpeech/useSpeechToText";
+import useSpeechToText from "../../APILibrary/webSpeech/useSpeechToText";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCheckUser } from "../../auth/authSlice";
 import { Button, ButtonGroup, Switch } from "@mui/material";

@@ -79,7 +79,7 @@ const createLesson = async (req, res) => {
 const updateLesson = async (req, res) => {
     try {
         const data = req.body;
-        if (!data) {
+        if (!data || !data._id || !data.date) {
             return res.status(400).send({
                 success: false,
                 message: 'Required fields are missing'
@@ -89,14 +89,14 @@ const updateLesson = async (req, res) => {
             const [day, month, year] = data.date.split('/');
             data.date = new Date(`${year}-${month}-${day}`);
         }
-        console.log("UpdateLessonData: ",data)
+        console.log("UpdateLessonData: ", data)
         const updateLesson = await Lesson.findOneAndUpdate({ _id: data._id }, data, { new: true }).populate({
             path: 'classId',
             select: 'name date',
         });
-        if (data.type=="completed") {
+        if (data.type == "completed") {
             const teacher = await Teacher.findOne({ upcomingLesson: data._id });
-            if(!teacher){
+            if (!teacher) {
                 return res.status(404).send({
                     success: false,
                     message: 'teacher not found using upcoming lesson in updateLessonAPI'
@@ -111,9 +111,9 @@ const updateLesson = async (req, res) => {
                 { new: true }
             );
         }
-        if (data.type=="upcoming") {
+        if (data.type == "upcoming") {
             const teacher = await Teacher.findOne({ previousLesson: data._id });
-            if(!teacher){
+            if (!teacher) {
                 return res.status(404).send({
                     success: false,
                     message: 'teacher not found using previous lesson in updateLessonAPI'
@@ -145,7 +145,7 @@ const updateLesson = async (req, res) => {
 
 const deleteLesson = async (req, res) => {
     try {
-        const {lessonId}= req.query;
+        const { lessonId } = req.query;
         if (!lessonId) {
             return res.status(404).send({
                 success: false,
@@ -172,14 +172,14 @@ const fetchCurrentLessonById = async (req, res) => {
     try {
         const { lessonId } = req.query;
         // const {date,status,classId,lessonTopic,type,title } 
-        console.log("lessonId: ",lessonId)
+        console.log("lessonId: ", lessonId)
         if (!lessonId) {
             return res.status(404).send({
                 success: false,
                 message: 'unable to fetch CurrentLesson'
             })
         }
-        const lessonData = await Lesson.findOne({ _id: lessonId})
+        const lessonData = await Lesson.findOne({ _id: lessonId })
         // console.log("upcoming Lesson: ", upcomingLesson)
         res.status(200).send({
             success: true,
@@ -199,14 +199,14 @@ const fetchLessonByTeacherId = async (req, res) => {
     try {
         const { teacherId } = req.query;
         // const {date,status,classId,lessonTopic,type,title } 
-        console.log("teacherId: ",teacherId)
+        console.log("teacherId: ", teacherId)
         if (!teacherId) {
             return res.status(404).send({
                 success: false,
                 message: 'unable to fetch Lesson'
             })
         }
-        const lessonData = await Lesson.find({ teacherId: teacherId}).populate({
+        const lessonData = await Lesson.find({ teacherId: teacherId }).populate({
             path: 'classId',
             select: 'name date',
         })
@@ -349,7 +349,7 @@ const updateLessonDetails = async (req, res) => {
                 message: 'Lesson ID is required'
             });
         }
-        
+
         const updateFields = {};
 
         if (lessonExercise) updateFields.lessonExercise = lessonExercise;
@@ -378,7 +378,37 @@ const updateLessonDetails = async (req, res) => {
         });
     }
 };
+const fs = require("fs");
+const PDFParser = require("pdf2json");
+const pdfParser = new PDFParser();
+
+const parseLesson = async (req, res) => {
+    try {
+        // Listen for errors
+        pdfParser.on("pdfParser_dataError", (errData) => {
+            console.error(errData.parserError);
+            return res.status(500).json({ error: "Error parsing PDF" });
+        });
+
+        // Process the parsed PDF data
+        pdfParser.on("pdfParser_dataReady", (pdfData) => {
+            fs.writeFile("./F1040EZ.json", JSON.stringify(pdfData), (err) => {
+                if (err) {
+                    console.error("File write error", err);
+                    return res.status(500).json({ error: "Error saving parsed data" });
+                }
+                console.log("File saved successfully");
+                return res.status(200).json({ message: "PDF parsed and saved", data: pdfData });
+            });
+        });
+
+        // Ensure the file path is correct
+        pdfParser.loadPDF(__dirname + "/../../../lesson.pdf");
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "An error occurred" });
+    }
+};
 
 
-
-module.exports = { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId, fetchCompletedLessonByClassId, deleteLesson, updateLesson, updateLessonMaterials, updateLessonDetails,fetchLessonByTeacherId,fetchCurrentLessonById };
+module.exports = { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId, fetchCompletedLessonByClassId, deleteLesson, updateLesson, updateLessonMaterials, updateLessonDetails, fetchLessonByTeacherId, fetchCurrentLessonById, parseLesson };

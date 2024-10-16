@@ -57,7 +57,6 @@ app.use("/api/school",schoolRoute);
 app.use("/api/class",classRoute);
 app.use("/api/deita",deitaRoute);
 
-
 app.listen(port, () => {
   console.log("Server started on port " + port);
 });

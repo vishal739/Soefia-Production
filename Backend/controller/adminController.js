@@ -12,7 +12,7 @@ const addAdmin = async (req, res) => {
         }
 
         const admin = new Admin({
-            userId: data.userId, //66b5fb5c285f8832124c67e8
+            userId: data.userId, 
             name: data.name,
             email: data.email,
             profileBio: data.profileBio || "No bio available",

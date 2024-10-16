@@ -3,7 +3,7 @@ import Navbar from "../Navbar/Navbar";
 import mic from "../../../assets/mic.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import useSpeechToText from "../../webSpeech/useSpeechToText";
+import useSpeechToText from "../../APILibrary/webSpeech/useSpeechToText";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
@@ -24,6 +24,7 @@ import { Button } from "@mui/material";
 import { createDeitaAsync, fetchDeitaAsync, selectDeita, selectDeitaLoader } from "../../APILibrary/DeitaAPI/deitaSlice";
 import { updateLesson } from "../../APILibrary/LessonAPI/lessonAPI";
 import Loader from "../../../pages/Loader/Loader";
+import FileUploadModal from "../../APILibrary/aws/FileUploadModal";
 
 const Lesson = () => {
   const isLoggedIn = useSelector(selectCheckUser);
@@ -117,6 +118,12 @@ const Lesson = () => {
   const lessonId = queryParams.get("lessonId");
   const navigate = useNavigate();
   const formattedDate = format(startDate, "dd/MM/yyyy");
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
+
+
   const clearTranscripts = () => {
     speechToText1.clearTranscript();
     speechToText2.clearTranscript();
@@ -201,7 +208,7 @@ const Lesson = () => {
           setTitle(lesson?.title || "");
           setStartDate(lesson?.date ? new Date(lesson.date) : new Date());
         });
-        dispatch(fetchDeitaAsync({lessonId: lessonId}))
+      dispatch(fetchDeitaAsync({ lessonId: lessonId }))
     } else {
       resetForm();
     }
@@ -216,7 +223,10 @@ const Lesson = () => {
               <h2>Lesson Creation</h2>
               <div className="uploadFiles">
                 <span>Read From My Lesson Plan</span>
-                <Button variant="contained">Upload Files</Button>
+                <Button variant="contained" onClick={handleOpen}>
+                  Upload Files
+                </Button>
+                <FileUploadModal open={modalOpen} handleClose={handleClose} />
               </div>
             </div>
             <div className="lesson-container">
