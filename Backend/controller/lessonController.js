@@ -2,23 +2,31 @@ const Class = require('../model/classModel');
 const Lesson = require('../model/lessonModel'); // Make sure to require your Lesson model
 const Teacher = require('../model/teacherModel');
 
-// Data Format 
-// const newLesson = new Lesson({
-//     title: data.title,
-//     date: data.date,
-//     lessonMaterials: data.lessonMaterials || [],
-//     lessonExercise: data.lessonExercise || [],
-//     type: data.type,
-//     learningGoals: data.learningGoals || "",
-//     lessonSummary: data.lessonSummary || "",
-//     LessonStructureOverview: data.LessonStructureOverview || "",
-//     SocialCollaborationGoal: data.SocialCollaborationGoal || "",
-//     status: data.status,
-//     groups: data.groups || [], 
-//     classId: data.classId,
-//     teacherId: data.teacherId
-// });
 
+/**
+ * Creates a new lesson and saves it to the database.
+ * 
+ * @async
+ * @function createLesson
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request containing lesson details.
+ * @param {string} req.body.title - The title of the lesson.
+ * @param {string} req.body.classId - The ID of the class.
+ * @param {string} req.body.date - The date of the lesson in DD/MM/YYYY format.
+ * @param {string} req.body.teacherId - The ID of the teacher.
+ * @param {Array} [req.body.lessonMaterials] - The materials for the lesson.
+ * @param {Array} [req.body.lessonExercise] - The exercises for the lesson.
+ * @param {string} [req.body.type] - The type of the lesson.
+ * @param {string} [req.body.learningGoals] - The learning goals of the lesson.
+ * @param {string} [req.body.lessonSummary] - The summary of the lesson.
+ * @param {string} [req.body.lessonStructureOverview] - The structure overview of the lesson.
+ * @param {string} [req.body.socialCollaborationGoal] - The social collaboration goal of the lesson.
+ * @param {string} [req.body.status] - The status of the lesson.
+ * @param {Array} [req.body.groups] - The groups associated with the lesson.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the lesson is created.
+ * @throws {Error} - If there is an error creating the lesson.
+ */
 const createLesson = async (req, res) => {
     try {
         const data = req.body;
@@ -50,6 +58,7 @@ const createLesson = async (req, res) => {
         });
 
         const savedLesson = await newLesson.save();
+        //If Lesson is saved, add the lesson to the teacher's upcomingLesson array and Class LessonId array
         if (savedLesson) {
             const teacher = await Teacher.findOne({ _id: data.teacherId });
             teacher.upcomingLesson.push(savedLesson._id);
@@ -76,6 +85,21 @@ const createLesson = async (req, res) => {
     }
 };
 
+/**
+ * Updates a lesson based on the provided data in the request body.
+ * 
+ * @async
+ * @function updateLesson
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request containing lesson data.
+ * @param {string} req.body._id - The ID of the lesson to update.
+ * @param {string} req.body.date - The date of the lesson in DD/MM/YYYY format.
+ * @param {string} req.body.type - The type of the lesson, either "completed" or "upcoming".
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Sends a response with the status of the update operation.
+ * 
+ * @throws {Error} If there is an error during the update process.
+ */
 const updateLesson = async (req, res) => {
     try {
         const data = req.body;
@@ -90,10 +114,8 @@ const updateLesson = async (req, res) => {
             data.date = new Date(`${year}-${month}-${day}`);
         }
         console.log("UpdateLessonData: ", data)
-        const updateLesson = await Lesson.findOneAndUpdate({ _id: data._id }, data, { new: true }).populate({
-            path: 'classId',
-            select: 'name date',
-        });
+        const updateLesson = await Lesson.findOneAndUpdate({ _id: data._id }, data, { new: true })
+        //when someone marks a lesson as completed we will update teacher upcomingLesson array and add the lesson to the previousLesson array
         if (data.type == "completed") {
             const teacher = await Teacher.findOne({ upcomingLesson: data._id });
             if (!teacher) {
@@ -111,6 +133,7 @@ const updateLesson = async (req, res) => {
                 { new: true }
             );
         }
+        //when someone marks a lesson as upcoming we will update teacher previousLesson array and add the lesson to the upcomingLesson array
         if (data.type == "upcoming") {
             const teacher = await Teacher.findOne({ previousLesson: data._id });
             if (!teacher) {
@@ -143,6 +166,17 @@ const updateLesson = async (req, res) => {
     }
 }
 
+/**
+ * Deletes a lesson based on the provided lessonId.
+ *
+ * @async
+ * @function deleteLesson
+ * @param {Object} req - The request object.
+ * @param {Object} req.query - The query parameters.
+ * @param {string} req.query.lessonId - The ID of the lesson to delete.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Sends a response indicating the success or failure of the deletion operation.
+ */
 const deleteLesson = async (req, res) => {
     try {
         const { lessonId } = req.query;
@@ -168,6 +202,15 @@ const deleteLesson = async (req, res) => {
     }
 }
 
+/**
+ * Fetches the current lesson by its ID.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.query - The query parameters.
+ * @param {string} req.query.lessonId - The ID of the lesson to fetch.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - Sends a response with the lesson data or an error message.
+ */
 const fetchCurrentLessonById = async (req, res) => {
     try {
         const { lessonId } = req.query;
@@ -195,6 +238,17 @@ const fetchCurrentLessonById = async (req, res) => {
         })
     }
 }
+
+/**
+ * Fetches lessons by teacher ID.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.query - The query parameters.
+ * @param {string} req.query.teacherId - The ID of the teacher.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - Sends a response with the lesson data or an error message.
+ */
+
 const fetchLessonByTeacherId = async (req, res) => {
     try {
         const { teacherId } = req.query;
@@ -226,6 +280,18 @@ const fetchLessonByTeacherId = async (req, res) => {
     }
 }
 
+/**
+ * Fetches upcoming lessons by teacher ID.
+ *
+ * @async
+ * @function fetchUpcomingLessonByTeacherId
+ * @param {Object} req - The request object.
+ * @param {Object} req.query - The query parameters.
+ * @param {string} req.query.teacherId - The ID of the teacher.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Sends a response with the upcoming lessons or an error message.
+ * @throws {Error} If there is an error during the fetch operation.
+ */
 const fetchUpcomingLessonByTeacherId = async (req, res) => {
     try {
         const { teacherId } = req.query;
@@ -253,6 +319,17 @@ const fetchUpcomingLessonByTeacherId = async (req, res) => {
     }
 }
 
+/**
+ * Fetches completed lessons by teacher ID.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.query - The query parameters.
+ * @param {string} req.query.teacherId - The ID of the teacher.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the operation is complete.
+ *
+ * @throws {Error} - If there is an error during the operation.
+ */
 const fetchCompletedLessonByTeacherId = async (req, res) => {
     try {
         const { teacherId } = req.query;
@@ -279,6 +356,16 @@ const fetchCompletedLessonByTeacherId = async (req, res) => {
     }
 }
 
+/**
+ * Fetches completed lessons by class ID and teacher ID.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.query - The query parameters.
+ * @param {string} req.query.teacherId - The ID of the teacher.
+ * @param {string} req.query.classId - The ID of the class.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - Sends a response with the fetched lessons or an error message.
+ */
 const fetchCompletedLessonByClassId = async (req, res) => {
     try {
         const { teacherId, classId } = req.query;
@@ -307,108 +394,5 @@ const fetchCompletedLessonByClassId = async (req, res) => {
     }
 }
 
-const updateLessonMaterials = async (req, res) => {
-    try {
-        const { lessonId, materials } = req.body;
-        if (!lessonId || !materials) {
-            return res.status(400).send({
-                success: false,
-                message: 'Required fields are missing'
-            });
-        }
 
-        const updatedLesson = await Lesson.findByIdAndUpdate(
-            lessonId,
-            { $addToSet: { lessonMaterials: { $each: materials } } },
-            { new: true }
-        );
-
-        res.status(200).send({
-            success: true,
-            message: 'Materials updated successfully',
-            data: updatedLesson
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({
-            success: false,
-            message: 'Error updating materials',
-            error: error.message
-        });
-    }
-};
-
-
-const updateLessonDetails = async (req, res) => {
-    try {
-        const { lessonId, lessonExercise, learningGoals, lessonSummary, LessonStructureOverview, SocialCollaborationGoal } = req.body;
-
-        if (!lessonId) {
-            return res.status(400).send({
-                success: false,
-                message: 'Lesson ID is required'
-            });
-        }
-
-        const updateFields = {};
-
-        if (lessonExercise) updateFields.lessonExercise = lessonExercise;
-        if (learningGoals) updateFields.learningGoals = learningGoals;
-        if (lessonSummary) updateFields.lessonSummary = lessonSummary;
-        if (LessonStructureOverview) updateFields.LessonStructureOverview = LessonStructureOverview;
-        if (SocialCollaborationGoal) updateFields.SocialCollaborationGoal = SocialCollaborationGoal;
-
-        const updatedLesson = await Lesson.findByIdAndUpdate(
-            lessonId,
-            { $set: updateFields },
-            { new: true }
-        );
-
-        res.status(200).send({
-            success: true,
-            message: 'Lesson details updated successfully',
-            data: updatedLesson
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({
-            success: false,
-            message: 'Error updating lesson details',
-            error: error.message
-        });
-    }
-};
-const fs = require("fs");
-const PDFParser = require("pdf2json");
-const pdfParser = new PDFParser();
-
-const parseLesson = async (req, res) => {
-    try {
-        // Listen for errors
-        pdfParser.on("pdfParser_dataError", (errData) => {
-            console.error(errData.parserError);
-            return res.status(500).json({ error: "Error parsing PDF" });
-        });
-
-        // Process the parsed PDF data
-        pdfParser.on("pdfParser_dataReady", (pdfData) => {
-            fs.writeFile("./F1040EZ.json", JSON.stringify(pdfData), (err) => {
-                if (err) {
-                    console.error("File write error", err);
-                    return res.status(500).json({ error: "Error saving parsed data" });
-                }
-                console.log("File saved successfully");
-                return res.status(200).json({ message: "PDF parsed and saved", data: pdfData });
-            });
-        });
-
-        // Ensure the file path is correct
-        pdfParser.loadPDF(__dirname + "/../../../lesson.pdf");
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: "An error occurred" });
-    }
-};
-
-
-module.exports = { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId, fetchCompletedLessonByClassId, deleteLesson, updateLesson, updateLessonMaterials, updateLessonDetails, fetchLessonByTeacherId, fetchCurrentLessonById, parseLesson };
+module.exports = { createLesson, fetchUpcomingLessonByTeacherId, fetchCompletedLessonByTeacherId, fetchCompletedLessonByClassId, deleteLesson, updateLesson, fetchLessonByTeacherId, fetchCurrentLessonById };

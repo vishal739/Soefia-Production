@@ -1,6 +1,20 @@
 const Admin = require("../model/adminModel")
 
 
+/**
+ * Adds a new admin to the database.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request.
+ * @param {string} req.body.name - The name of the admin.
+ * @param {string} req.body.email - The email of the admin.
+ * @param {string} req.body.userId - The user ID of the admin.
+ * @param {string} [req.body.profileBio] - The profile bio of the admin.
+ * @param {Array} [req.body.permissions] - The permissions assigned to the admin.
+ * @param {string} req.body.schoolId - The school ID associated with the admin.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the admin is added.
+ */
 const addAdmin = async (req, res) => {
     try {
         const data = req.body;
@@ -37,6 +51,17 @@ const addAdmin = async (req, res) => {
     }
 }
 
+/**
+ * Updates an admin's information.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request containing admin data.
+ * @param {string} req.body.id - The ID of the admin to update.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - Sends a response with the update status.
+ *
+ * @throws {Error} - If there is an error during the update process.
+ */
 const updateAdmin = async (req, res) => {
     try {
         const data = req.body;
@@ -64,6 +89,17 @@ const updateAdmin = async (req, res) => {
     }
 }
 
+/**
+ * Fetches an admin by their ID.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.params - The request parameters.
+ * @param {string} req.params.id - The ID of the admin to fetch.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the operation is complete.
+ *
+ * @throws {Error} - If there is an error during the fetch operation.
+ */
 const fetchAdminById = async (req, res) => {
     try {
         const { id } = req.params.id;
@@ -89,6 +125,18 @@ const fetchAdminById = async (req, res) => {
     }
 }
 
+/**
+ * Deletes an admin based on the provided ID in the request body.
+ * 
+ * @async
+ * @function deleteAdmin
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request.
+ * @param {string} req.body.id - The ID of the admin to be deleted.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and message.
+ * @throws Will throw an error if the deletion process fails.
+ */
 const deleteAdmin = async (req, res) => {
     try {
         const data = req.body;
