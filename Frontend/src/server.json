@@ -1,59 +1,23 @@
-{
-    "users": [
-        {
-            "id": 1,
-            "email": "teacher1@edu.in",
-            "password": "teacher123"
-        },
-        {
-            "id": 2,
-            "email": "teacher2@edu.in",
-            "password": "teacher123"
-        }
-    ],
-    "teachers": [
-        {
-            "classes": {
-                "I": [
-                    {
-                        "date": "01/08/24",
-                        "Lesson Goal": "Lesson goal for standard 1"
-                    },
-                    {
-                        "date": "02/08/24",
-                        "Lesson Goal": "Lesson goal for standard 1"
-                    }
-                ],
-                "V": [
-                    {
-                        "date": "01/08/24",
-                        "Lesson Goal": "Lesson goal for standard 1"
-                    },
-                    {
-                        "date": "02/08/24",
-                        "Lesson Goal": "Lesson goal for standard 1"
-                    }
-                ]
-            }
-        }
-    ],
-    "live-lession": {
-        "group-1": {
-            "sentiment": {
-                "positive": 24,
-                "negative": 36
-            },
-            "engagement": {
-                "social": 45,
-                "academics-index": 60
-            }
-        }
-    },
-    "groups": {
-        "red-group": [
-            "vishal",
-            "nishit",
-            "shan"
-        ]
-    }
-}
+// {
+//     "conversation":{ //Labelled Conversation
+//         "1": "Class Level", 
+//         "2": "Group Level",
+//         "3": "Individual Level"
+//     }
+//     "ScoringModel":{ //Labelled Analysis
+//         "1": "Sentiment Analysis", 
+//         "2": "on/of topic Analysis",
+//         "3": "Engagement Analysis" //how much a student is engaged in the lesson
+//         "4": "Participation Analysis" //how much a student is participating in the lesson
+//     }
+// }
+// // Noise controls
+// // "1": "Noise Cancellation" //how much noise is there in the class
+// // "2": "Noise Analysis" //how much noise is there in the class
+// // "3": "Noise Reduction" //how much noise is there in the class
+
+// // Future Recommendations:
+// // "1" : Progress Curve Analysis //how much a student is progressing in the lesson and course level and academic year level
+// // "4": "Confidence Analysis" //how confident a student is in the lesson
+// // "5": "Confusion Analysis" //how confused a student is in the lesson
+// // "6": "Interest Analysis" //how interested a student is in the lesson

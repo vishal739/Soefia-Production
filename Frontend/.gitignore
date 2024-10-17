@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+.env
 node_modules
 dist
 dist-ssr
@@ -22,29 +23,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-// "teachers":[
-    //     {
-    //         "classes":{
-    //             "I":[
-    //                 {
-    //                     "date": "01/08/24",
-    //                     "Lesson Goal": "Lesson goal for standard 1"
-    //                 },
-    //                 {
-    //                     "date": "02/08/24",
-    //                     "Lesson Goal": "Lesson goal for standard 1"
-    //                 }
-    //             ],
-    //             "V":[
-    //                 {
-    //                     "date": "01/08/24",
-    //                     "Lesson Goal": "Lesson goal for standard 1"
-    //                 },
-    //                 {
-    //                     "date": "02/08/24",
-    //                     "Lesson Goal": "Lesson goal for standard 1"
-    //                 }
-    //             ]
-    //         }
-    //     }
-    // ],
