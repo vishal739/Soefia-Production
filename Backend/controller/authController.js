@@ -7,6 +7,21 @@ const Teacher = require("../model/teacherModel")
 const Student = require("../model/studentModel")
 require('../utils/auth');
 
+/**
+ * Handles user signup by creating a new user account.
+ * 
+ * @async
+ * @function signupUser
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - The request body.
+ * @param {string} req.body.email - The user's email.
+ * @param {string} req.body.password - The user's password.
+ * @param {string} req.body.role - The user's role.
+ * @param {string} req.body.name - The user's name.
+ * @param {Object} res - Express response object.
+ * @returns {Promise<void>} - Returns a promise that resolves to void.
+ * @throws {Error} - Throws an error if registration fails.
+ */
 const signupUser = async (req, res) => {
     try {
         const { email, password, role, name } = req.body;
@@ -15,7 +30,7 @@ const signupUser = async (req, res) => {
             return res.status(400).json({ status: false, message: 'Password is required for registration.' });
         }
 
-        console.log("Signup in process");
+        // console.log("Signup in process");
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -48,19 +63,18 @@ const signupUser = async (req, res) => {
     }
 };
 
-// const getTeacherData = async (id) => {
-//     try {
-//         const teacherData =  // Populate classes
 
-//         return teacherData;
-//     } catch (error) {
-//         console.error("Error fetching teacher data: ", error);
-//         throw new Error('Could not fetch teacher data');
-//     }
-// };
-
-
-
+/**
+ * Authenticates and logs in a user using Passport.js.
+ *
+ * @async
+ * @function loginUser
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ * @returns {Promise<void>} Sends a JSON response with the authentication status and user data.
+ * @throws {Error} If there is an internal server error or an error fetching user data.
+ */
 const loginUser = async (req, res, next) => {
     passport.authenticate('local', async (err, user, info) => {
         if (err) {
@@ -111,9 +125,16 @@ const loginUser = async (req, res, next) => {
 };
 
 
-
-
-
+/**
+ * Logs out the user by calling the `req.logout` method and destroys the session.
+ * 
+ * @async
+ * @function logout
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ * @throws Will return a 500 status code if logout or session destruction fails.
+ */
 const logout = async (req, res) => {
     req.logout((err) => {
         if (err) {
@@ -128,38 +149,22 @@ const logout = async (req, res) => {
     });
 }
 
-// const checkUser = (req, res) => {
-//     console.log(req.user)
-//     try {
-//         const user= req.user;
-//         console.log(user);
-//         delete user.password;
-//         if (req.user) {
-//             // const role= user.role;
-//             // const id= user.id;
-//             // let userData;
-//             // if(role=="teacher"){
-//             //     userData= Teacher.findOne({userId: id })
-//             // }else if(role=="admin"){
-//             //     userData= Admin.findOne({userId: id })
-//             // }else if(role=="student"){
-//             //     userData= Student.findOne({userId: id })
-//             // }
-//             res.status(200).json({auth: true, status: true, message: "user Login", user: user })
-//         } else {
-//             res.status(401).json({auth: true, status: false, message: "Not Authorized"})
-//         }
-//     } catch (error) {
-//         console.log(error)
-//         res.status(409).json({auth: false, status: false, message: "Unable to checkuser" })
-//     }
-// }
+
+/**
+ * Asynchronously checks the user based on the request object and returns user data.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} req.user - The user object from the request.
+ * @param {string} req.user.role - The role of the user (e.g., "teacher", "admin", "student").
+ * @param {string} req.user._id - The ID of the user.
+ * @param {Object} res - The response object.
+ * 
+ * @returns {Promise<void>} - Sends a JSON response with user data if authorized, otherwise sends an unauthorized response.
+ */
 const checkUser = async (req, res) => {
-    console.log(req.user)
+    // console.log(req.user)
     try {
         const user = req.user;
-        // console.log("checkUser: ", user);
-        // delete user.password;
         if (req.user) {
             const role = user.role;
             const id = user._id;
@@ -175,7 +180,7 @@ const checkUser = async (req, res) => {
                 userData = await Student.findOne({ userId: id })
             }
             // delete user._id;
-            // console.log("userData: ",userData)
+            console.log("userData: ",userData)
             userData = { ...user, userData }
             res.status(200).json({ auth: true, status: true, message: "user Login", user: userData })
         } else {

@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import { fetchUpcomingLesson, fetchCompletedLesson, createLesson, updateLesson, deleteLesson, fetchCompletedLessonByClass, fetchLesson,fetchCurrentLesson } from "./lessonAPI"
+import { createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import { fetchUpcomingLesson, fetchCompletedLesson, createLesson, updateLesson, deleteLesson, fetchCompletedLessonByClass, fetchLesson,fetchCurrentLesson, uploadAndCreateLesson } from "./lessonAPI"
 
 
 const initialState = {
@@ -8,6 +8,8 @@ const initialState = {
   completedLesson: [],
   classLesson: [],
   lesson: [],
+  status: "idle",
+  uploading: false,
 };
 
 
@@ -67,6 +69,7 @@ export const fetchCompletedLessonByClassAsync = createAsyncThunk(
     return response;
   }
 );
+
 export const createLessonAsync = createAsyncThunk(
   "lesson/createLesson",
   async (data, { rejectWithValue }) => {
@@ -81,6 +84,20 @@ export const createLessonAsync = createAsyncThunk(
     }
   }
 );
+
+export const uploadAndCreateLessonAsync = createAsyncThunk(
+  "lesson/uploadAndCreateLesson",
+  async (file, { rejectWithValue }) => {
+      try {
+          const response = await uploadAndCreateLesson(file); // Use the new fetch-based function
+          return response; // Return the response data
+        } catch (error) {
+          return rejectWithValue(error.message || 'Error uploading file');
+        }
+    }
+);
+
+
 export const updateLessonAsync = createAsyncThunk(
   "lesson/updateLesson",
   async (data) => {
@@ -144,6 +161,17 @@ export const lessonSlice = createSlice({
         state.status = "idle";
         state.currentlesson = action.payload;
       })
+      .addCase(uploadAndCreateLessonAsync.pending, (state) => {
+        state.uploading= true;
+      })
+      .addCase(uploadAndCreateLessonAsync.fulfilled, (state, action) => {
+        state.uploading= false;
+        state.currentlesson = action.payload;
+      })
+      .addCase(uploadAndCreateLessonAsync.rejected, (state, action) => {
+        state.uploading= false;
+        state.error = action.payload.message;
+      })
       .addCase(updateLessonAsync.pending, (state) => {
         state.status = "loading";
       })
@@ -173,7 +201,8 @@ export const selectCompletedLesson = (state) => state.lesson.completedLesson;
 export const selectClassLesson = (state) => state.lesson.classLesson;
 export const selectCurrentLesson = (state) => state.lesson.currentlesson;
 export const selectLesson = (state) => state.lesson.lesson;
-export const selectLessonStatus = (state) => state.lesson.lessonStatus;
+export const selectLessonStatus = (state) => state.lesson.status;
+export const selectUploadStatus = (state) => state.lesson.uploading;
 
 
 export default lessonSlice.reducer;

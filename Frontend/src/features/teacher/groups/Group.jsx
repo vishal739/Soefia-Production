@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import mic from "../../../assets/mic.png";
 import "./Group.scss";
 import Navbar from "../Navbar/Navbar";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchDeitaAsync, selectDeita, selectDeitaLoader } from "../../APILibrary/DeitaAPI/deitaSlice";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { selectPreviewLesson, selectPreviewLessonLoader } from "../../APILibrary/DeitaAPI/deitaSlice";
 import Loader from "../../../pages/Loader/Loader"
 // Define the data as a constant
 const data = {
@@ -48,19 +48,14 @@ const data = {
 const Group = () => {
   // const [groupData, setGroupData] = useState(null);
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const lessonId = queryParams.get("lessonId");
-  const dispatch = useDispatch();
-  const deita = useSelector(selectDeita);
-  const isLoading = useSelector(selectDeitaLoader);
-  const [textInput1, setTextInput1] = useState(deita?.previewLesson.myIntroduction );
-  const [textInput2, setTextInput2] = useState(deita?.previewLesson.
-    academicLearning );
-  const [textInput3, setTextInput3] = useState(deita?.previewLesson.socialLearning );
-  const [textInput4, setTextInput4] = useState(deita?.previewLesson.keyConcepts );
-  // dispatch(fetchCurrentLessonAsync({ lessonId: lessonId }))
-  //     .then((result) => {
-  //       const lesson = result.payload;
+  const deita = useSelector(selectPreviewLesson);
+  const isLoading = useSelector(selectPreviewLessonLoader);
+
+  // const [textInput1, setTextInput1] = useState(deita?.previewLesson.myIntroduction );
+  const [textInput1] = useState(deita?.previewLesson.myIntroduction);
+  const [textInput2] = useState(deita?.previewLesson.academicLearning);
+  const [textInput3] = useState(deita?.previewLesson.socialLearning);
+  const [textInput4] = useState(deita?.previewLesson.keyConcepts);
   //       setTextInput1(lesson?.lessonStructureOverview || "");
   //       setTextInput2(lesson?.learningGoals || "");
   //       setTextInput3(lesson?.socialCollaborationGoal || "");
@@ -72,7 +67,7 @@ const Group = () => {
   // useEffect(() => {
 
   //   // if (lessonId) {
-  //   //   dispatch(fetchDeitaAsync({ lessonId: lessonId })).then((result) => {
+  //   //   dispatch(fetchPreviewLessonAsync({ lessonId: lessonId })).then((result) => {
   //   //     const deita = result.payload;
   //   //     setTextInput1(deita?.previewLesson.myIntroduction );
   //   //     setTextInput2(deita?.previewLesson.academicLearning );
@@ -108,7 +103,7 @@ const Group = () => {
               <div className="grp-buttons">
                 <button className="btn">CONFIRM</button>
                 <button className="btn">Save for Later</button>
-                <button className="btn">Let's Try Again</button>
+                <button className="btn">Let&apos;s Try Again</button>
               </div>
             </div>
             <div className="grp-right-pane">

@@ -1,5 +1,21 @@
 const Teacher = require("../model/teacherModel")
 
+/**
+ * Adds a new teacher to the database.
+ *
+ * @async
+ * @function addTeacher
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request containing teacher data.
+ * @param {string} req.body.userId - The user ID of the teacher.
+ * @param {string} req.body.name - The name of the teacher.
+ * @param {string} req.body.email - The email of the teacher.
+ * @param {string} req.body.schoolId - The school ID associated with the teacher.
+ * @param {string} [req.body.profileBio] - The profile bio of the teacher.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Sends a response with the status and result of the operation.
+ * @throws Will send a 500 status code if an error occurs during the operation.
+ */
 const addTeacher = async (req, res) => {
     try {
         const data = req.body;
@@ -35,6 +51,22 @@ const addTeacher = async (req, res) => {
 }
 
 
+/**
+ * Updates a teacher's information based on the provided data in the request body.
+ * 
+ * @async
+ * @function updateTeacher
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request containing the data to update.
+ * @param {string} req.body.id - The ID of the teacher to update.
+ * @param {Array} [req.body.classes] - An array of classes to add to the teacher's record.
+ * @param {Array} [req.body.upcomingLesson] - An array of upcoming lessons to add to the teacher's record.
+ * @param {Array} [req.body.previousLesson] - An array of previous lessons to add to the teacher's record.
+ * @param {string} [req.body.completedLectureId] - The ID of a completed lecture to move from upcoming to previous lessons.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Sends a response with the status of the update operation.
+ * @throws {Error} If there is an error during the update process.
+ */
 const updateTeacher = async (req, res) => {
     try {
         const data = req.body;
@@ -98,6 +130,17 @@ const updateTeacher = async (req, res) => {
 
 
 
+/**
+ * Fetches a teacher by their ID.
+ *
+ * @async
+ * @function fetchTeacherById
+ * @param {Object} req - The request object.
+ * @param {Object} req.params - The request parameters.
+ * @param {string} req.params.id - The ID of the teacher to fetch.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Sends a response with the teacher data or an error message.
+ */
 const fetchTeacherById = async (req, res) => {
     try {
         const id = req.params.id;
@@ -124,6 +167,18 @@ const fetchTeacherById = async (req, res) => {
     }
 }
 
+/**
+ * Deletes a teacher based on the provided ID in the request body.
+ *
+ * @async
+ * @function deleteTeacher
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request.
+ * @param {string} req.body.id - The ID of the teacher to be deleted.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and message.
+ * @throws Will throw an error if the deletion process fails.
+ */
 const deleteTeacher = async (req, res) => {
     try {
         const data = req.body;
@@ -135,7 +190,6 @@ const deleteTeacher = async (req, res) => {
         }
         const teacher = await Teacher.findOneAndDelete({ _id: data.id });
         return res.status(200).send({
-            
             success: true,
             message: 'delete teacher successfully',
             data: teacher

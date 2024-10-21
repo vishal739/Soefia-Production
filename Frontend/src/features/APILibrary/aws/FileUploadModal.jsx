@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Typography, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-
+import axios from 'axios';
+import {uploadAndCreateLessonAsync} from '../../APILibrary/LessonAPI/lessonSlice';
+import { useDispatch, useSelector } from 'react-redux';
 const S3_BUCKET = 'soefias3';
 const REGION = 'us-east-1';
 
@@ -15,7 +18,7 @@ const s3 = new S3Client({
   },
 });
 
-const uploadFile = async (file) => {
+const uploadFileToS3 = async (file) => {
   const params = {
     Bucket: S3_BUCKET,
     Key: file.name,
@@ -32,14 +35,72 @@ const uploadFile = async (file) => {
   }
 };
 
+
+
 const FileUploadModal = ({ open, handleClose }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const isLessonLoading= useSelector((state) => state.lesson.uploading);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const uploadFileToBackend = async (file) => {
+  //   // const formData = new FormData();
+  //   // formData.append('pdf', file); // Ensure field name matches 'pdf'
+  
+  //   // try {
+  //   //   await axios.post(`${import.meta.env.VITE_REACT_APP_SERVER_URL}/api/upload`, formData, {
+  //   //     headers: {
+  //   //       'Content-Type': 'multipart/form-data',
+  //   //     },
+  //   //   });
+  //   // } catch (error) {
+  //   //   console.error('Error uploading and extracting PDFs:', error);
+  //   // }
+  //   dispatch(uploadAndCreateLessonAsync(file))
+  // };
   const onDrop = (acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      uploadFile(file);
-    });
+    if (acceptedFiles.length > 1) {
+      console.error('Only one file is allowed');
+      return;
+    }
+
+    const file = acceptedFiles[0];
+    if (file.type !== 'application/pdf') {
+      console.error('Only PDF files are allowed');
+      return;
+    }
+
+    // Store the selected file in state
+    setSelectedFile(file);
   };
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      console.error('No file selected');
+      return;
+    }
+
+    // Upload to S3
+    // await uploadFileToS3(selectedFile);
+
+    // Upload to Backend
+    await dispatch(uploadAndCreateLessonAsync(selectedFile)).then((response) => {
+      const lessonId = response.payload._id; // Adjust this based on your response structure
+      navigate(`/teacher/lesson?lessonId=${lessonId}&upload=true`);
+    })
+    .catch((error) => {
+      console.error('Error uploading file:', error);
+    });
+
+    // Clear the selected file after upload
+    setSelectedFile(null);
+    handleClose();
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: 'application/pdf',
+    maxFiles: 1,
+  });
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -56,7 +117,7 @@ const FileUploadModal = ({ open, handleClose }) => {
         }}
       >
         <Typography variant="h6" gutterBottom>
-          Upload Files
+          Upload PDF File
         </Typography>
         <Box
           {...getRootProps()}
@@ -73,14 +134,32 @@ const FileUploadModal = ({ open, handleClose }) => {
         >
           <input {...getInputProps()} />
           <Typography variant="body1">
-            Drag &apos;n&apos; drop some files here, or click to select files
+            Drag &apos;n&apos; drop a PDF file here, or click to select a file
           </Typography>
         </Box>
+
+        {/* Display the selected file name */}
+        {selectedFile && (
+          <Typography variant="body2" sx={{ marginTop: '10px' }}>
+            Selected File: {selectedFile.name}
+          </Typography>
+        )}
+
+        {/* Upload File button */}
         <Button
-          onClick={handleClose}
+          onClick={handleUpload}
           variant="contained"
           color="primary"
-          sx={{ marginTop: '20px' }}
+          sx={{ margin: '10px' }}
+          disabled={!selectedFile} // Disable button if no file is selected
+        >
+          {isLessonLoading? 'Loading' : 'Upload File'}
+        </Button>
+
+        <Button
+          onClick={handleClose}
+          variant="outlined"
+          sx={{ margin: '10px' }}
         >
           Close
         </Button>

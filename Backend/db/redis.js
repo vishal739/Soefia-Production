@@ -2,6 +2,15 @@ const redis = require("redis");
 require('dotenv').config();
 
 const { createClient } = require('redis'); 
+/**
+ * Creates a Redis client instance with the specified configuration.
+ * 
+ * The configuration includes:
+ * - `password`: The password for authenticating with the Redis server, retrieved from the environment variable `REDIS_PASSWORD`.
+ * - `socket`: An object containing the host and port for the Redis server, retrieved from the environment variables `REDIS_HOST` and `REDIS_PORT`.
+ * 
+ * @constant {object} redisClient - The Redis client instance.
+ */
 const redisClient = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {

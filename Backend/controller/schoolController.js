@@ -1,5 +1,22 @@
 const School= require("../model/schoolModel");
 
+/**
+ * Adds a new school to the database.
+ *
+ * @async
+ * @function addSchool
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request containing school data.
+ * @param {string} req.body.name - The name of the school.
+ * @param {string} req.body.address - The address of the school.
+ * @param {string} req.body.contactNumber - The contact number of the school.
+ * @param {Array<ObjectId>} [req.body.teachers] - An optional array of teacher ObjectIds.
+ * @param {Array<ObjectId>} [req.body.students] - An optional array of student ObjectIds.
+ * @param {Array<ObjectId>} [req.body.admins] - An optional array of admin ObjectIds.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Sends a response with the status and result of the operation.
+ * @throws {Error} If there is an error while adding the school.
+ */
 const addSchool = async(req,res) =>{
     try{
     const data= req.body;
@@ -35,6 +52,17 @@ const addSchool = async(req,res) =>{
     }
 }
 
+/**
+ * Updates a school record in the database.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request containing the school data.
+ * @param {string} req.body.id - The ID of the school to update.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the operation is complete.
+ *
+ * @throws {Error} - If there is an error during the update process.
+ */
 const updateSchool = async (req, res) => {
     try {
         const data = req.body;
@@ -62,6 +90,17 @@ const updateSchool = async (req, res) => {
     }
 }
 
+/**
+ * Fetches a school by its ID.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.params - The parameters object.
+ * @param {string} req.params.id - The ID of the school to fetch.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the operation is complete.
+ *
+ * @throws {Error} - If there is an error during the fetch operation.
+ */
 const fetchSchoolById = async (req, res) => {
     try {
         const { id } = req.params.id;
@@ -87,6 +126,18 @@ const fetchSchoolById = async (req, res) => {
     }
 }
 
+/**
+ * Deletes a school from the database.
+ *
+ * @async
+ * @function deleteSchool
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request.
+ * @param {string} req.body.id - The ID of the school to delete.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and message.
+ * @throws Will throw an error if the deletion fails.
+ */
 const deleteSchool = async (req, res) => {
     try {
         const data = req.body;

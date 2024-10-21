@@ -12,6 +12,7 @@ export function fetchLesson(data) {
     }
   });
 }
+
 export function fetchCurrentLesson(data) {
   return new Promise(async (resolve, reject) => {
     const response = await fetch(`${SERVER_URL}/api/lesson/current?lessonId=${data.lessonId}`)
@@ -79,6 +80,37 @@ export function createLesson(data) {
     }
   });
 }
+
+export function uploadAndCreateLesson(file) {
+  return new Promise(async (resolve, reject) => {
+      const formData = new FormData();
+      formData.append('pdf', file); // Ensure field name matches 'pdf'
+
+      try {
+          const response = await fetch(
+              `${SERVER_URL}/api/upload`, // URL
+              {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                      // 'Content-Type' should not be explicitly set for FormData with fetch
+                      // It will automatically set the correct boundary for multipart form data
+                  },
+              }
+          );
+          const data = await response.json(); // Parse the response body
+          if(data.success) {
+              resolve(data.data); // Return the response data
+          }else{
+              reject(data.message);
+          }
+      } catch (error) {
+          console.error('Error uploading and extracting PDFs:', error);
+          throw error; // Rethrow the error to handle in the calling function
+      }
+  });
+}
+
 
 export function updateLesson(data) {
   return new Promise(async (resolve, reject) => {

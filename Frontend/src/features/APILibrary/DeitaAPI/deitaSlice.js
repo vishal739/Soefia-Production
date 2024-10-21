@@ -1,27 +1,31 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchDeita, createDeita, updateDeita, deleteDeita } from "./deitaAPI"
+import { fetchPreviewLesson, createPreviewLesson, updateDeita, deleteDeita } from "./deitaAPI"
 
 const initialState = {
-    status: "",
+    status: "idle",
     value: 0,
-    deita: {},
+    previewLesson: {}
+   
 };
 
 
-export const fetchDeitaAsync = createAsyncThunk(
-    "deita/fetchDeita",
+export const fetchPreviewLessonAsync = createAsyncThunk(
+    "deita/fetchPreviewLesson",
     async (data) => {
-        const response = await fetchDeita(data);
+        const response = await fetchPreviewLesson(data);
         return response;
     }
 );
-export const createDeitaAsync = createAsyncThunk(
-    "deita/createDeita",
-    async (data) => {
-        const response = await createDeita(data);
-        console.log("createDeitaAsync: ",response)
-        return response;
-    }
+export const createPreviewLessonAsync = createAsyncThunk(
+    "deita/createPreviewLesson",
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await createPreviewLesson(data); // Use the new fetch-based function
+            return response; // Return the response data
+          } catch (error) {
+            return rejectWithValue(error.message || 'Error uploading file');
+          }
+      }
 );
 export const updateDeitaAsync = createAsyncThunk(
     "deita/updateDeita",
@@ -50,40 +54,48 @@ export const deitaSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
-            .addCase(fetchDeitaAsync.pending, (state) => {
+            .addCase(fetchPreviewLessonAsync.pending, (state) => {
                 state.status = "loading";
             })
-            .addCase(fetchDeitaAsync.fulfilled, (state, action) => {
+            .addCase(fetchPreviewLessonAsync.fulfilled, (state, action) => {
                 state.status = "idle";
-                state.deita = action.payload
+                state.previewLesson = action.payload
             })
-            .addCase(createDeitaAsync.pending, (state) => {
+            .addCase(fetchPreviewLessonAsync.rejected, (state, action) => {
+                state.status = "idle";
+                state.error= action.payload.message;
+            })
+            .addCase(createPreviewLessonAsync.pending, (state) => {
                 state.status = "loading";
             })
-            .addCase(createDeitaAsync.fulfilled, (state, action) => {
+            .addCase(createPreviewLessonAsync.fulfilled, (state, action) => {
                 state.status = "idle";
-                state.deita = action.payload;
+                state.previewLesson = action.payload;
+            })
+            .addCase(createPreviewLessonAsync.rejected, (state, action) => {
+                state.status = "idle";
+                state.error= action.payload.message;
             })
             .addCase(updateDeitaAsync.pending, (state) => {
                 state.status = "loading";
             })
             .addCase(updateDeitaAsync.fulfilled, (state, action) => {
                 state.status = "idle";
-                state.deita = action.payload;
+                state.previewLesson = action.payload;
             })
             .addCase(deleteDeitaAsync.pending, (state) => {
                 state.status = "loading";
             })
             .addCase(deleteDeitaAsync.fulfilled, (state, action) => {
                 state.status = "idle";
-                state.deita = action.payload;
+                state.previewLesson = action.payload;
             });
     },
 });
 
 
 
-export const selectDeita = (state) => state.deita.deita;
-export const selectDeitaLoader =(state)=> state.deita.status
+export const selectPreviewLesson = (state) => state.deita.previewLesson;
+export const selectPreviewLessonLoader =(state)=> state.deita.status
 
 export default deitaSlice.reducer;

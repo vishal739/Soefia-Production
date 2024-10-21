@@ -2,7 +2,6 @@ const Class = require('../model/classModel');
 const Lesson = require('../model/lessonModel'); // Make sure to require your Lesson model
 const Teacher = require('../model/teacherModel');
 
-
 /**
  * Creates a new lesson and saves it to the database.
  * 
@@ -84,6 +83,8 @@ const createLesson = async (req, res) => {
         });
     }
 };
+
+
 
 /**
  * Updates a lesson based on the provided data in the request body.
@@ -264,7 +265,7 @@ const fetchLessonByTeacherId = async (req, res) => {
             path: 'classId',
             select: 'name date',
         })
-        // console.log("upcoming Lesson: ", upcomingLesson)
+        // console.log("Lesson: ", lessonData)
         res.status(200).send({
             success: true,
             message: 'Lesson fetched Succesfully',

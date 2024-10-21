@@ -133,19 +133,19 @@ const Home = () => {
   const handleLessonDelete = (lessonId) => {
     console.log("handle delete", lessonId);
     dispatch(deleteLessonAsync({ lessonId: lessonId }))
-    .then(() => {
-      setFilteredData(prevData => prevData.filter(lesson => lesson._id !== lessonId));
-    })
-    .catch((error) => {
-      console.error("Error deleting lesson:", error);
-    });
+      .then(() => {
+        setFilteredData(prevData => prevData.filter(lesson => lesson._id !== lessonId));
+      })
+      .catch((error) => {
+        console.error("Error deleting lesson:", error);
+      });
   }
   useEffect(() => {
     console.log("teacherId: ", isLoggedIn.userData._id)
-    dispatch(fetchLessonAsync({ teacherId: isLoggedIn.userData._id })).then((result)=>{
+    dispatch(fetchLessonAsync({ teacherId: isLoggedIn.userData._id })).then((result) => {
       setFilteredData(result.payload);
     });
-    
+
   }, [dispatch, isLoggedIn]);
 
   return (
@@ -208,7 +208,7 @@ const Home = () => {
                           <option value="All">Date</option>
                           {uniqueLessonsDate && uniqueLessonsDate.map((lessonDate, index) => (
                             <option key={index} value={lessonDate.date}>
-                              {lessonDate.date }
+                              {lessonDate.date}
                             </option>
                           ))}
                         </select>
@@ -218,44 +218,45 @@ const Home = () => {
                     </tr>
                   </thead>
                   <tbody>
+                    
                     {filteredData && filteredData.map((lesson) => (
-                      <tr key={lesson._id}>
-                        {lesson.status === "Ready to Launch" ? (
+                      lesson && lesson._id ? (
+                        <tr key={lesson._id}>
+                          {lesson.status === "Ready to Launch" ? (
+                            <td>
+                              <Link to="/teacher/livelesson">
+                                <Button variant="outlined" className="status-button">
+                                  Ready to Launch
+                                </Button>
+                              </Link>
+                            </td>
+                          ) : (
+                            <td>{lesson.status}</td>
+                          )}
                           <td>
-                            <Link to="/teacher/livelesson">
-                              <Button variant="outlined" className="status-button">
-                                Ready to Launch
-
+                            <Link to={`/teacher/lesson?lessonId=${encodeURIComponent(lesson._id)}&className=${encodeURIComponent(lesson.classId._id)}`}>
+                              <Button variant="contained" size="small" className="revise-button">
+                                Revise
                               </Button>
                             </Link>
                           </td>
-                        ) : (
-                          <td>{lesson.status}</td>
-                        )}
-                        <td>
-                          <Link to={`/teacher/lesson?lessonId=${encodeURIComponent(lesson._id)}&className=${encodeURIComponent(lesson.classId._id)}`}>
-                            <Button
-                              variant="contained"
-                              size="small"
-                              className="revise-button"
-                            // onClick={()=>dispatch(fetchCurrentLessonAsync({lessonId: lesson._id}))}
-                            >
-                              Revise
-                            </Button>
-                          </Link>
-                        </td>
-                        <td>{lesson.classId ? lesson.classId.name : "Invalid class"}</td>
-                        <td>{format(new Date(lesson.date), "dd/MM/yyyy")}</td>
-                        <td>{lesson.title}</td>
-                        <td className="actions">
-                          <div >
-                            <FaFile className="actionIcon" />
-                          </div>
-                          <div>
-                            <FaTrash className="actionIcon" onClick={()=>handleLessonDelete(lesson._id)} />
-                          </div>
-                        </td>
-                      </tr>
+                          <td>{lesson.classId ? lesson.classId.name : "Invalid class"}</td>
+                          <td>{format(new Date(lesson.date), "dd/MM/yyyy")}</td>
+                          <td>{lesson.title}</td>
+                          <td className="actions">
+                            <div>
+                              <FaFile className="actionIcon" />
+                            </div>
+                            <div>
+                              <FaTrash className="actionIcon" onClick={() => handleLessonDelete(lesson._id)} />
+                            </div>
+                          </td>
+                        </tr>
+                      ) : (
+                        <tr key={Math.random()}>
+                          <td colSpan="6">Invalid lesson data</td>
+                        </tr>
+                      )
                     ))}
                   </tbody>
                 </table>
